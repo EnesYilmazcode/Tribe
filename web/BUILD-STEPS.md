@@ -11,13 +11,13 @@ A recordable demo exists on mock data (`npm run dev`, click an example, watch th
 - [x] **A4. Activity stream + mock run** — `runMockStream()` emits parse→query→rank→enrich→score on timed delays; `ActivityStream` shows running-pulse → green-check rows + blinking cursor + parsed-param chips.
 - [x] **A5. Commit + push.** ➡️ A full demo now exists.
 
-## Phase B — make it agentic  (~1:00–2:00)
-- [ ] **B1. NL parse** — LLM turns the sentence into `{cause, geo, min_amount}`, shown as editable param chips. (The Autonomy proof.)
-- [ ] **B2. Real streaming** — FastAPI `/run` SSE endpoint emits the same step shape from real code; React `EventSource` consumes it, falls back to `runMockStream()` on error. Add `CORSMiddleware(allow_origins=["*"])` immediately.
+## Phase B — make it agentic  ✅ DONE
+- [x] **B1. NL parse** — `server/nl_parse.py` turns the sentence into `{cause, geo, min_amount}` (Gemini + deterministic `cause_synonyms` fallback), shown as param chips. (The Autonomy proof.)
+- [x] **B2. Real streaming** — FastAPI `/run` SSE endpoint (`server/main.py`) emits the real step shape; `runStream.ts` `runAgent()` consumes it via `EventSource` and **falls back to `runMockStream()`** on error/unavailable. CORS open.
 
-## Phase C — integration with friend  (~2:15–3:00)
-- [ ] **C1.** Swap `query()` stub for friend's real ClickHouse `query()`.
-- [ ] **C2.** Call friend's `enrich()` on the top 5; narrate each live Nimble hit in the stream. Run the demo ask end-to-end on real data.
+## Phase C — integration with friend  (~2:15–3:00) — IN PROGRESS
+- [x] **C1.** `/run` calls friend's real ClickHouse `query()`; `TRIBE_SAMPLE_FALLBACK=1` serves the sample set until the contributions table is populated, then auto-switches to real donors.
+- [ ] **C2.** Call friend's `enrich()` on the top 5 (`TRIBE_ENRICH=1`); narrate each live Nimble hit in the stream. Run the demo ask end-to-end on real data once contributions land.
 
 ## Phase D — polish + freeze  (~3:00–3:45)
 - [ ] **D1.** Tighten UI + stream narration.
