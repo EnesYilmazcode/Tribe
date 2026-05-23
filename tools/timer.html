@@ -29,9 +29,9 @@
 </head>
 <body>
   <div id="clock">--:--:--</div>
-  <div id="label">until 4:30 submit deadline</div>
-  <div id="sub"></div>
+  <div id="label">until next section</div>
   <div id="block"></div>
+  <div id="sub"></div>
 
 <script>
   // All times are TODAY, local clock (assumed ET).
@@ -80,28 +80,40 @@
     favicon.href = fcanvas.toDataURL("image/png");
   }
 
+  const hhmm = d => pad(d.getHours()) + ":" + pad(d.getMinutes());
+
   function tick() {
     const now = new Date();
-    const clk = document.getElementById("clock");
-    const left = DEADLINE - now;
-    clk.textContent = fmt(left);
 
-    const mins = left / 60000;
-    const cls = mins > 60 ? "ok" : mins > 15 ? "warn" : "crit";
-    clk.className = cls;
-
-    // current + next block
+    // current + next block on the schedule
     let cur = null, next = null;
     for (let i = 0; i < blocks.length; i++) {
       if (now >= blocks[i].at) { cur = blocks[i]; next = blocks[i+1] || null; }
     }
+    if (!next) next = blocks.find(b => b.at > now) || null;
+
+    // Big clock = countdown to the NEXT section. Falls back to the hard
+    // deadline once the schedule is exhausted.
+    const target = next ? next.at : DEADLINE;
+    const left = target - now;
+    const clk = document.getElementById("clock");
+    clk.textContent = fmt(left);
+
+    const mins = left / 60000;
+    const cls = mins > 15 ? "ok" : mins > 5 ? "warn" : "crit";
+    clk.className = cls;
+
+    document.getElementById("label").textContent =
+      next ? ("until " + hhmm(next.at) + " · " + next.label) : "until 4:30 submit deadline";
+
+    const blk = document.getElementById("block");
+    blk.textContent = cur ? ("▸ now: " + cur.label) : "▸ waiting to start";
+
+    // Secondary line keeps the submit/freeze deadline visible.
     const sub = document.getElementById("sub");
     if (now < FREEZE)      sub.textContent = "freeze in " + fmt(FREEZE - now) + "  ·  submit by " + fmt(SUBMIT - now);
     else if (now < SUBMIT) sub.textContent = "🔴 FREEZE — record now. submit in " + fmt(SUBMIT - now);
     else                   sub.textContent = "🔴 SUBMIT NOW";
-
-    const blk = document.getElementById("block");
-    blk.textContent = cur ? ("▸ " + cur.label + (next ? "   (next " + pad(next.at.getHours()) + ":" + pad(next.at.getMinutes()) + ")" : "")) : "";
 
     document.title = fmt(left).replace(/^00:/, "");
     drawFavicon(left, cls);
