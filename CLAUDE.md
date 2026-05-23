@@ -16,17 +16,18 @@ This repo is shared by two teammates, **and each of us is driving our own Claude
 
 ## What's decided (don't re-derive)
 
-- **Sponsors: ClickHouse + Nimble + Senso. x402 is DROPPED.** Three well-wired tools beats a fragile four.
-- **Highest-EV prize = Senso ($3k, 1 winner).** De-risk it FIRST: publish one hardcoded cited.md page end-to-end before anything fancy. It's a binary gate.
-- **ClickHouse track = the reliable floor.** It's the spine, built first.
-- **Output is "cited public-record research," NOT a solicitation list** — using FEC contributor data to solicit is illegal (11 CFR §104.15). Frame profiles as research on *public giving behavior* with citations to the public FEC source. See `docs/STRATEGY.md`.
-- **Autonomy story = the live NL-parse + on-demand agent loop.** NOT a forever-scraper (that's a cron job, not autonomy).
+- **Sponsors: ClickHouse + Nimble. Senso DROPPED, x402 DROPPED.** Results are shown in the UI; no publish step (optional GitHub Pages dump only if ahead).
+- **Open-web + autonomy story now rests on Nimble** doing live, real-time web enrichment — the agent autonomously pulling from the open web. Lean hard on this in the demo.
+- **Heads-up:** 2 tools is the judging minimum (rewards 3+). If time allows, a cheap GitHub Pages publish of results gets back to a "real open-web action." See `docs/TODO-ENES.md`.
+- **ClickHouse track = the reliable floor + the spine.** Built first.
+- **Output is "cited public-record research," NOT a solicitation list** — using FEC contributor data to solicit is illegal (11 CFR §104.15). Frame as research on *public giving behavior* with citations to the public FEC source. See `docs/STRATEGY.md`.
+- **Autonomy story = live NL-parse + on-demand agent loop + live Nimble enrichment.** NOT a forever-scraper (that's a cron job, not autonomy).
 - **The submission is a RECORDED 3-min video** — control it fully, never risk a live API call on camera.
 
 ## Layout & roles (DECIDED)
 
 - `agent/` — **Friend's side: scraper / data.** Fills the database (FEC → ClickHouse, cause-tagging) and builds the Nimble web enrichment. Owns ClickHouse + Nimble.
-- `web/` — **Enes's side: the platform.** Reads the database and builds the product (NL parse → query → score → frontend → Senso publish). Owns Senso ($3k) + Presentation.
+- `web/` — **Enes's side: the platform.** Reads the database and builds the product (NL parse → query → score → frontend, results in UI). Owns Presentation/the demo.
 - `docs/` — shared context. **Start here:** `PLAN.md` (build sequence), `STRATEGY.md` (why we're doing this / win analysis), `TEAM-SPLIT.md` (who does what + the JSON contract between engine and surface), `SCHEDULE.md`, `SPONSOR-TOOLS.md`, `DEVPOST.md`.
 
 The engine and surface talk through ONE agreed JSON shape (`prospect_record`) — see `docs/TEAM-SPLIT.md`. Build against the mock; integrate once.

@@ -3,6 +3,8 @@
 > Why we're building what we're building, and how we win. Companion to `PLAN.md` (how) and `DEVPOST.md` (rules).
 > Based on research done 2026-05-23. Read this before arguing about direction.
 
+> **DECISION UPDATE (~11:30):** Senso and x402 are DROPPED. Sponsors = **ClickHouse + Nimble**, results shown in the UI (optional GitHub Pages dump for an open-web action). The Senso analysis below is kept in case we reconsider — dropping it forfeits the $3k track and the publish-to-web action but removes the riskiest integration. Current plan lives in `TODO-ENES.md`.
+
 ## ⚠️ The FEC legal reframe (most important thing in this doc)
 
 Using **FEC individual-contributor data to solicit donations is illegal** — 11 CFR §104.15 ("sale or use" restriction). The FEC has clarified it covers **charitable** solicitation too, and it's been enforced (Rep. Ro Khanna fined $16k, 2021; the *Tally Up* case). The prospect-research industry's own body (Apra) advises against using FEC data for fundraising.
