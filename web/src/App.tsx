@@ -4,6 +4,7 @@ import AskBox from "./components/AskBox";
 import FilterChips from "./components/FilterChips";
 import ActivityStream from "./components/ActivityStream";
 import ProspectCard from "./components/ProspectCard";
+import ProspectRow from "./components/ProspectRow";
 import MockPreview from "./components/MockPreview";
 import { runAgent } from "./lib/runStream";
 import type { ParsedParams, Prospect, Step } from "./types";
@@ -30,6 +31,7 @@ export default function App() {
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [running, setRunning] = useState(false);
   const [started, setStarted] = useState(false);
+  const [selected, setSelected] = useState(0);
 
   function upsertStep(step: Step) {
     setSteps((prev) => {
@@ -50,6 +52,7 @@ export default function App() {
     setSteps([]);
     setParams(null);
     setProspects([]);
+    setSelected(0);
     setStarted(true);
     setRunning(true);
     runAgent(q, {
@@ -108,7 +111,7 @@ export default function App() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 py-7"
+            className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 py-7"
           >
             <header className="flex items-center justify-between">
               <Wordmark className="text-xl" showLogo={true} />
@@ -158,9 +161,30 @@ export default function App() {
                       {prospects.length} found
                     </span>
                   </div>
-                  {prospects.slice(0, 10).map((p, i) => (
-                    <ProspectCard key={p.name} prospect={p} rank={i} />
-                  ))}
+
+                  {/* Master–detail: selectable list (left) → detail (right) */}
+                  <div className="grid grid-cols-1 gap-5 lg:h-[64vh] lg:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)]">
+                    <div className="overflow-y-auto rounded-2xl border border-line bg-card py-1.5 lg:h-full">
+                      {prospects.slice(0, 12).map((p, i) => (
+                        <ProspectRow
+                          key={p.name}
+                          prospect={p}
+                          rank={i}
+                          selected={i === selected}
+                          onClick={() => setSelected(i)}
+                        />
+                      ))}
+                    </div>
+                    <div className="overflow-y-auto lg:h-full">
+                      {prospects[selected] && (
+                        <ProspectCard
+                          key={prospects[selected].name}
+                          prospect={prospects[selected]}
+                          rank={selected}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </motion.section>
               )}
             </AnimatePresence>

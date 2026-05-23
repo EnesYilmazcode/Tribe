@@ -47,7 +47,7 @@ export default function ProspectCard({ prospect, rank }: { prospect: Prospect; r
       layout
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: rank * 0.07, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className="rounded-2xl border border-line bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     >
       <div className="flex items-start justify-between gap-4">
