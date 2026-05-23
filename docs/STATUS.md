@@ -45,6 +45,12 @@
 Vision: campaigns live on the platform (e.g. "clean water", "turtle rescue"). A background agent re-checks every cycle; when a new high-affinity contact matches a campaign, it's **auto-added to that campaign's pipeline — zero manual work.** Strongest Autonomy story (acts on real-time data, no human in the loop).
 Building in MY lane (no collision): `server/auto_match.py` + `server/campaigns.json`. Each campaign = NL description → parse_ask → query_clean → top matches auto-added; a `--watch` loop re-runs and reports NEW matches as data grows. Standalone module/CLI (no edits to main.py or the frontend's files).
 
+## Demo feedback (2026-05-23) — full plan in `docs/DEMO-FEEDBACK.md`
+Found while demoing. Snapshot fixes already done by Enes frontend (deduped totals via query_clean, person-first FEC link). Cross-lane items:
+- **[coord] Live `/run`: query primary cause only** (drop/discount `expand_causes`) — adjacency pulls mis-tagged committees (RJC PAC tagged `energy`) into focused asks. And **reorder `cited_reasons` person-first** in `query_clean.py` (one-liner) to match the snapshot.
+- **[Trevor] Add an `animal_welfare` cause tag + tag its committees** (Humane Society Legislative Fund, ASPCA, Defenders of Wildlife). Niche asks like "dog shelter" have no home today → map to `environment` (climate donors). Taxonomy coarseness is the semantic bottleneck, not the parse.
+- **[Enes, stretch] Contact enrichment** — extend `enrich_clean` to surface a public contact channel (LinkedIn/org), with the §104.15 legal gate.
+
 ## Decisions locked (don't re-litigate)
 - Sponsors = **ClickHouse + Nimble**. Senso + x402 dropped.
 - Demo data source = **FEC API** (real, cited), not scraping. Nimble = enrichment only.
