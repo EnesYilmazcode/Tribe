@@ -2,45 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, ExternalLink, Globe } from "lucide-react";
 import type { Prospect } from "../types";
-
-function hostname(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return "source";
-  }
-}
-
-function usd(n: number): string {
-  return "$" + n.toLocaleString("en-US");
-}
-
-// FEC names arrive as "LASTNAME, FIRSTNAME" — flip to natural order.
-function formatName(raw: string): string {
-  const parts = raw.split(",");
-  if (parts.length === 2) {
-    const last = parts[0].trim();
-    const first = parts[1].trim();
-    if (last && first) return `${first} ${last}`;
-  }
-  return raw;
-}
-
-// Employer/occupation are often blank or non-informative ("RETIRED", "SELF").
-const NONINFO = new Set([
-  "", "retired", "none", "n/a", "na", "not employed", "self", "self-employed",
-  "self employed", "information requested", "requested", "homemaker",
-]);
-function formatRole(occupation?: string, employer?: string): string {
-  const occ = (occupation || "").trim();
-  const emp = (employer || "").trim();
-  const occOk = occ && !NONINFO.has(occ.toLowerCase());
-  const empOk = emp && !NONINFO.has(emp.toLowerCase());
-  if (occOk && empOk && occ.toLowerCase() !== emp.toLowerCase()) return `${occ} at ${emp}`;
-  if (occOk) return occ;
-  if (empOk) return emp;
-  return occ || emp || ""; // keep a cleaned single value like "Retired" if that's all we have
-}
+import { formatName, formatRole, hostname, scoreColor, usd } from "../lib/format";
 
 function SourcePill({ url }: { url: string }) {
   return (
@@ -54,12 +16,6 @@ function SourcePill({ url }: { url: string }) {
       <ExternalLink size={10} />
     </a>
   );
-}
-
-function scoreColor(n: number): string {
-  if (n >= 80) return "var(--color-accent)";
-  if (n >= 70) return "var(--color-amber)";
-  return "var(--color-faint)";
 }
 
 function Stat({ value, label }: { value: string; label: string }) {

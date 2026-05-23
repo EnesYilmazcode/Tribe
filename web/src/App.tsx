@@ -136,6 +136,20 @@ export default function App() {
                 </motion.section>
               )}
             </AnimatePresence>
+
+            {/* Finished with no matches — don't leave the user hanging */}
+            {!running && steps.length > 0 && prospects.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="rounded-2xl border border-dashed border-line bg-card px-6 py-10 text-center"
+              >
+                <p className="text-ink">No prospects found for that ask.</p>
+                <p className="mt-1 text-[13px] text-muted">
+                  Try a broader cause, drop the giving minimum, or widen the location.
+                </p>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
