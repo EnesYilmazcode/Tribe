@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tribe — find the people who already give</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --night:#100b09; --night-2:#17110d; --panel:#1b1410; --panel-2:#211810;
+    --ember:#ff7d44; --ember-soft:#ff9a63; --gold:#e7b15a; --teal:#5cc0ac;
+    --bone:#f6efe6; --muted:#a6968396; --muted-2:#b6a795; --line:rgba(246,239,230,.09);
+    --line-2:rgba(246,239,230,.05);
+    --shadow:0 40px 90px -30px rgba(0,0,0,.8);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Hanken Grotesk",sans-serif; color:var(--bone);
+    background:var(--night); min-height:100vh; overflow-x:hidden; position:relative;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* layered campfire-at-night atmosphere */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 50% 118%, rgba(255,125,68,.28), transparent 55%),
+      radial-gradient(90% 60% at 50% 120%, rgba(231,177,90,.22), transparent 50%),
+      radial-gradient(140% 120% at 80% -10%, rgba(92,192,172,.06), transparent 45%),
+      linear-gradient(180deg,#0c0807 0%, #140d0a 45%, #1a110b 100%);
+  }
+  body::after{ /* grain */
+    content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative; z-index:3; max-width:1280px; margin:0 auto; padding:0 40px}
+
+  /* header */
+  header{display:flex; align-items:center; justify-content:space-between; padding:30px 0 10px}
+  .brand{display:flex; align-items:center; gap:12px}
+  .brand .mark{width:34px; height:34px; filter:drop-shadow(0 0 12px rgba(255,125,68,.5))}
+  .brand .word{font-family:"Fraunces",serif; font-weight:600; font-size:25px; letter-spacing:.5px}
+  .brand .word b{color:var(--ember); font-weight:600}
+  nav{display:flex; align-items:center; gap:26px; font-size:14.5px; color:var(--muted-2)}
+  nav a{color:inherit; text-decoration:none; transition:color .2s}
+  nav a:hover{color:var(--bone)}
+  .cta{background:var(--bone); color:#1a110b; padding:10px 18px; border-radius:999px;
+    font-weight:600; font-size:14px; box-shadow:0 0 0 1px rgba(255,255,255,.1)}
+
+  /* hero */
+  .hero{display:grid; grid-template-columns:1.02fr 1.15fr; gap:54px; align-items:center;
+    padding:60px 0 90px; min-height:74vh}
+  .eyebrow{display:inline-flex; align-items:center; gap:9px; font-family:"JetBrains Mono",monospace;
+    font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold);
+    border:1px solid var(--line); padding:7px 13px; border-radius:999px; background:rgba(231,177,90,.05)}
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--ember);
+    box-shadow:0 0 10px var(--ember); animation:flicker 2.4s infinite}
+  h1{font-family:"Fraunces",serif; font-weight:400; font-size:clamp(40px,5.4vw,72px);
+    line-height:1.02; letter-spacing:-1.2px; margin:26px 0 22px}
+  h1 em{font-style:italic; font-weight:500; color:var(--ember);
+    text-shadow:0 0 40px rgba(255,125,68,.35)}
+  .sub{font-size:18.5px; line-height:1.6; color:var(--muted-2); max-width:30em; margin-bottom:34px}
+
+  /* ask box */
+  .ask{display:flex; align-items:center; gap:14px; background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--line); border-radius:16px; padding:7px 8px 7px 18px; max-width:540px;
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.03); position:relative}
+  .ask::before{content:""; position:absolute; inset:-1px; border-radius:16px; padding:1px;
+    background:linear-gradient(120deg,rgba(255,125,68,.45),transparent 40%,rgba(231,177,90,.25));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; opacity:.7; pointer-events:none}
+  .ask .ico{flex:0 0 auto; color:var(--ember); opacity:.9; display:flex}
+  .ask .typed{flex:1; font-size:16.5px; color:var(--bone); min-height:24px; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis; font-family:"Hanken Grotesk",sans-serif}
+  .ask .typed .ph{color:var(--muted-2)}
+  .caret{display:inline-block; width:2px; height:19px; background:var(--ember); margin-left:1px;
+    vertical-align:-3px; animation:blink 1s steps(1) infinite; box-shadow:0 0 8px var(--ember)}
+  .run{flex:0 0 auto; display:flex; align-items:center; gap:7px; background:var(--ember); color:#1a0f08;
+    font-weight:600; font-size:14.5px; padding:11px 18px; border-radius:11px; cursor:pointer;
+    box-shadow:0 8px 24px -8px var(--ember); transition:transform .15s}
+  .run:hover{transform:translateY(-1px)}
+
+  .stats{display:flex; gap:30px; margin-top:30px}
+  .stats .s b{font-family:"Fraunces",serif; font-size:24px; color:var(--bone); display:block}
+  .stats .s span{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.5px;
+    text-transform:uppercase; color:var(--muted)}
+
+  /* right: app window */
+  .window{background:linear-gradient(180deg,#1a130e,#140d09); border:1px solid var(--line);
+    border-radius:18px; box-shadow:var(--shadow); overflow:hidden; transform:perspective(1600px) rotateY(-4deg) rotateX(1.5deg);
+    transition:transform .5s}
+  .hero:hover .window{transform:perspective(1600px) rotateY(-1.5deg)}
+  .titlebar{display:flex; align-items:center; gap:8px; padding:13px 16px; background:rgba(0,0,0,.25);
+    border-bottom:1px solid var(--line-2)}
+  .titlebar .d{width:11px; height:11px; border-radius:50%}
+  .titlebar .d:nth-child(1){background:#ff5f57} .titlebar .d:nth-child(2){background:#febc2e}
+  .titlebar .d:nth-child(3){background:#28c840}
+  .titlebar .t{margin-left:10px; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--muted);
+    display:flex; align-items:center; gap:7px}
+  .titlebar .t .pin{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:flicker 3s infinite}
+  .screen{padding:18px 18px 22px; min-height:430px}
+  .qbar{display:flex; align-items:center; gap:10px; background:#0e0907; border:1px solid var(--line-2);
+    border-radius:11px; padding:11px 14px; font-size:14px; color:var(--bone)}
+  .qbar .qico{color:var(--gold); display:flex}
+  .qbar .qtext{font-family:"Hanken Grotesk",sans-serif}
+
+  .log{margin:16px 2px 8px; display:flex; flex-direction:column; gap:9px; font-family:"JetBrains Mono",monospace; font-size:12.5px}
+  .row{display:flex; align-items:center; gap:11px; opacity:0; transform:translateY(6px);
+    transition:opacity .35s, transform .35s; color:var(--muted-2)}
+  .row.show{opacity:1; transform:none}
+  .row .stat{flex:0 0 auto; width:15px; height:15px; display:flex; align-items:center; justify-content:center}
+  .spin{width:13px; height:13px; border:1.6px solid rgba(255,125,68,.25); border-top-color:var(--ember);
+    border-radius:50%; animation:spin .6s linear infinite}
+  .check{color:var(--teal)}
+  .row .lab{flex:1}
+  .row .meta{color:var(--gold); font-size:11.5px}
+  .row.done{color:var(--bone)}
+
+  .cards{margin-top:18px; display:flex; flex-direction:column; gap:10px}
+  .clabel{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase;
+    color:var(--muted); margin:6px 2px}
+  .card{display:flex; align-items:center; gap:13px; background:linear-gradient(180deg,#1d150f,#181009);
+    border:1px solid var(--line-2); border-radius:12px; padding:12px 14px; position:relative; overflow:hidden}
+  .card.skeleton .av,.card.skeleton .ln{background:linear-gradient(90deg,#241a12 25%,#2e2216 37%,#241a12 63%);
+    background-size:400% 100%; animation:shimmer 1.4s infinite; border-radius:6px; color:transparent}
+  .card .av{flex:0 0 auto; width:42px; height:42px; border-radius:11px; display:flex; align-items:center;
+    justify-content:center; font-family:"Fraunces",serif; font-size:18px; font-weight:600; color:#1a0f08;
+    background:linear-gradient(135deg,var(--gold),var(--ember))}
+  .card.skeleton .av{background:#241a12}
+  .card .info{flex:1; min-width:0}
+  .card .nm{font-family:"Fraunces",serif; font-size:16px; font-weight:600; color:var(--bone); line-height:1.1}
+  .card .mt{font-size:12px; color:var(--muted-2); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .card.skeleton .nm{width:130px; height:13px} .card.skeleton .mt{width:180px; height:10px; margin-top:7px}
+  .chips{display:flex; gap:5px; margin-top:7px}
+  .chip{font-family:"JetBrains Mono",monospace; font-size:9.5px; letter-spacing:.4px; text-transform:uppercase;
+    color:var(--teal); border:1px solid rgba(92,192,172,.3); background:rgba(92,192,172,.07); padding:2.5px 7px; border-radius:6px}
+  .card .score{flex:0 0 auto; text-align:right}
+  .card .score b{font-family:"Fraunces",serif; font-size:26px; color:var(--ember); line-height:1; display:block}
+  .card .score span{font-family:"JetBrains Mono",monospace; font-size:9px; color:var(--muted); letter-spacing:.5px}
+  .card.skeleton .score{display:none}
+  .card .give{font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--gold)}
+  .card.reveal{animation:fadeUp .5s both}
+
+  /* teepee village */
+  .village{position:fixed; left:0; right:0; bottom:0; height:150px; z-index:2; pointer-events:none;
+    display:flex; align-items:flex-end; justify-content:center; gap:0; opacity:.5}
+  .village svg{filter:drop-shadow(0 0 20px rgba(255,125,68,.15))}
+  .fire{position:fixed; bottom:14px; left:50%; transform:translateX(-50%); z-index:2; width:60px; height:60px;
+    background:radial-gradient(circle,rgba(255,125,68,.55),transparent 70%); border-radius:50%;
+    filter:blur(6px); animation:firepulse 2.6s ease-in-out infinite; pointer-events:none}
+
+  @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+  @keyframes flicker{0%,100%{opacity:1}45%{opacity:.5}70%{opacity:.85}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes shimmer{to{background-position:-400% 0}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes firepulse{0%,100%{opacity:.7;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.15)}}
+
+  @media(max-width:920px){
+    .hero{grid-template-columns:1fr; gap:40px; padding:30px 0 120px}
+    .window{transform:none} nav .links{display:none}
+    .wrap{padding:0 22px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <!-- teepee mark -->
+        <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="#ff9a63" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5 L21 21 L3 21 Z" fill="rgba(255,125,68,.12)"/>
+          <path d="M12 2.5 L8.5 0.8 M12 2.5 L15.5 0.8"/>
+          <path d="M12 11 L8.6 21 L15.4 21 Z" fill="#140d09" stroke="#e7b15a"/>
+        </svg>
+        <span class="word">Tri<b>be</b></span>
+      </div>
+      <nav>
+        <span class="links" style="display:flex;gap:26px"><a href="#">How it works</a><a href="#">Sources</a><a href="#">Pricing</a></span>
+        <span class="cta">Gather your tribe</span>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <!-- LEFT -->
+      <div class="left">
+        <span class="eyebrow"><span class="dot"></span>Cause-affinity donor intelligence</span>
+        <h1>Find the people who <em>already give</em> to your cause.</h1>
+        <p class="sub">Describe who you're looking for in plain language. Tribe reads real public giving records and gathers your circle of likely donors — each one cited, ranked, and ready to reach.</p>
+
+        <div class="ask">
+          <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <span class="typed" id="typed"></span>
+          <span class="run">Find<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+
+        <div class="stats">
+          <div class="s"><b>2.8M</b><span>public records</span></div>
+          <div class="s"><b>20</b><span>causes mapped</span></div>
+          <div class="s"><b>&lt;40ms</b><span>to your tribe</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: mock app window -->
+      <div class="right">
+        <div class="window">
+          <div class="titlebar">
+            <span class="d"></span><span class="d"></span><span class="d"></span>
+            <span class="t"><span class="pin"></span>tribe · live agent</span>
+          </div>
+          <div class="screen">
+            <div class="qbar">
+              <span class="qico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+              <span class="qtext" id="qtext">donors for my animal-shelter fundraiser in Los Angeles</span>
+            </div>
+            <div class="log" id="log"></div>
+            <div class="cards" id="cards"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- decorative teepee village + campfire -->
+  <div class="fire"></div>
+  <div class="village" id="village"></div>
+
+<script>
+/* ---------- left: typewriter cycling prompts ---------- */
+const PROMPTS = [
+  "donors for my animal-shelter fundraiser in Los Angeles",
+  "major clean-water donors in the Pacific Northwest",
+  "people who fund cancer research in New York",
+  "environment donors in California who gave $1,000+",
+  "supporters of education nonprofits in Texas",
+];
+const typed = document.getElementById("typed");
+(function typewriter(){
+  let i=0, ch=0, del=false;
+  function tick(){
+    const p = PROMPTS[i % PROMPTS.length];
+    ch += del ? -1 : 1;
+    typed.innerHTML = p.slice(0,ch) + '<span class="caret"></span>';
+    if(!del && ch===p.length){ del=true; return setTimeout(tick, 1700); }
+    if(del && ch===0){ del=false; i++; return setTimeout(tick, 240); }
+    setTimeout(tick, del ? 28 : 52);
+  }
+  setTimeout(tick, 600);
+})();
+
+/* ---------- right: looping mock agent run (all hardcoded filler) ---------- */
+const LOG = [
+  {lab:"Parsing request", meta:"cause: animal welfare · geo: LA"},
+  {lab:"Querying public giving records", meta:"1,240 matches · 38ms"},
+  {lab:"Enriching candidates via the web", meta:"top 4 profiles"},
+  {lab:"Scoring cause-affinity", meta:"ranked 0–100"},
+];
+/* filler donors — invented, not real people */
+const DONORS = [
+  {in:"MH", nm:"Marlowe Hart", mt:"Founder · Cedar & Co. · Pasadena, CA", chips:["animal welfare","environment"], score:94, give:"$42,000"},
+  {in:"IC", nm:"Iris Calderón", mt:"Partner · Brightline Capital · Los Angeles, CA", chips:["animal welfare"], score:88, give:"$28,500"},
+  {in:"DO", nm:"Devin Okafor", mt:"Retired · Santa Monica, CA", chips:["animal welfare","social welfare"], score:81, give:"$15,200"},
+];
+const logEl=document.getElementById("log"), cardsEl=document.getElementById("cards");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+async function runMock(){
+  logEl.innerHTML=""; cardsEl.innerHTML="";
+  // stream log rows
+  const rows=[];
+  for(const item of LOG){
+    const row=document.createElement("div"); row.className="row";
+    row.innerHTML=`<span class="stat"><span class="spin"></span></span><span class="lab">${item.lab}…</span><span class="meta"></span>`;
+    logEl.appendChild(row); rows.push(row);
+    requestAnimationFrame(()=>row.classList.add("show"));
+    await sleep(720);
+    row.classList.add("done");
+    row.querySelector(".stat").innerHTML='<svg class="check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    row.querySelector(".lab").textContent=item.lab;
+    row.querySelector(".meta").textContent=item.meta;
+    await sleep(260);
+  }
+  // skeleton cards
+  const label=document.createElement("div"); label.className="clabel"; label.textContent="your tribe — 3 of 1,240";
+  cardsEl.appendChild(label);
+  const skels=[];
+  for(let i=0;i<3;i++){
+    const s=document.createElement("div"); s.className="card skeleton";
+    s.innerHTML=`<div class="av">·</div><div class="info"><div class="nm">·</div><div class="mt">·</div></div>`;
+    cardsEl.appendChild(s); skels.push(s);
+  }
+  await sleep(900);
+  // fill cards one by one
+  for(let i=0;i<DONORS.length;i++){
+    const d=DONORS[i];
+    await sleep(360);
+    skels[i].className="card reveal";
+    skels[i].innerHTML=`
+      <div class="av">${d.in}</div>
+      <div class="info">
+        <div class="nm">${d.nm}</div>
+        <div class="mt">${d.mt}</div>
+        <div class="chips">${d.chips.map(c=>`<span class="chip">${c}</span>`).join("")}</div>
+      </div>
+      <div class="score"><b>${d.score}</b><span>AFFINITY</span><div class="give">${d.give}</div></div>`;
+  }
+  await sleep(4200);
+  runMock();
+}
+runMock();
+
+/* ---------- decorative teepee village ---------- */
+const village=document.getElementById("village");
+const sizes=[58,86,120,150,110,78,52];
+village.innerHTML=sizes.map((h,i)=>{
+  const w=h*0.82, op=(0.25+ (h/170)*0.6).toFixed(2);
+  return `<svg width="${w}" height="${h}" viewBox="0 0 24 24" fill="none" stroke="#ff9a63" stroke-width="1" stroke-linejoin="round" style="opacity:${op}">
+    <path d="M12 3 L21 22 L3 22 Z" fill="rgba(20,13,9,.85)"/>
+    <path d="M12 3 L9 1 M12 3 L15 1" stroke-width="1"/>
+    <path d="M12 12 L9.5 22 L14.5 22 Z" fill="rgba(255,125,68,.18)" stroke="#e7b15a" stroke-width=".7"/>
+  </svg>`;
+}).join("");
+</script>
+</body>
+</html>
