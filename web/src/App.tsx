@@ -53,7 +53,7 @@ export default function App() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-5">
+    <div className="flex min-h-screen w-full flex-col px-6">
       <AnimatePresence mode="wait">
         {!started ? (
           /* ── Landing: just the ask ─────────────────────────────── */
@@ -63,21 +63,13 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.4 }}
-            className="flex flex-1 flex-col items-center justify-center gap-7 py-16 text-center"
+            className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-9 py-16 text-center"
           >
             <Wordmark className="text-2xl" />
-            <div className="space-y-3">
-              <h1 className="font-serif text-5xl leading-[1.05] text-ink sm:text-6xl">
-                Find the donors who
-                <br />
-                already care<span className="text-accent">.</span>
-              </h1>
-              <p className="mx-auto max-w-lg text-[15px] text-muted">
-                Describe your cause. Tribe reads millions of real public giving records and
-                surfaces your best prospects — each one cited.
-              </p>
-            </div>
-            <div className="w-full max-w-xl">
+            <h1 className="font-serif text-6xl leading-[1.03] text-balance text-ink sm:text-7xl lg:text-[5.5rem]">
+              Find the donors who already care<span className="text-accent">.</span>
+            </h1>
+            <div className="w-full max-w-2xl">
               <AskBox value={ask} onChange={setAsk} onRun={handleRun} running={running} />
             </div>
           </motion.div>
@@ -88,7 +80,7 @@ export default function App() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="flex flex-1 flex-col gap-6 py-7"
+            className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 py-7"
           >
             <header className="flex items-center justify-between">
               <Wordmark className="text-xl" />
