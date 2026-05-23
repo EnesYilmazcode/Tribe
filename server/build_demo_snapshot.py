@@ -22,7 +22,7 @@ sys.path.insert(0, _HERE)
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_ROOT, ".env"))
 
-import clickhouse_client as ch
+import query_clean as ch  # dedup-safe: DISTINCT sub_id, no multi-cause multiplication
 from nl_parse import parse_ask
 from enrich_clean import enrich_top
 

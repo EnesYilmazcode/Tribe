@@ -78,6 +78,10 @@ def query(cause=None, causes=None, geo=None, min_amount=200, limit=20):
 
     rows = client.query(sql, parameters={"min_amount": min_amount, "limit": limit})
 
+    # Batch-load pre-computed Nimble enrichments
+    raw_pairs = [(r[0], r[1]) for r in rows.result_rows]
+    enrichment_cache = ch._load_precomputed_enrichments(client, raw_pairs)
+
     results = []
     for row in rows.named_results():
         first_year = row["first_gift"].year if row["first_gift"] else 0
@@ -128,7 +132,7 @@ def query(cause=None, causes=None, geo=None, min_amount=200, limit=20):
             "last_gift_year": last_year,
             "donation_history": donation_history,
             "cited_reasons": cited_reasons,
-            "enrichment": None,
+            "enrichment": enrichment_cache.get((row["raw_name"], row["geo"])),
         })
 
     return results
