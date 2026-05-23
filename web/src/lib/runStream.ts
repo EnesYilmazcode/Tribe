@@ -1,4 +1,5 @@
 import type { Prospect, StreamHandlers } from "../types";
+import { formatName } from "./format";
 import prospects from "../../sample_prospects.json";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -89,10 +90,17 @@ export function runSSE(ask: string, h: StreamHandlers): void {
  * does, so the UI never has to branch. Drives the demo from sample_prospects.json.
  */
 export async function runMockStream(ask: string, h: StreamHandlers): Promise<void> {
-  // 1. Parse the request
+  // 1. Parse the request. Derive the shown params from the actual snapshot so the
+  // chips/counts always match the cards (the snapshot can change without editing this).
   h.onStep({ key: "parse", label: "Parsing request", status: "running", detail: `"${ask}"` });
   await sleep(700);
-  const params = { cause: ["water", "environment"], geo: "WA · OR", min_amount: "$1,000+" };
+  const causeTags = [...new Set(data.flatMap((p) => p.cause_tags))].slice(0, 2);
+  const geos = [...new Set(data.map((p) => p.geo).filter(Boolean))];
+  const params = {
+    cause: causeTags.length ? causeTags : ["environment"],
+    geo: geos.length === 1 ? geos[0] : geos.slice(0, 2).join(" · ") || "All states",
+    min_amount: "$1,000+",
+  };
   h.onParams(params);
   h.onStep({
     key: "parse",
@@ -108,7 +116,7 @@ export async function runMockStream(ask: string, h: StreamHandlers): Promise<voi
     key: "query",
     label: "Querying ClickHouse · FEC contributions",
     status: "done",
-    detail: "1,204 matching contributions · 38ms",
+    detail: `scanned 2.8M FEC contributions · ${data.length} cause-affinity matches`,
   });
 
   // 3. Rank by cause-affinity
@@ -129,7 +137,7 @@ export async function runMockStream(ask: string, h: StreamHandlers): Promise<voi
       key: "enrich",
       label: "Enriching via live web · Nimble",
       status: "running",
-      detail: `→ ${p.name} (${p.geo})`,
+      detail: `→ ${formatName(p.name)} (${p.geo})`,
     });
   }
   await sleep(300);

@@ -1,9 +1,9 @@
 import { ArrowRight, Search } from "lucide-react";
 
 const EXAMPLES = [
-  "Major clean-water donors in the Pacific Northwest",
-  "Climate givers in California who gave $500+",
-  "Environment supporters in Oregon",
+  "Major environment donors in California who gave $1,000+",
+  "Climate and clean-water givers on the West Coast",
+  "Conservation supporters who gave $5,000+",
 ];
 
 interface Props {

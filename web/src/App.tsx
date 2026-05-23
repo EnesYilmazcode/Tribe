@@ -130,7 +130,7 @@ export default function App() {
                       {prospects.length} found
                     </span>
                   </div>
-                  {prospects.map((p, i) => (
+                  {prospects.slice(0, 10).map((p, i) => (
                     <ProspectCard key={p.name} prospect={p} rank={i} />
                   ))}
                 </motion.section>
