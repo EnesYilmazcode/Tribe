@@ -86,7 +86,8 @@
   ].map(([h,m,l,g]) => ({ at: mk(h,m), label: l, goal: g }));
 
   const pad = n => String(n).padStart(2, "0");
-  const hhmm = d => pad(d.getHours()) + ":" + pad(d.getMinutes());
+  // 12-hour clock, no AM/PM (everything's between 11 and 4:30, so it's unambiguous).
+  const hhmm = d => (((d.getHours() + 11) % 12) + 1) + ":" + pad(d.getMinutes());
   function fmt(ms) {
     if (ms < 0) ms = 0;
     const s = Math.floor(ms/1000);
