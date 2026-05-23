@@ -45,10 +45,10 @@
 
 ---
 
-### 1:45 – 2:20 · The Steyer card
+### 1:45 – 2:20 · The prospect list → Steyer detail
 | | |
 |---|---|
-| **Controller** | Scroll to the **Thomas F. Steyer** card. Let it sit. Maybe hover the citation pills to show they're real links. |
+| **Controller** | Results show a **selectable list on the left**, detail on the right. **Thomas F. Steyer (#1) is already selected.** Click one or two other names to show the detail swaps instantly — then land back on **Steyer**. Hover the citation pills to show they're real links. |
 | **Speaker** | "Every result is real and fully cited. Tom Steyer — $500,000 to environment committees, verified directly against the FEC record. The citation pills link to the actual public filing — anyone can check. And this enrichment line — that's Nimble pulling his bio from the live web right now. This isn't a wealth-screening tool. We're showing you who *already gives to this cause*, with receipts." |
 
 ---
@@ -56,7 +56,7 @@
 ### 2:20 – 2:45 · Draft outreach email
 | | |
 |---|---|
-| **Controller** | Click **"Draft outreach email"** on the Steyer card. |
+| **Controller** | With Steyer selected, click **"Draft outreach email"** in the detail pane. |
 | **Speaker** | "And it closes the loop. One click drafts a personalized outreach email, grounded in his actual giving history. Find, research, reach out — end to end. A human reviews before anything gets sent." |
 
 ---
@@ -64,7 +64,7 @@
 ### 2:45 – 3:00 · Wide shot of the ranked list
 | | |
 |---|---|
-| **Controller** | Scroll back up slowly to show the full ranked list. |
+| **Controller** | Glance over the ranked list on the left (12 names), then rest on the detail. No scrolling needed. |
 | **Speaker** | "Real giving behavior. Cited from public records. Enriched live from the web. Built on ClickHouse and Nimble. That's Tribe." |
 
 ---
