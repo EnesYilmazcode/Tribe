@@ -4,7 +4,7 @@ import AskBox from "./components/AskBox";
 import FilterChips from "./components/FilterChips";
 import ActivityStream from "./components/ActivityStream";
 import ProspectCard from "./components/ProspectCard";
-import { runMockStream } from "./lib/runStream";
+import { runAgent } from "./lib/runStream";
 import type { ParsedParams, Prospect, Step } from "./types";
 
 function Wordmark({ className = "" }: { className?: string }) {
@@ -44,7 +44,7 @@ export default function App() {
     setProspects([]);
     setStarted(true);
     setRunning(true);
-    runMockStream(q, {
+    runAgent(q, {
       onStep: upsertStep,
       onParams: setParams,
       onResult: setProspects,

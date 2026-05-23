@@ -5,10 +5,88 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const data = prospects as unknown as Prospect[];
 
+// Backend base URL — override with VITE_API_URL at build/run time.
+const API_BASE =
+  (import.meta.env as unknown as Record<string, string | undefined>).VITE_API_URL ??
+  "http://localhost:8000";
+
 /**
- * Mock run of the agent pipeline. Emits the same step/param/result shape that
- * the real SSE backend will (Phase B), so the UI never has to branch.
- * Drives the demo entirely from `sample_prospects.json`.
+ * Entry point the UI calls. Picks the live SSE backend, but:
+ *   - `?demo=1` in the URL forces the canned mock run (safe for recording).
+ *   - any connection failure falls back to the mock so the demo never breaks.
+ */
+export function runAgent(ask: string, h: StreamHandlers): void {
+  const forceMock =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("demo") === "1";
+  if (forceMock) {
+    void runMockStream(ask, h);
+    return;
+  }
+  runSSE(ask, h);
+}
+
+/**
+ * Consume the backend's Server-Sent Events stream.
+ *
+ * Backend contract — GET {API_BASE}/run?ask=<text>, emitting named events:
+ *   event: params  data: {cause:[...], geo, min_amount}        (ParsedParams)
+ *   event: step    data: {key, label, status, detail?}          (Step) — many
+ *   event: result  data: [ prospect_record, ... ]               (Prospect[])
+ *   event: done    data: {}                                      (stream end)
+ * Each Step is upserted by `key` on the UI side, so emit a step "running" then
+ * the same key "done" to flip its state — exactly like runMockStream below.
+ */
+export function runSSE(ask: string, h: StreamHandlers): void {
+  let gotAnyEvent = false;
+  let finished = false;
+
+  let es: EventSource;
+  try {
+    es = new EventSource(`${API_BASE}/run?ask=${encodeURIComponent(ask)}`);
+  } catch {
+    void runMockStream(ask, h); // EventSource unavailable — go straight to mock
+    return;
+  }
+
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    es.close();
+    h.onComplete();
+  };
+
+  es.addEventListener("params", (e) => {
+    gotAnyEvent = true;
+    h.onParams(JSON.parse((e as MessageEvent).data));
+  });
+  es.addEventListener("step", (e) => {
+    gotAnyEvent = true;
+    h.onStep(JSON.parse((e as MessageEvent).data));
+  });
+  es.addEventListener("result", (e) => {
+    gotAnyEvent = true;
+    h.onResult(JSON.parse((e as MessageEvent).data));
+  });
+  es.addEventListener("done", finish);
+
+  es.onerror = () => {
+    if (finished) return;
+    if (gotAnyEvent) {
+      // Stream started then dropped — keep what we have, just complete.
+      finish();
+    } else {
+      // Never connected (backend down) — fall back to the mock run.
+      finished = true;
+      es.close();
+      void runMockStream(ask, h);
+    }
+  };
+}
+
+/**
+ * Mock run of the agent pipeline. Emits the same event shape the SSE backend
+ * does, so the UI never has to branch. Drives the demo from sample_prospects.json.
  */
 export async function runMockStream(ask: string, h: StreamHandlers): Promise<void> {
   // 1. Parse the request
@@ -65,12 +143,7 @@ export async function runMockStream(ask: string, h: StreamHandlers): Promise<voi
   // 5. Score
   h.onStep({ key: "score", label: "Scoring cause-affinity 0–100", status: "running" });
   await sleep(700);
-  h.onStep({
-    key: "score",
-    label: "Scoring cause-affinity 0–100",
-    status: "done",
-    detail: "complete",
-  });
+  h.onStep({ key: "score", label: "Scoring cause-affinity 0–100", status: "done", detail: "complete" });
 
   // Final payload
   const ranked = [...data].sort((a, b) => b.affinity_score - a.affinity_score);
