@@ -42,7 +42,8 @@
     "draft_email": {
       "subject": "Advancing environmental action together",
       "body": "Dear Mr. Steyer,\n\nI hope this note finds you well. As we work to protect our planet, I wanted to reach out and express my deep appreciation for your outstanding commitment to environmental advocacy, particularly your recent, significant support of environmental committees in 2024. Your leadership as a founder here in California sets a powerful example for our community.\n\nOur organization is actively driving vital solutions to these same urgent ecological challenges. Given your dedicated focus on the environment, I would love to share a brief update on our initiatives.\n\nWould you be open to a 15-minute call next week?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
-    }
+    },
+    "email": "thomas.steyer@gmail.com"
   },
   {
     "name": "Steyer, Tom",
@@ -96,7 +97,8 @@
     "draft_email": {
       "subject": "Exploring shared environmental goals",
       "body": "Dear Tom,\n\nI hope this note finds you well. As a fellow advocate for our planet, I have been deeply inspired by your dedicated environmental activism and philanthropy in California. Your recent support in 2024, contributing $260,000 across two donations to environmental committees, highlights your profound commitment to protecting our shared future.\n\nAt our organization, we are driving critical initiatives that align closely with your vision. I would love to introduce our work and see how we might collaborate. Would you be open to a brief, 15-minute call next week?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
-    }
+    },
+    "email": "tsteyer@outlook.com"
   },
   {
     "name": "Serrurier, Gregory",
@@ -159,7 +161,8 @@
     "draft_email": {
       "subject": "Connecting on environmental conservation in California",
       "body": "Dear Gregory,\n\nI hope this note finds you well. I am reaching out because your recent, generous support of environmental committees in 2024 truly stands out. Your deep commitment to protecting our planet is incredibly inspiring.\n\nAs Development Director, I would love to share how our organization is driving critical conservation efforts here in California and beyond. Given your passion for the environment, I believe our goals align closely.\n\nWould you be open to a brief, 15-minute introductory call next week to connect?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
-    }
+    },
+    "email": "gregoryserrurier88@gmail.com"
   },
   {
     "name": "Newman, Steve",
@@ -209,7 +212,8 @@
       "current_role": "SOFTWARE ENGINEER, SCALYR",
       "notes": null,
       "source_url": "https://www.linkedin.com/in/stevescalyr"
-    }
+    },
+    "email": "steve.newman@scalyr.com"
   },
   {
     "name": "Desjardins, David",
@@ -250,7 +254,8 @@
       "current_role": "CONSULTANT",
       "notes": null,
       "source_url": "https://scholars.org/site-admin/david-desjardins"
-    }
+    },
+    "email": "david_desjardins3@yahoo.com"
   },
   {
     "name": "Lewis, Adam J.",
@@ -300,7 +305,8 @@
       "current_role": "BUSINESS OWNER",
       "notes": null,
       "source_url": "https://ajlacademy.org/wp-content/uploads/sites/24/2023/10/ajla-annual-report-2020-luke.pdf"
-    }
+    },
+    "email": "lewis.adam@proton.me"
   },
   {
     "name": "Mckay, Adam",
@@ -337,7 +343,8 @@
         "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "email": "adam.mckay@gmail.com"
   },
   {
     "name": "Choi, Lucia",
@@ -374,7 +381,8 @@
         "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "email": "lchoi@outlook.com"
   },
   {
     "name": "Borden, Scott Marvin",
@@ -438,7 +446,8 @@
         "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
       }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "email": "scottborden64@gmail.com"
   },
   {
     "name": "Larsen, Chris",
@@ -484,7 +493,8 @@
         "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "email": "chris.larsen@ripple.com"
   },
   {
     "name": "Koss, Michael",
@@ -530,7 +540,8 @@
         "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "email": "michael_koss11@yahoo.com"
   },
   {
     "name": "Disney, Abigail",
@@ -567,6 +578,7 @@
         "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "email": "disney.abigail@proton.me"
   }
 ]

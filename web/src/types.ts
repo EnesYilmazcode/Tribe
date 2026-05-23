@@ -28,6 +28,7 @@ export interface Prospect {
   city?: string;
   employer?: string;
   occupation?: string;
+  email?: string;
   total_given?: number;
   num_donations?: number;
   first_gift_year?: number;

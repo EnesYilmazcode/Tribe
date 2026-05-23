@@ -61,6 +61,15 @@ export default function ProspectCard({ prospect, rank }: { prospect: Prospect; r
             {role && place ? " · " : ""}
             {role}
           </div>
+          {p.email && (
+            <a
+              href={`mailto:${p.email}`}
+              className="mt-1 inline-flex items-center gap-1 text-[13px] text-accent transition hover:underline"
+            >
+              <Mail size={12} strokeWidth={2} />
+              {p.email}
+            </a>
+          )}
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {p.cause_tags.map((t) => (
               <span key={t} className="rounded-full bg-paper px-2 py-0.5 text-[12px] text-muted">
