@@ -7,9 +7,10 @@ import ProspectCard from "./components/ProspectCard";
 import { runAgent } from "./lib/runStream";
 import type { ParsedParams, Prospect, Step } from "./types";
 
-function Wordmark({ className = "" }: { className?: string }) {
+function Wordmark({ className = "", showLogo = false }: { className?: string; showLogo?: boolean }) {
   return (
-    <span className={`font-serif leading-none text-ink ${className}`}>
+    <span className={`inline-flex items-center gap-2 font-serif leading-none text-ink ${className}`}>
+      {showLogo && <img src="/logo.png" alt="" className="h-[1em] w-[1em] object-contain" />}
       Tribe<span className="text-accent">.</span>
     </span>
   );
@@ -65,7 +66,8 @@ export default function App() {
             transition={{ duration: 0.4 }}
             className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-9 py-16 text-center"
           >
-            <Wordmark className="text-2xl" />
+            <img src="/logo.png" alt="Tribe logo" className="w-24 h-24 object-contain opacity-90" />
+            <Wordmark className="text-2xl" showLogo={false} />
             <h1 className="font-serif text-6xl leading-[1.03] text-balance text-ink sm:text-7xl lg:text-[5.5rem]">
               Find the donors who already care<span className="text-accent">.</span>
             </h1>
@@ -83,7 +85,7 @@ export default function App() {
             className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 py-7"
           >
             <header className="flex items-center justify-between">
-              <Wordmark className="text-xl" />
+              <Wordmark className="text-xl" showLogo={true} />
               <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-faint">
                 ClickHouse · Nimble
               </span>
