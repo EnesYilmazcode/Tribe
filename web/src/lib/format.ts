@@ -29,9 +29,16 @@ export const NONINFO = new Set([
   "self employed", "information requested", "requested", "homemaker",
 ]);
 
+// Backend title-cases names, lowercasing business suffixes ("Fahr, LLC" -> "Fahr, Llc").
+// Re-uppercase the unambiguous ones for clean display.
+const ACRONYMS = new Set(["llc", "lp", "llp", "pac", "inc", "pllc"]);
+export function tidyOrg(s: string): string {
+  return s.replace(/[A-Za-z]+/g, (w) => (ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w));
+}
+
 export function formatRole(occupation?: string, employer?: string): string {
   const occ = (occupation || "").trim();
-  const emp = (employer || "").trim();
+  const emp = tidyOrg((employer || "").trim());
   const occOk = occ.length > 0 && !NONINFO.has(occ.toLowerCase());
   const empOk = emp.length > 0 && !NONINFO.has(emp.toLowerCase());
   if (occOk && empOk && occ.toLowerCase() !== emp.toLowerCase()) return `${occ} at ${emp}`;

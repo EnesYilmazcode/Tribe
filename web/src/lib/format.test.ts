@@ -48,6 +48,10 @@ describe("formatRole (messy employer/occupation)", () => {
   it("collapses duplicate occupation/employer", () => {
     expect(formatRole("Founder", "Founder")).toBe("Founder");
   });
+  it("re-uppercases business-suffix acronyms (real FEC casing)", () => {
+    expect(formatRole("Founder", "Fahr, Llc")).toBe("Founder at Fahr, LLC");
+    expect(formatRole("", "Edgestream Partners, Lp")).toBe("Edgestream Partners, LP");
+  });
 });
 
 describe("scoreColor", () => {
