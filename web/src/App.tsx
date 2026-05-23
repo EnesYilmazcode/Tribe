@@ -4,8 +4,15 @@ import AskBox from "./components/AskBox";
 import FilterChips from "./components/FilterChips";
 import ActivityStream from "./components/ActivityStream";
 import ProspectCard from "./components/ProspectCard";
+import MockPreview from "./components/MockPreview";
 import { runAgent } from "./lib/runStream";
 import type { ParsedParams, Prospect, Step } from "./types";
+
+const LANDING_EXAMPLES = [
+  "Major environment donors in California who gave $1,000+",
+  "Climate and clean-water givers on the West Coast",
+  "Conservation supporters who gave $5,000+",
+];
 
 function Wordmark({ className = "", showLogo = false }: { className?: string; showLogo?: boolean }) {
   return (
@@ -64,16 +71,39 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.4 }}
-            className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-9 py-16 text-center"
+            className="mx-auto grid w-full max-w-6xl flex-1 grid-cols-1 items-center gap-12 py-14 lg:grid-cols-[1fr_1.05fr]"
           >
-            <img src="/logo.png" alt="Tribe logo" className="w-24 h-24 object-contain opacity-90" />
-            <Wordmark className="text-2xl" showLogo={false} />
-            <h1 className="font-serif text-6xl leading-[1.03] text-balance text-ink sm:text-7xl lg:text-[5.5rem]">
-              Find the donors who already care<span className="text-accent">.</span>
-            </h1>
-            <div className="w-full max-w-2xl">
-              <AskBox value={ask} onChange={setAsk} onRun={handleRun} running={running} />
+            {/* LEFT — pitch + ask */}
+            <div className="flex flex-col items-start gap-6 text-left">
+              <div className="flex items-center gap-3">
+                <img src="/logo.png" alt="Tribe logo" className="h-11 w-11 object-contain" />
+                <Wordmark className="text-2xl" showLogo={false} />
+              </div>
+              <h1 className="font-serif text-5xl leading-[1.02] text-balance text-ink sm:text-6xl lg:text-[4.6rem]">
+                Find the donors who already care<span className="text-accent">.</span>
+              </h1>
+              <p className="max-w-md text-[17px] leading-relaxed text-muted">
+                Describe who you're raising for in plain language. Tribe reads real public
+                giving records and surfaces your best-matched donors — each one cited and ranked.
+              </p>
+              <div className="w-full max-w-xl">
+                <AskBox value={ask} onChange={setAsk} onRun={handleRun} running={running} showExamples={false} />
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {LANDING_EXAMPLES.map((ex) => (
+                    <button
+                      key={ex}
+                      onClick={() => { if (!running) { setAsk(ex); handleRun(ex); } }}
+                      disabled={running}
+                      className="rounded-full border border-line bg-card px-3.5 py-1.5 text-[13px] text-muted transition hover:border-accent/40 hover:text-accent disabled:opacity-40"
+                    >
+                      {ex}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
+            {/* RIGHT — auto-playing preview of a run */}
+            <MockPreview />
           </motion.div>
         ) : (
           /* ── Workspace: ask → activity → prospects ─────────────── */
