@@ -3,13 +3,13 @@
 > The platform = 3 layers: **input** (sentence → params), **agent** (get data + narrate steps), **output** (ranked cited cards). Build on the mock (`sample_prospects.json`) first so a demo always exists, then swap in the real ClickHouse at the end.
 > Commit + push after every step. See `../CLAUDE.md`.
 
-## Phase A — working demo on mock data  (target done ~1:00)
-Highest value: by the end there is a recordable demo even if nothing else gets built.
-- [ ] **A1. Scaffold** — Vite + React + TS + Tailwind v4 + framer-motion + lucide-react + clsx. `npm run dev` loads.
-- [ ] **A2. Layout shell** — header + top ask box + two columns (activity stream left ~38%, results right ~62%). Dark theme, one accent.
-- [ ] **A3. Mock cards** — render `sample_prospects.json` as `<ProspectCard>`: name + color-graded score chip, cause_tags badges, cited_reasons bullets each with a clickable `fec.gov ↗` source pill.
-- [ ] **A4. Activity stream + mock run** — `runMockStream()` emits canned steps on ~500ms delays; `<ActivityStream>` renders rows with running-pulse → green-check + framer-motion. Ask box "Run" triggers it, then reveals cards.
-- [ ] **A5. Commit + push.** ➡️ A full demo now exists.
+## Phase A — working demo on mock data  ✅ DONE
+A recordable demo exists on mock data (`npm run dev`, click an example, watch the run).
+- [x] **A1. Scaffold** — Vite + React + TS + Tailwind v4 + framer-motion + lucide-react + clsx. Builds + dev server boots.
+- [x] **A2. Layout shell** — header + ask box + two-pane console (activity left, prospects right). Dark "donor intelligence terminal" theme, signal-lime accent, IBM Plex Mono + Instrument Serif.
+- [x] **A3. Mock cards** — `ProspectCard` renders `sample_prospects.json`: serif name, color-graded affinity score, cause badges, cited_reasons with `fec.gov ↗` source pills, "live web" enrichment line.
+- [x] **A4. Activity stream + mock run** — `runMockStream()` emits parse→query→rank→enrich→score on timed delays; `ActivityStream` shows running-pulse → green-check rows + blinking cursor + parsed-param chips.
+- [x] **A5. Commit + push.** ➡️ A full demo now exists.
 
 ## Phase B — make it agentic  (~1:00–2:00)
 - [ ] **B1. NL parse** — LLM turns the sentence into `{cause, geo, min_amount}`, shown as editable param chips. (The Autonomy proof.)
