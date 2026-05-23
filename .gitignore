@@ -1,0 +1,28 @@
+# Secrets — NEVER commit. The repo must go PUBLIC to submit to the hackathon.
+.env
+.env.local
+*.env
+**/.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Node / web
+node_modules/
+dist/
+.next/
+build/
+
+# Data dumps (FEC bulk files are huge — keep them local)
+*.csv
+*.zip
+data/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
