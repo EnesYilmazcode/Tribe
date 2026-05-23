@@ -1,0 +1,31 @@
+# TAGGING-QUALITY — false-positive fixes for cause_tag.py
+
+> The NL→query strategy lives in `QUERYING.md` (canonical) and `agent/cause_synonyms.py` (implemented).
+> This doc only adds the one thing those don't: specific bugs in the committee-name keyword tagging that produce wrong tags. **For the friend (owns `agent/cause_tag.py`).**
+
+## High-impact false positives
+Current matcher is naive substring (`kw in name_lower`), no word boundaries:
+
+| Keyword | Wrong tag | Mis-tags | Fix |
+|---|---|---|---|
+| `"reform"` | criminal_justice | "Tax Reform", "Education Reform" | drop bare word; keep `"prison reform"`, `"police reform"` |
+| `"social"` | social_welfare | "Social Security", "Social Media" | drop bare word; use `"social services"`, `"human services"` |
+| `"trade"` | labor + foreign_policy | "Trade Association", "Board of Trade" | drop from labor; foreign_policy keep `"free trade"` only |
+| `"women"` | civil_rights | "Women in Tech", "Women for Trump" | narrow to `"women's rights"`, `"gender equality"` |
+| `"green"` | environment | surname "Green", "Evergreen" | drop; rely on `"climate"`, `"conservation"`, `"clean energy"` |
+| `"ai "` | technology | "Air Force", "Repair", "Chair" | drop; keep `"artificial intelligence"` |
+| `"gun"` | gun_control | "Gunderson", "Gunn" | word-boundary; keep `"gun safety"`, `"firearm"`, `"nra"` |
+| `"food"` | agriculture | collides with "food bank" (social_welfare) | agriculture use `"food policy"`; keep `"food bank"` in social_welfare |
+
+## One structural fix kills most of these — word-boundary regex
+```python
+import re
+CAUSE_PATTERNS = {tag: re.compile(r"\b(?:%s)\b" % "|".join(re.escape(k) for k in kws))
+                  for tag, kws in CAUSE_KEYWORDS.items()}
+# tag if CAUSE_PATTERNS[tag].search(name_lower)
+```
+Plus: prefer multi-word keywords ("gun safety" over "gun"); add a per-tag stop-list for known traps.
+
+## Evidence the affinity idea holds (for the pitch)
+Giving clusters along value axes (Moral Foundations Theory): care/fairness donors skew to civil_rights/environment/immigration; loyalty/authority donors skew to veterans/gun_rights. Donation platforms profile donors this way. Caveat: ~44% of giving is local/personal, so keep affinity a *score booster, not a hard filter*.
+Sources: Nilsson et al. (Eur. J. Personality 2020), Thottam & Kalamas (J. Consumer Behaviour 2024).
