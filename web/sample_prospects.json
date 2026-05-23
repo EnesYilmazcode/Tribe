@@ -26,17 +26,17 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $500,000 across 1 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
-      },
-      {
         "text": "FEC individual contribution search for Steyer, Thomas F. in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Steyer,+Thomas+F.&contributor_state=CA"
+      },
+      {
+        "text": "Gave $500,000 across 1 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
       }
     ],
     "enrichment": {
-      "current_role": "Founder, Fahr, Llc",
-      "notes": null,
+      "current_role": "Founder, Fahr LLC",
+      "notes": "Thomas Fahr Steyer is an American billionaire businessman, philanthropist, environmental advocate, and Democratic political activist.",
       "source_url": "https://en.wikipedia.org/wiki/Tom_Steyer"
     }
   },
@@ -76,17 +76,17 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $260,000 across 2 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Steyer, Tom in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Steyer,+Tom&contributor_state=CA"
+      },
+      {
+        "text": "Gave $260,000 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
     "enrichment": {
-      "current_role": "Activist/Philanthropist, Fahr, Llc",
-      "notes": null,
+      "current_role": "Co-Executive Chair, Galvanize Climate Solutions",
+      "notes": "He is an American billionaire businessman, philanthropist, environmental advocate, and Democratic political activist who is actively engaged in climate politics through NextGen Climate.",
       "source_url": "https://en.wikipedia.org/wiki/Tom_Steyer"
     }
   },
@@ -135,18 +135,18 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $170,000 across 3 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
-      },
-      {
         "text": "FEC individual contribution search for Serrurier, Gregory in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Serrurier,+Gregory&contributor_state=CA"
+      },
+      {
+        "text": "Gave $170,000 across 3 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
       }
     ],
     "enrichment": {
       "current_role": "",
       "notes": null,
-      "source_url": "https://www.americanrivers.org/wp-content/uploads/2020/10/AR_HonorRoll_2020-1.pdf"
+      "source_url": "https://earthjustice.org/press/2016/distinguished-investment-manager-greg-serrurier-joins-earthjustice-board"
     }
   },
   {
@@ -185,19 +185,15 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $150,000 across 2 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
-      },
-      {
         "text": "FEC individual contribution search for Newman, Steve in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Newman,+Steve&contributor_state=CA"
+      },
+      {
+        "text": "Gave $150,000 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
       }
     ],
-    "enrichment": {
-      "current_role": "SOFTWARE ENGINEER, SCALYR",
-      "notes": null,
-      "source_url": "https://www.linkedin.com/in/stevescalyr"
-    }
+    "enrichment": null
   },
   {
     "name": "Desjardins, David",
@@ -226,19 +222,15 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $100,000 across 1 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00483693"
-      },
-      {
         "text": "FEC individual contribution search for Desjardins, David in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Desjardins,+David&contributor_state=CA"
+      },
+      {
+        "text": "Gave $100,000 across 1 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00483693"
       }
     ],
-    "enrichment": {
-      "current_role": "CONSULTANT",
-      "notes": null,
-      "source_url": "https://scholars.org/site-admin/david-desjardins"
-    }
+    "enrichment": null
   },
   {
     "name": "Lewis, Adam J.",
@@ -276,19 +268,15 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $100,000 across 2 donations to environment committees (2023\u20132023)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Lewis, Adam J. in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Lewis,+Adam+J.&contributor_state=CA"
+      },
+      {
+        "text": "Gave $100,000 across 2 donations to environment committees (2023\u20132023)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
-    "enrichment": {
-      "current_role": "BUSINESS OWNER",
-      "notes": null,
-      "source_url": "https://ajlacademy.org/wp-content/uploads/sites/24/2023/10/ajla-annual-report-2020-luke.pdf"
-    }
+    "enrichment": null
   },
   {
     "name": "Mckay, Adam",
@@ -317,12 +305,12 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $100,000 across 1 donations to environment committees (2023\u20132023)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Mckay, Adam in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Mckay,+Adam&contributor_state=CA"
+      },
+      {
+        "text": "Gave $100,000 across 1 donations to environment committees (2023\u20132023)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
     "enrichment": null
@@ -354,12 +342,12 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $75,000 across 1 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Choi, Lucia in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Choi,+Lucia&contributor_state=CA"
+      },
+      {
+        "text": "Gave $75,000 across 1 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
     "enrichment": null
@@ -418,12 +406,12 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $75,000 across 4 donations to environment committees (2023\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
-      },
-      {
         "text": "FEC individual contribution search for Borden, Scott Marvin in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Borden,+Scott+Marvin&contributor_state=CA"
+      },
+      {
+        "text": "Gave $75,000 across 4 donations to environment committees (2023\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
       }
     ],
     "enrichment": null
@@ -464,12 +452,12 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $60,803 across 2 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Larsen, Chris in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Larsen,+Chris&contributor_state=CA"
+      },
+      {
+        "text": "Gave $60,803 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
     "enrichment": null
@@ -510,12 +498,12 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $60,000 across 2 donations to environment committees (2023\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Koss, Michael in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Koss,+Michael&contributor_state=CA"
+      },
+      {
+        "text": "Gave $60,000 across 2 donations to environment committees (2023\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
     "enrichment": null
@@ -547,12 +535,12 @@
     ],
     "cited_reasons": [
       {
-        "text": "Gave $50,000 across 1 donations to environment committees (2024\u20132024)",
-        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
-      },
-      {
         "text": "FEC individual contribution search for Disney, Abigail in CA",
         "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Disney,+Abigail&contributor_state=CA"
+      },
+      {
+        "text": "Gave $50,000 across 1 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
       }
     ],
     "enrichment": null

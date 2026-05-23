@@ -22,7 +22,7 @@ sys.path.insert(0, _HERE)
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_ROOT, ".env"))
 
-import query_clean as ch  # dedup-safe: DISTINCT sub_id, no multi-cause multiplication
+from query_clean import query as clean_query   # dedup-safe (honest totals, no dup history)
 from nl_parse import parse_ask
 from enrich_clean import enrich_top
 
@@ -41,8 +41,8 @@ def main() -> None:
 
     # Primary cause only (no adjacency expansion) — keeps the demo on-topic and
     # avoids pulling mis-tagged committees from adjacent causes (e.g. RJC PAC tagged 'energy').
-    prospects = ch.query(causes=causes, geo=parsed["geo"],
-                         min_amount=parsed["min_amount"], limit=LIMIT)
+    prospects = clean_query(causes=causes, geo=parsed["geo"],
+                            min_amount=parsed["min_amount"], limit=LIMIT)
     if not prospects:
         print("No prospects returned — is the contributions table populated for this cause/geo?")
         return
@@ -50,6 +50,13 @@ def main() -> None:
 
     print(f"enriching top {ENRICH_N} via live web (one-time, cached into the snapshot)...")
     enrich_top(prospects, n=ENRICH_N)
+
+    # Put the donor's individual-contribution search FIRST so clicking the top
+    # citation verifies the *person's* history, not just the committee.
+    for p in prospects:
+        cr = p.get("cited_reasons") or []
+        cr.sort(key=lambda r: 0 if "individual-contributions" in (r.get("source_url") or "") else 1)
+        p["cited_reasons"] = cr
 
     with open(SNAPSHOT_PATH, "w", encoding="utf-8") as f:
         json.dump(prospects, f, indent=2, default=str)
