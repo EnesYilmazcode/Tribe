@@ -63,6 +63,9 @@ Found while demoing. Snapshot fixes already done by Enes frontend (deduped total
 - **[Trevor] Add an `animal_welfare` cause tag + tag its committees** (Humane Society Legislative Fund, ASPCA, Defenders of Wildlife). Niche asks like "dog shelter" have no home today → map to `environment` (climate donors). Taxonomy coarseness is the semantic bottleneck, not the parse.
 - **[Enes, stretch] Contact enrichment** — extend `enrich_clean` to surface a public contact channel (LinkedIn/org), with the §104.15 legal gate.
 
+## Note: `mockup/index.html` [coord]
+Standalone visual concept mock (campfire/teepee Tribe theme — animated typewriter ask box + looping mock agent run with filler data). **Pure visuals, hardcoded, no backend.** Open directly in a browser. **Separate from `web/` and the locked `?demo=1` demo — touches neither.** Built at Enes's request to show the product vision.
+
 ## Decisions locked (don't re-litigate)
 - Sponsors = **ClickHouse + Nimble**. Senso + x402 dropped.
 - Demo data source = **FEC API** (real, cited), not scraping. Nimble = enrichment only.
