@@ -16,7 +16,7 @@
 
 ## Done ✅
 - Backend `/run` SSE endpoint — emits the exact contract the frontend consumes; real data flows through it.
-- NL parse — Gemini + deterministic fallback. **⚠️ MODEL FIX: `gemini-2.5-flash` AND `gemini-2.0-flash` are now 429 quota-exhausted; `gemini-flash-latest` works (200).** Set `GEMINI_MODEL=gemini-flash-latest` in `.env` (done on this machine). nl_parse should default to it too, else parse silently falls back to deterministic and the autonomy story weakens.
+- NL parse — Gemini + deterministic fallback. **✅ RATE LIMIT RESOLVED (Tier 1, $25/mo cap):** key now returns 200 on `gemini-flash-latest` AND `gemini-2.5-flash` — live parse works again. `GEMINI_MODEL=gemini-flash-latest` in `.env`. If it 429s again under heavy load, use a key from the Tier-1 (BoardBot) project for a durable fix. (Recorded demo uses `?demo=1` so it's unaffected regardless.)
 - **Real FEC bulk data loaded — 2.8M real contributions, 597k donors, all 20 causes, 5 states (CA/NY/TX/WA/OR), 99.99% unique.** Data collection is largely DONE.
 - Frontend renders real data — 20 cards, Steyer top, name-flip + employer casing fixed, 13 tests pass.
 - **Persistent Nimble enrichments** — `agent/nimble_batch_enrich.py` pre-computes roles for top donors (via Nimble search → Gemini extraction, falling back to FEC occupation/employer) and stores in `donor_enrichments` table (`ReplacingMergeTree`). `clickhouse_client.query()` now batch-loads these at query time so UI gets instant bios with zero Nimble latency. `server/main.py` updated to use `enrich_clean` for any non-pre-computed top-3 donors. Batch enricher ran for environment/healthcare/labor/energy top-10. Server restarted.
