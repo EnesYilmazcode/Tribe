@@ -17,7 +17,7 @@
 ## ▶ NEXT — ship plan (post-freeze, in priority order)
 The build is essentially done; what's left is the recording + submission. Demo `?demo=1` is **verified recording-ready** (Steyer $500k deduped, person-first link, coherent chips, zero errors).
 1. **🎥 [Enes] RECORD the 3-min demo NOW** on `?demo=1` per `docs/DEMO-SCRIPT.md`. This is the submission — highest priority, do before anything else.
-2. **📤 [coord] Submission prep in parallel:** repo public, `.env` gitignored (no keys), README tells the FEC story (done), draft the Devpost fields (inspiration / what it does / how built / sponsor tools ClickHouse+Nimble / challenges). Have it ready to paste so 4:15 submit is calm.
+2. **✅ DONE [coord] Submission prep:** **`docs/SUBMISSION.md`** has paste-ready Devpost copy (tagline, what-it-does, how-built, challenges, accomplishments, what's-next, built-with, sponsor tools ClickHouse+Nimble), a 4:15 checklist, and the rehearsed §104.15 legal answer. **Verified repo is safe to make public** — only `.env.example` tracked, key-pattern scan found zero leaked secrets. Just paste + add the video link at submit time.
 3. **🤖 [coord] Auto-match agent as an optional 2nd demo beat** — only if the main take is recorded with time to spare. `auto_match.py` is the strongest Autonomy story; a 20-sec "it auto-adds new donors to a live campaign" clip would boost the Autonomy score. Don't let it delay the main recording.
 4. **🟡 [Trevor] Data is stable — leave it.** Optional only if idle: re-run tagging to drop the false positives (Walgreen/Reform/Marine) and add `animal_welfare`. NOT required for the locked environment demo. Don't destabilize the DB before recording.
 5. **[Enes, stretch] Contact enrichment** — only after the video is submitted.
