@@ -18,7 +18,7 @@ function Wordmark({ className = "", showLogo = false }: { className?: string; sh
   return (
     <span className={`inline-flex items-center gap-2 font-serif leading-none text-ink ${className}`}>
       {showLogo && <img src="/logo.png" alt="" className="h-[1em] w-[1em] object-contain" />}
-      Tribe<span className="text-accent">.</span>
+      Tribe
     </span>
   );
 }
@@ -82,10 +82,6 @@ export default function App() {
               <h1 className="font-serif text-5xl leading-[1.02] text-balance text-ink sm:text-6xl lg:text-[4.6rem]">
                 Find the donors who already care<span className="text-accent">.</span>
               </h1>
-              <p className="max-w-md text-[17px] leading-relaxed text-muted">
-                Describe who you're raising for in plain language. Tribe reads real public
-                giving records and surfaces your best-matched donors — each one cited and ranked.
-              </p>
               <div className="w-full max-w-xl">
                 <AskBox value={ask} onChange={setAsk} onRun={handleRun} running={running} showExamples={false} />
                 <div className="mt-3 flex flex-wrap gap-2">

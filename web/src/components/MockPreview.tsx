@@ -5,7 +5,7 @@ import { Search, Check } from "lucide-react";
 /* A purely decorative, auto-looping preview of a run — hardcoded filler data,
    no backend. Lives on the landing hero to show what Tribe does in action. */
 
-const QUERY = "Major environment donors in California who gave $1,000+";
+const QUERY = "Wildlife & conservation donors in California, $2,500+";
 
 const STEPS = [
   { lab: "Parsing request", meta: "cause: environment · CA" },
