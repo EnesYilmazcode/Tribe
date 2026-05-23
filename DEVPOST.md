@@ -36,21 +36,20 @@ Ship an **autonomous agent that does real work on the open web** — publish, mo
 ## Our project — Tribe (donor-prospecting agent)
 **One-liner:** Fundraiser types a natural-language ask → agent finds the best real donors and publishes cited prospect profiles, autonomously.
 
-**Pipeline & tool mapping:**
+**Pipeline & tool mapping (3 sponsors — all with prize tracks):**
 1. **ClickHouse** — query preloaded FEC bulk donation data (~tens of millions of real records) for cause-affinity candidates
 2. **Nimble** — live-enrich each top candidate from public web sources
 3. **Senso** — publish a cited prospect profile per match to cited.md (closes the KB → published loop)
-4. **x402** — meter deep-enrichment calls (payment rail)
 
-**Why it fits the theme:** Cause-affinity matching from *real giving behavior* (FEC is the only bulk, cause-tagged donation data) is a stronger fundraising signal than wealth screening. The agent acts on real data, takes real open-web action (publishing), and transacts (x402).
+*x402 (payment rail) is out of scope — not a prize-track sponsor, too much setup risk. The 3 above already meet the "3+ tools" judging mark.*
+
+**Why it fits the theme:** Cause-affinity matching from *real giving behavior* (FEC is the only bulk, cause-tagged donation data) is a stronger fundraising signal than wealth screening. The agent acts on real data and takes real open-web action (publishing cited profiles).
 
 ## Status / TODO (as of capture)
 - [ ] Repo currently has only skill-prompt specs + README stub — no running code yet
-- [ ] Skill prompts describe generic CRM/wealth-screening flow; need to align to FEC + ClickHouse + Nimble + Senso + x402
-- [ ] PLAN.md referenced in notes but not present in repo
+- [ ] Skill prompts describe generic CRM/wealth-screening flow; need to align to FEC + ClickHouse + Nimble + Senso
 - [ ] Wire ClickHouse with FEC data loaded
 - [ ] Wire Nimble enrichment
 - [ ] Wire Senso → cited.md publishing
-- [ ] Wire x402 metering
 - [ ] Record 3-min demo
 - [ ] Finalize public repo + Devpost submission

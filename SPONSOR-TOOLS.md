@@ -7,7 +7,8 @@
 - A **sponsor tool = a sponsor company/platform**, not a product inside it.
 - Rule: **use 2+ sponsor tools.** Judging rewards **3+** (Tool Use is 20% of score).
 - Using multiple products from ONE sponsor (e.g. Nimble Search + Crawl) still counts as **one** tool for the threshold, but deepens the "effective use" score.
-- **We use 4 sponsors: Nimble, ClickHouse, Senso, x402.** Need 3, planning all 4 = safe margin.
+- **We use 3 sponsors: ClickHouse, Nimble, Senso.** These are the only sponsors with prize tracks and they hit the 3+ threshold on their own.
+- **x402 is NOT a prize-track sponsor** — it's only listed as a suggested payment rail. **We are not building it** (onchain wallet + facilitator = too much risk for a 5-hour sprint with no track payoff). Documented at the bottom for reference only.
 
 ## The pipeline and where each tool sits
 ```
@@ -24,9 +25,6 @@ Scoring ─── cause-affinity + recency + capacity → 0–100
   │
   ▼
 Senso ───── publish a cited prospect profile to cited.md
-  │
-  ▼
-x402 ────── meter the deep-enrichment / per-fetch access as paid calls
 ```
 Order note: **ClickHouse first** (find candidates from bulk FEC data, milliseconds), **Nimble second** (enrich them from the live web). Not the other way around.
 
@@ -66,7 +64,8 @@ Order note: **ClickHouse first** (find candidates from bulk FEC data, millisecon
 **Our use:** Publish one cited prospect profile per match to cited.md, with citations back to the FEC source rows. This IS our "real open-web action."
 **Docs:** https://docs.senso.ai · https://www.senso.ai/cited-md · https://cited.md/
 
-## 4. x402 — agent payment rail
+## (Reference only) x402 — agent payment rail — OUT OF SCOPE
+**Decision:** We are NOT building x402. It has no prize track and the onchain setup is too risky for the time we have. Kept here only so nobody re-litigates it.
 **What it is:** Open payment standard using HTTP 402 Payment Required. Lets agents pay onchain in stablecoins at the HTTP level.
 **How it works:** Agent requests a paid resource → server returns HTTP 402 with payment instructions → agent signs a stablecoin authorization → attaches proof, retries → server verifies and returns data. A **facilitator** (Coinbase/CDP hosts one) abstracts the blockchain via `POST /verify` and `POST /settle`.
 **Free tier:** CDP facilitator processes ERC-20 payments on Base, Polygon, Arbitrum, World, Solana — **1,000 transactions/month free.**
@@ -80,9 +79,10 @@ Order note: **ClickHouse first** (find candidates from bulk FEC data, millisecon
 1. **ClickHouse** — the spine, do first. Covers Autonomy + ClickHouse track.
 2. **Senso** — second. Completes the 3-tool threshold and the $3k single-winner track. Confirm you can actually *publish*, not just ingest.
 3. **Nimble** — third. Adds the Nimble track and stronger enrichment.
-4. **x402** — last. Native fit with cited.md per-fetch pricing; cut before cutting NL parsing if time runs out.
+
+(x402 is out of scope — see reference section above.)
 
 ## Risks specific to tools
 - **Senso publish path** — verify early you can publish to cited.md (it's CLI/agent-driven, not plain REST). Gates the $3k track.
 - **FEC bulk load** — full individual-contributions file is huge; load a state/year-trimmed subset for the demo.
-- **API signups are the long pole** — one owner per sponsor, start all four at 11:00.
+- **API signups are the long pole** — one owner per sponsor, start all three at 11:00.

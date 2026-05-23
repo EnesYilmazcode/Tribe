@@ -28,14 +28,14 @@
 | **Senso publish** | 12:45 – 1:45 | Phase 2 — Senso | NL→FEC→**published cited profile**. *3-tool threshold met — winnable here* |
 | *Lunch* | grab at 1:30 | — | Eat at desk; don't lose the block |
 | **Nimble enrich** | 1:45 – 2:30 | Phase 3 — Nimble | Profiles blend FEC history + live web enrichment |
-| **Autonomy + x402** | 2:30 – 3:15 | Phase 4 — LLM parse + x402 | Type a sentence → fully autonomous run, metered paid calls. All 4 tools live |
+| **Autonomy polish** | 2:30 – 3:15 | Phase 4 — LLM parse | Type a sentence → fully autonomous run. All 3 sponsor tools live |
 | **Buffer / debug** | 3:15 – 3:45 | slack | Fix whatever's flaky; freeze features at 3:45 sharp |
 | **DEMO RECORDING** | 3:45 – 4:15 | Phase 5 | 3-min video recorded, README cleaned to FEC story |
 | **SUBMIT** | 4:15 – 4:30 | Phase 5 | Devpost submitted with 15 min to spare |
 
 ## Time budget summary
 - **MVP (demoable):** ready by **~1:45 PM** (Phases 0–2). This is the "we can win" floor — ~2h45m in.
-- **Full 4-tool build:** ~2:30 PM, polish + buffer to 3:45 PM.
+- **Full 3-tool build:** ~2:30 PM, polish + buffer to 3:45 PM.
 - **Demo recording:** **30 min reserved (3:45–4:15)** — non-negotiable, do not eat into this.
 - **Submission buffer:** 15 min (4:15–4:30) — treat 4:15 as the deadline.
 
@@ -46,10 +46,10 @@
 | 0:15–0:35 | Type the natural-language ask on camera. |
 | 0:35–2:05 | Watch it run **autonomously**: parse → ClickHouse FEC query → Nimble enrichment → scoring → Senso publishes cited profile. Narrate the autonomy. |
 | 2:05–2:35 | Show the live published cited.md profile with real citations. This is the money shot. |
-| 2:35–3:00 | Architecture + 4 sponsor tools recap (ClickHouse, Nimble, Senso, x402). |
+| 2:35–3:00 | Architecture + 3 sponsor tools recap (ClickHouse, Nimble, Senso). |
 
 ## Hard rules
 - **Freeze features at 3:45 PM.** Anything not working by then doesn't go in the demo.
 - **Record the demo even if incomplete** — a polished video of the MVP beats a broken full build with no video. No video = no chance at finalist.
 - **Pre-test the demo example 3+ times** and keep a cached fallback run in case live APIs flake during recording.
-- If behind schedule, **cut from the bottom of the build (x402 → Nimble), never the demo recording.**
+- If behind schedule, **cut Nimble before Senso, never the demo recording.** (x402 is already out of scope.)

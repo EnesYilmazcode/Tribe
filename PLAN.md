@@ -13,7 +13,8 @@ A fundraiser types a natural-language ask ("I need major donors for a clean-wate
 | **ClickHouse** | Query preloaded FEC bulk donation data for cause-affinity candidates | ClickHouse track |
 | **Nimble** | Live-enrich top candidates from public web sources | Nimble track |
 | **Senso** | Publish a cited prospect profile per match to cited.md | Senso track (must close KB→published loop) |
-| **x402** | Meter deep-enrichment calls (payment rail) | Monetization bonus |
+
+These three are the official sponsors with prize tracks and they hit the "3+ tools" threshold on their own. **x402 is NOT a prize-track sponsor** (only a suggested payment rail) and we are NOT building it. Skip it unless we somehow finish everything early.
 
 ## Architecture (keep it flat — it's a hackathon)
 ```
@@ -33,9 +34,6 @@ Scoring     ── cause-affinity + recency + capacity → 0–100
   │
   ▼
 Senso       ── publish cited prospect profile → cited.md   ◄── the "real open-web action"
-  │
-  ▼
-x402        ── meter each deep-enrichment as a paid call
 ```
 
 ## Time-boxed build sequence (descope from the bottom up)
@@ -43,9 +41,9 @@ Each phase ends in something demoable. If we run out of time, we stop at the las
 
 ### Phase 0 — Setup (~30 min) — DO FIRST, IN PARALLEL ACROSS TEAM
 - [ ] Pick stack: **Python** (fastest for ClickHouse + HTTP + an LLM orchestrator). Single `agent.py` entrypoint.
-- [ ] Get API keys / accounts: ClickHouse Cloud, Nimble, Senso, x402. **One person owns each — start signups now, they're the long pole.**
+- [ ] Get API keys / accounts: ClickHouse Cloud, Nimble, Senso. **One person owns each — start signups now, they're the long pole.**
 - [ ] Download FEC bulk data: individual contributions (`indiv` file) from FEC bulk-data, OR use a trimmed sample if full load is too slow. https://www.fec.gov/data/browse-data/?tab=bulk-data
-- [ ] Repo scaffolding: `agent.py`, `clickhouse_client.py`, `nimble_client.py`, `senso_client.py`, `x402_client.py`, `.env.example`, `requirements.txt`.
+- [ ] Repo scaffolding: `agent.py`, `clickhouse_client.py`, `nimble_client.py`, `senso_client.py`, `.env.example`, `requirements.txt`.
 
 ### Phase 1 — ClickHouse spine (~75 min) ← MINIMUM VIABLE DEMO STARTS HERE
 - [ ] Load FEC contributions into a ClickHouse table (committee_id, contributor name/employer/occupation, amount, date, recipient, state).
@@ -65,10 +63,10 @@ Each phase ends in something demoable. If we run out of time, we stop at the las
 - [ ] Merge enrichment into the profile before Senso publishes (re-order: enrich → then publish).
 - **Checkpoint:** Profiles now blend historical FEC data + live web data. *Adds Nimble track + strengthens Autonomy.*
 
-### Phase 4 — Autonomy polish + x402 (~45 min)
+### Phase 4 — Autonomy polish (~45 min)
 - [ ] LLM parses the raw NL ask into cause tags / geography / capacity (replaces hard-coded params). This is the key "no manual intervention" autonomy story.
-- [ ] x402: wrap the Nimble deep-enrichment call so it's metered as a paid action (even one real metered call sells the payment-rail narrative).
-- **Checkpoint:** Type a sentence → fully autonomous run → published profiles, with metered paid calls. *All 4 tools live.*
+- **Checkpoint:** Type a sentence → fully autonomous run → published profiles. *All 3 sponsor tools live.*
+- *Optional, only if way ahead of schedule:* add x402 to meter a call. Not required, not a track — skip by default.
 
 ### Phase 5 — Demo prep (~45 min) — RESERVE THIS, DO NOT SKIP
 - [ ] Pick ONE clean, reliable example ask that gives an impressive result. Pre-test it 5+ times.
@@ -81,10 +79,10 @@ Each phase ends in something demoable. If we run out of time, we stop at the las
 - If behind at any checkpoint, **stop adding tools and lock the demo** at the last working phase.
 - **Phase 2 (Senso) is the priority over Phase 3 (Nimble)** — it's the $3k single-winner track with the cleanest fit, and it completes the 3-tool threshold.
 - Never demo a feature live that hasn't been run 3+ times successfully. Use the cached fallback.
-- LLM parsing (Phase 4) is the only thing standing between "scripted" and "autonomous" in the judges' eyes — if you must cut something, cut x402 before cutting NL parsing.
+- LLM parsing (Phase 4) is the only thing standing between "scripted" and "autonomous" in the judges' eyes — never cut it.
 
 ## Known risks
 - **FEC bulk load time** — full individual-contributions file is huge. Use a state/year-trimmed subset for the demo.
 - **Senso "publish" requirement** — confirm early that we can actually publish to cited.md, not just ingest. This gates the $3k track.
-- **API signups** — sponsor accounts/keys are the long pole. Start all four in Phase 0.
+- **API signups** — sponsor accounts/keys are the long pole. Start all three in Phase 0.
 - **Stale skill files** — `prospect-finding/scoring/outreach/crm-tracking.md` describe the old direction and will confuse judges; align them or remove from the demo path.
