@@ -14,6 +14,16 @@
 
 **Rule to stop overlap:** before starting work, claim it here (add your name to an open item) and push. Don't touch another lane's files.
 
+## ▶ NEXT — ship plan (post-freeze, in priority order)
+The build is essentially done; what's left is the recording + submission. Demo `?demo=1` is **verified recording-ready** (Steyer $500k deduped, person-first link, coherent chips, zero errors).
+1. **🎥 [Enes] RECORD the 3-min demo NOW** on `?demo=1` per `docs/DEMO-SCRIPT.md`. This is the submission — highest priority, do before anything else.
+2. **📤 [coord] Submission prep in parallel:** repo public, `.env` gitignored (no keys), README tells the FEC story (done), draft the Devpost fields (inspiration / what it does / how built / sponsor tools ClickHouse+Nimble / challenges). Have it ready to paste so 4:15 submit is calm.
+3. **🤖 [coord] Auto-match agent as an optional 2nd demo beat** — only if the main take is recorded with time to spare. `auto_match.py` is the strongest Autonomy story; a 20-sec "it auto-adds new donors to a live campaign" clip would boost the Autonomy score. Don't let it delay the main recording.
+4. **🟡 [Trevor] Data is stable — leave it.** Optional only if idle: re-run tagging to drop the false positives (Walgreen/Reform/Marine) and add `animal_welfare`. NOT required for the locked environment demo. Don't destabilize the DB before recording.
+5. **[Enes, stretch] Contact enrichment** — only after the video is submitted.
+
+**Freeze rule:** at 3:45 stop building. A polished `?demo=1` recording beats any half-finished feature. Upload the video immediately (processing takes minutes), paste the LINK into Devpost by 4:15.
+
 ## Done ✅
 - Backend `/run` SSE endpoint — emits the exact contract the frontend consumes; real data flows through it.
 - NL parse — Gemini + deterministic fallback. **✅ RATE LIMIT RESOLVED (Tier 1, $25/mo cap):** key now returns 200 on `gemini-flash-latest` AND `gemini-2.5-flash` — live parse works again. `GEMINI_MODEL=gemini-flash-latest` in `.env`. If it 429s again under heavy load, use a key from the Tier-1 (BoardBot) project for a durable fix. (Recorded demo uses `?demo=1` so it's unaffected regardless.)
