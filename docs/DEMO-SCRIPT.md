@@ -22,8 +22,9 @@ the cards are all coherent (environment · CA).
 | 0:00–0:15 | Landing: "Find the donors who already care." | "Nonprofits waste weeks guessing who to ask. Tribe reads who's *already given* to your cause — from 2.8 million real FEC records." |
 | 0:15–0:30 | Click the example chip; the run starts | "I describe my cause in one sentence. No filters, no forms." |
 | 0:30–1:45 | Activity stream filling in (parse → query → rank → enrich → score), then cards appear | "The agent parses it with an LLM, queries 2.8M real contributions in ClickHouse, ranks by cause-affinity, then goes out to the **live web** to enrich the top prospects — all autonomously, no human in the loop." |
-| 1:45–2:30 | Scroll to the **Thomas F. Steyer** card; expand "View giving history" | "Every prospect is real and **cited**. Steyer — score 95, a known climate megadonor. Each reason links back to the public FEC record, and this **LIVE WEB** line is Nimble pulling his bio from Wikipedia in real time. This is the difference from wealth-screening tools: we show *who already gives to the cause*, with receipts." |
-| 2:30–3:00 | The ranked list / a clean wide shot | "Real giving behavior, cited from public records, enriched live — built on ClickHouse and Nimble. That's Tribe." |
+| 1:45–2:20 | The **Thomas F. Steyer** card | "Every prospect is real and **cited**. Steyer — a known climate megadonor, $500K to environment committees. Each reason links to the public FEC record, and this **LIVE WEB** line is Nimble pulling his bio from Wikipedia. This is the difference from wealth-screening: we show *who already gives to the cause*, with receipts." |
+| 2:20–2:45 | Click **"Draft outreach email"** on the card | "And it closes the loop — one click drafts a personalized outreach email grounded in his actual giving. Find, research, reach out, end to end. (A human reviews before sending.)" |
+| 2:45–3:00 | Clean wide shot of the ranked list | "Real giving behavior, cited from public records, enriched live, ready to act on — built on ClickHouse and Nimble. That's Tribe." |
 
 ## Hard rules
 - **Record on `?demo=1`.** If you want to also show the live `/run`, do it as a *second* take only after the `?demo=1` take is safely recorded.

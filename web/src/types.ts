@@ -33,6 +33,7 @@ export interface Prospect {
   first_gift_year?: number;
   last_gift_year?: number;
   donation_history?: DonationItem[];
+  draft_email?: { subject: string; body: string } | null;
 }
 
 export interface ParsedParams {

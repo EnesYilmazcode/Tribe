@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, ExternalLink, Globe } from "lucide-react";
+import { ChevronDown, ExternalLink, Globe, Mail } from "lucide-react";
 import type { Prospect } from "../types";
 import { formatName, formatRole, hostname, scoreColor, usd } from "../lib/format";
 
@@ -29,6 +29,7 @@ function Stat({ value, label }: { value: string; label: string }) {
 
 export default function ProspectCard({ prospect, rank }: { prospect: Prospect; rank: number }) {
   const [showHistory, setShowHistory] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
   const p = prospect;
   const color = scoreColor(p.affinity_score);
   const role = formatRole(p.occupation, p.employer);
@@ -135,6 +136,32 @@ export default function ProspectCard({ prospect, rank }: { prospect: Prospect; r
                 </li>
               ))}
             </motion.ul>
+          )}
+        </div>
+      )}
+
+      {/* AI-drafted outreach email (human reviews before sending) */}
+      {p.draft_email && (
+        <div className="mt-3">
+          <button
+            onClick={() => setShowEmail((s) => !s)}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent/10 px-3 py-1.5 text-[13px] font-medium text-accent transition hover:bg-accent/15"
+          >
+            <Mail size={14} />
+            {showEmail ? "Hide draft" : "Draft outreach email"}
+          </button>
+          {showEmail && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-2 rounded-xl border border-line bg-paper p-4"
+            >
+              <div className="text-[13px] font-semibold text-ink">{p.draft_email.subject}</div>
+              <div className="mt-2 whitespace-pre-line text-[13px] leading-relaxed text-ink/85">
+                {p.draft_email.body}
+              </div>
+              <div className="mt-2 text-[11px] text-faint">AI draft · review before sending</div>
+            </motion.div>
           )}
         </div>
       )}

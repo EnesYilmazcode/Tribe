@@ -25,6 +25,7 @@ load_dotenv(os.path.join(_ROOT, ".env"))
 from query_clean import query as clean_query   # dedup-safe (honest totals, no dup history)
 from nl_parse import parse_ask
 from enrich_clean import enrich_top
+from draft_email import draft_top
 
 DEFAULT_ASK = "major environment donors in California who gave $1,000+"
 SNAPSHOT_PATH = os.path.join(_ROOT, "web", "sample_prospects.json")
@@ -50,6 +51,9 @@ def main() -> None:
 
     print(f"enriching top {ENRICH_N} via live web (one-time, cached into the snapshot)...")
     enrich_top(prospects, n=ENRICH_N)
+
+    print(f"drafting outreach emails for top {ENRICH_N}...")
+    draft_top(prospects, n=ENRICH_N)
 
     # Put the donor's individual-contribution search FIRST so clicking the top
     # citation verifies the *person's* history, not just the committee.
