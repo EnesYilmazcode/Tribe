@@ -52,6 +52,32 @@ def _affinity_score(total_given: int, num_transactions: int, years_active: int) 
     return min(100, int(base + consistency + recency))
 
 
+def _load_precomputed_enrichments(client, names_states: list[tuple[str, str]]) -> dict[tuple[str, str], dict]:
+    """Batch-load pre-computed Nimble enrichments from donor_enrichments table."""
+    if not names_states:
+        return {}
+    rows_str = ", ".join(
+        f"('{n.replace(chr(39), chr(39)*2)}', '{s}')" for n, s in names_states
+    )
+    try:
+        r = client.query(f"""
+            SELECT contributor_nm, state, current_role, notes, source_url
+            FROM {CLICKHOUSE_DB}.donor_enrichments
+            WHERE (contributor_nm, state) IN ({rows_str})
+        """)
+        out = {}
+        for row in r.result_rows:
+            if row[2] or row[3]:
+                out[(row[0], row[1])] = {
+                    "current_role": row[2],
+                    "notes": row[3] or None,
+                    "source_url": row[4],
+                }
+        return out
+    except Exception:
+        return {}
+
+
 def _nonprofit_employer_bonus(nonprofit_name: str, source_url: str) -> dict:
     """Build an extra cited_reason for a donor whose employer is a cause-aligned nonprofit."""
     return {
@@ -153,6 +179,10 @@ def query(
     rows = client.query(sql, parameters={"min_amount": min_amount, "limit": limit})
     results = []
 
+    # Batch-load any pre-computed Nimble enrichments for the returned donors
+    raw_pairs = [(r[0], r[1]) for r in rows.result_rows]
+    enrichment_cache = _load_precomputed_enrichments(client, raw_pairs)
+
     for row in rows.named_results():
         first_year = row["first_gift"].year if row["first_gift"] else 0
         last_year  = row["last_gift"].year  if row["last_gift"]  else 0
@@ -220,7 +250,7 @@ def query(
             "last_gift_year":   last_year,
             "donation_history": donation_history,
             "cited_reasons":    cited_reasons,
-            "enrichment":       None,
+            "enrichment":       enrichment_cache.get((row["raw_name"], row["geo"])),
             "source":           "fec",
         })
 

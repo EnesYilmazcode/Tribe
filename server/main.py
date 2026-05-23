@@ -116,28 +116,25 @@ def _event_stream(ask: str):
     yield _sse("step", {"key": "rank", "label": "Ranking by cause-affinity + recency",
                         "status": "done", "detail": f"top {len(prospects)} candidates selected"})
 
-    # ---- 4. Live web enrichment (Nimble), top 5, optional --------------------
+    # ---- 4. Live web enrichment (Nimble), top 3, optional --------------------
     yield _sse("step", {"key": "enrich",
                         "label": "Enriching via live web · Nimble", "status": "running"})
     enriched = 0
     if ENRICH and prospects:
         try:
-            from nimble_client import enrich  # lazy: avoid Nimble import unless used
-            for p in prospects[:5]:
+            from enrich_clean import enrich_clean  # fast: 1 Nimble search + Gemini extract
+            for p in prospects[:3]:
+                if p.get("enrichment"):  # already pre-computed — skip
+                    enriched += 1
+                    continue
                 yield _sse("step", {"key": "enrich", "label": "Enriching via live web · Nimble",
                                     "status": "running", "detail": f"→ {p.get('name')} ({p.get('geo')})"})
-                p["enrichment"] = enrich(p)
+                p["enrichment"] = enrich_clean(p)
                 enriched += 1
                 time.sleep(PACE / 2)
         except Exception as e:  # noqa: BLE001
             print(f"[run] enrich error: {e}")
     else:
-        # not calling Nimble this run; count whatever enrichment the records already carry
-        for p in prospects:
-            if p.get("name"):
-                yield _sse("step", {"key": "enrich", "label": "Enriching via live web · Nimble",
-                                    "status": "running", "detail": f"→ {p.get('name')} ({p.get('geo')})"})
-                time.sleep(PACE / 3)
         enriched = sum(1 for p in prospects if p.get("enrichment"))
     yield _sse("step", {"key": "enrich", "label": "Enriching via live web · Nimble", "status": "done",
                         "detail": f"{enriched} of {len(prospects)} profiles enriched"})
