@@ -52,6 +52,37 @@ def _affinity_score(total_given: int, num_transactions: int, years_active: int) 
     return min(100, int(base + consistency + recency))
 
 
+def _nonprofit_employer_bonus(nonprofit_name: str, source_url: str) -> dict:
+    """Build an extra cited_reason for a donor whose employer is a cause-aligned nonprofit."""
+    return {
+        "text": f"Works at {nonprofit_name} — cause-aligned nonprofit (IRS 990 via ProPublica)",
+        "source_url": source_url,
+    }
+
+
+def _load_nonprofit_index(client, causes: list[str], geo: str | None) -> dict[str, tuple[str, str]]:
+    """
+    Load cause-relevant nonprofit org names from nonprofit_orgs table.
+    Returns {lower_org_name: (display_name, source_url)}.
+    """
+    cause_list = ", ".join(f"'{c}'" for c in causes)
+    geo_filter = f"AND nonprofit_state = '{geo.upper()}'" if geo else ""
+    try:
+        sql = f"""
+        SELECT DISTINCT nonprofit_name, source_url
+        FROM {CLICKHOUSE_DB}.nonprofit_orgs
+        WHERE cause_tag IN ({cause_list})
+          {geo_filter}
+        """
+        rows = client.query(sql)
+        return {
+            row[0].lower(): (row[0], row[1])
+            for row in rows.result_rows
+        }
+    except Exception:
+        return {}
+
+
 def query(
     cause: str | None = None,
     causes: list[str] | None = None,
@@ -62,12 +93,14 @@ def query(
     """
     Find top donors by cause affinity.
 
+    Queries FEC political giving and cross-references employer fields against
+    the nonprofit_orgs table (ProPublica 990 data) for a richer affinity signal.
+
     Args:
-        cause:      Single cause tag, e.g. 'environment'. See CAUSE_TAGS.md.
-        causes:     List of cause tags — donors matching ANY tag are returned,
-                    ranked by total giving across all matched causes.
-        geo:        2-letter state code, e.g. 'WA'. None = all states.
-        min_amount: Minimum single-transaction amount (default $200).
+        cause:      Single cause tag. See CAUSE_TAGS.md.
+        causes:     List of cause tags — donors matching ANY tag.
+        geo:        2-letter state code. None = all states.
+        min_amount: Minimum FEC transaction amount (default $200).
         limit:      Max candidates to return.
 
     Returns:
@@ -80,11 +113,12 @@ def query(
 
     client = _get_client()
 
+    # Load nonprofit org names for employer cross-reference (best-effort)
+    nonprofit_index = _load_nonprofit_index(client, causes, geo)
+
     cause_list = ", ".join(f"'{c}'" for c in causes)
     geo_filter = f"AND c.state = '{geo.upper()}'" if geo else ""
 
-    # Pull aggregated donor stats + full individual transaction history in one pass.
-    # groupArray collects every (date, amt, cmte_id, cmte_nm, cause_tag) tuple per donor.
     sql = f"""
     SELECT
         c.contributor_nm                                AS raw_name,
@@ -117,14 +151,13 @@ def query(
     """
 
     rows = client.query(sql, parameters={"min_amount": min_amount, "limit": limit})
-
     results = []
+
     for row in rows.named_results():
         first_year = row["first_gift"].year if row["first_gift"] else 0
         last_year  = row["last_gift"].year  if row["last_gift"]  else 0
         years_active = last_year - first_year + 1
 
-        # Sort donation history newest-first, cap at 25 entries for payload size
         history_raw = sorted(row["donation_history_raw"], key=lambda x: x[0], reverse=True)[:25]
         donation_history = [
             {
@@ -137,10 +170,11 @@ def query(
             for h in history_raw
         ]
 
-        # Primary committee for the FEC citation link
         primary_cmte = history_raw[0][2] if history_raw else ""
-        name = row["raw_name"].title()
-        state = row["geo"]
+        name       = row["raw_name"].title()
+        state      = row["geo"]
+        employer   = row["employer"]
+        score      = _affinity_score(row["total_given"], row["num_transactions"], years_active)
 
         cited_reasons = [
             {
@@ -161,13 +195,24 @@ def query(
             },
         ]
 
+        # If employer matches a cause-relevant nonprofit, boost score + add citation
+        employer_key = employer.lower().strip()
+        if employer_key and nonprofit_index:
+            for np_key, (np_display, np_url) in nonprofit_index.items():
+                if np_key and (np_key in employer_key or employer_key in np_key):
+                    cited_reasons.append(
+                        _nonprofit_employer_bonus(np_display, np_url)
+                    )
+                    score = min(100, score + 10)
+                    break
+
         results.append({
             "name":             name,
-            "affinity_score":   _affinity_score(row["total_given"], row["num_transactions"], years_active),
+            "affinity_score":   score,
             "cause_tags":       list(row["cause_tags"]),
             "geo":              state,
             "city":             row["city"].title(),
-            "employer":         row["employer"].title(),
+            "employer":         employer.title(),
             "occupation":       row["occupation"].title(),
             "total_given":      row["total_given"],
             "num_donations":    row["num_transactions"],
@@ -176,8 +221,10 @@ def query(
             "donation_history": donation_history,
             "cited_reasons":    cited_reasons,
             "enrichment":       None,
+            "source":           "fec",
         })
 
+    results.sort(key=lambda p: p["affinity_score"], reverse=True)
     return results
 
 

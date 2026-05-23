@@ -178,23 +178,69 @@ def load_contributions(client, cycle: int, states: set[str], tmp_dir: str):
     os.remove(zip_path)
 
 
+def load_candidates(client, cycle: int, tmp_dir: str):
+    """Load FEC candidate master (cn{YY}.zip) — links cand_id → name/party/office/state."""
+    yy = str(cycle)[-2:]
+    zip_path = os.path.join(tmp_dir, f"cn{yy}.zip")
+    url = f"{FEC_BASE}/{cycle}/cn{yy}.zip"
+    stream_download(url, zip_path)
+
+    with zipfile.ZipFile(zip_path) as zf:
+        name = next(n for n in zf.namelist() if n.endswith(".txt"))
+        text = zf.read(name).decode("latin-1")
+
+    rows = []
+    for line in text.splitlines():
+        parts = line.split("|")
+        if len(parts) < 15:
+            continue
+        cand_id    = parts[0].strip()
+        cand_name  = parts[1].strip()
+        cand_party = parts[2].strip()
+        cand_yr    = parts[4].strip()
+        cand_office= parts[8].strip()   # P/S/H
+        cand_st    = parts[9].strip()
+        if not cand_id or not cand_name:
+            continue
+        try:
+            yr = int(cand_yr)
+        except ValueError:
+            yr = cycle
+        rows.append((cand_id, cand_name, cand_party, cand_office, cand_st, yr))
+
+    if rows:
+        client.insert(f"{CLICKHOUSE_DB}.candidates", rows,
+                      column_names=["cand_id", "cand_name", "cand_party",
+                                    "cand_office", "cand_st", "cand_yr"])
+    print(f"Loaded {len(rows):,} candidates.")
+    os.remove(zip_path)
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cycle",  type=int, default=2024)
-    parser.add_argument("--states", nargs="*", default=[])
+    parser.add_argument("--cycle",   type=int, default=2024)
+    parser.add_argument("--cycles",  type=int, nargs="*",
+                        help="Load multiple cycles, e.g. --cycles 2020 2022 2024")
+    parser.add_argument("--states",  nargs="*", default=[])
     parser.add_argument("--skip-schema",        action="store_true")
     parser.add_argument("--skip-committees",    action="store_true")
     parser.add_argument("--skip-contributions", action="store_true")
+    parser.add_argument("--skip-candidates",    action="store_true")
     args = parser.parse_args()
 
+    cycles = args.cycles if args.cycles else [args.cycle]
     states = set(s.upper() for s in args.states)
     client = get_client()
 
-    with tempfile.TemporaryDirectory() as tmp_dir:
-        if not args.skip_committees:
-            load_committees(client, args.cycle, tmp_dir)
-        if not args.skip_contributions:
-            load_contributions(client, args.cycle, states, tmp_dir)
+    for cycle in cycles:
+        print(f"\n{'='*50}\nLoading FEC cycle {cycle}\n{'='*50}")
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            if not args.skip_committees:
+                load_committees(client, cycle, tmp_dir)
+            if not args.skip_contributions:
+                load_contributions(client, cycle, states, tmp_dir)
+            if not args.skip_candidates:
+                load_candidates(client, cycle, tmp_dir)
 
 
 if __name__ == "__main__":

@@ -35,3 +35,28 @@ CREATE TABLE IF NOT EXISTS donor_agent.contributions (
 ) ENGINE = MergeTree()
 ORDER BY (state, contributor_nm, transaction_dt)
 PARTITION BY toYear(transaction_dt);
+
+-- FEC candidate master: committee → candidate → party/office
+CREATE TABLE IF NOT EXISTS donor_agent.candidates (
+    cand_id     String,
+    cand_name   String,
+    cand_party  String,   -- DEM, REP, IND, etc.
+    cand_office String,   -- P=President, S=Senate, H=House
+    cand_st     String,
+    cand_yr     UInt16
+) ENGINE = ReplacingMergeTree()
+ORDER BY (cand_id, cand_yr);
+
+-- Nonprofit board members / officers from IRS 990 filings (via ProPublica)
+-- Each row = one person's role at one nonprofit for one filing year
+CREATE TABLE IF NOT EXISTS donor_agent.nonprofit_affiliations (
+    nonprofit_ein   String,
+    nonprofit_name  String,
+    nonprofit_state String,
+    cause_tag       String,
+    person_name     String,
+    role            String,
+    filing_year     UInt16,
+    source_url      String
+) ENGINE = ReplacingMergeTree()
+ORDER BY (cause_tag, nonprofit_state, person_name, nonprofit_ein, filing_year);
