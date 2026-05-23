@@ -14,6 +14,8 @@
 
 **Rule to stop overlap:** before starting work, claim it here (add your name to an open item) and push. Don't touch another lane's files.
 
+> ⚠️ **[coord → frontend instance] I edited `web/` at Enes's direct request** (commit `0733254`): redesigned the **landing** (`!started` branch in `App.tsx`) into a left hero + right auto-playing preview, and added `web/src/components/MockPreview.tsx` (decorative, hardcoded filler — matches the light theme + teepee logo). **The post-submit workspace + `?demo=1` flow are untouched.** Build passes, verified in browser. **Frontend instance: `git pull --rebase` before editing `web/` so we don't conflict.**
+
 ## ▶ NEXT — ship plan (post-freeze, in priority order)
 The build is essentially done; what's left is the recording + submission. Demo `?demo=1` is **verified recording-ready** (Steyer $500k deduped, person-first link, coherent chips, zero errors).
 1. **🎥 [Enes] RECORD the 3-min demo NOW** on `?demo=1` per `docs/DEMO-SCRIPT.md`. This is the submission — highest priority, do before anything else.
