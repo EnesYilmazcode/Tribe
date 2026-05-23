@@ -1,5 +1,15 @@
 # TODO — Enes (the platform side). Wall-clock for 2026-05-23
 
+## ✅ CURRENT STATE (~freeze time) — frontend & demo are DONE
+- Frontend renders real, cited, enriched donors (names normalized, totals deduped, person-first FEC links, cards capped to 10). 13 tests pass.
+- Fast clean enrichment (`server/enrich_clean.py`) + instant demo snapshot (`server/build_demo_snapshot.py`).
+- `?demo=1` **verified recording-ready**: chips "environment · CA · $1,000+", top = Thomas F. Steyer $500k (deduped), person-first link, zero console errors.
+- Gemini billing fixed (Tier-1) — live parse works too.
+- **NEXT (the only thing left for me): RECORD the 3-min demo** on `?demo=1` per `docs/DEMO-SCRIPT.md`, then **upload + submit**. See the PRE-RECORDING CHECKLIST below.
+- After recording (stretch, only if time): contact enrichment (`enrich_clean` → public LinkedIn/org channel, §104.15 caveat).
+
+---
+
 > My half: read the DB → NL parse → query → score → frontend (results in the UI). Owns Presentation/the demo.
 > **Senso + x402 are DROPPED.** Sponsors = ClickHouse + Nimble. Open-web + autonomy story rests on live Nimble enrichment.
 > Friend's half (`agent/`): FEC → ClickHouse + cause-tag + Nimble `enrich()`. I build against the mock until integration.

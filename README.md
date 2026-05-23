@@ -24,11 +24,14 @@ The two sides meet at one contract — the ClickHouse table the friend fills and
 - `docs/` — planning & reference: `STRATEGY.md` (win analysis + legal reframe — read first), `PLAN.md` (build sequence), `TEAM-SPLIT.md` (roles + data contract), `SCHEDULE.md`, `SPONSOR-TOOLS.md`, `DEVPOST.md`, `QUERYING.md` (NL→query mapping), `TAGGING-QUALITY.md` (known tag issues), `skills/` (per-stage prompts).
 - `tools/timer.html` — the day's pacing timer.
 
-## Status (2026-05-23)
-- **Frontend:** working demo end-to-end on mock data, plus a live SSE run with automatic mock fallback. ✅
-- **NL parse + `/run` SSE backend:** built. ✅
-- **ClickHouse:** committees (~20.9k) and committee_causes (~2.3k tagged) loaded; **individual contributions loading.** The live run auto-switches from the sample fallback to real donors the moment that table is populated.
-- **Nimble enrichment:** wired, off by default (`TRIBE_ENRICH=1` to enable).
+## Status (2026-05-23) — demo-ready ✅
+- **ClickHouse:** **2.8M real FEC contributions, 597k donors, all 20 causes, 5 states (CA/NY/TX/WA/OR).** Deduped query (`server/query_clean.py`) gives honest totals.
+- **NL parse:** Gemini (`gemini-flash-latest`, Tier-1 billing — live parse works, no fallback) with a deterministic backup.
+- **`/run` SSE backend:** streams parse → query → enrich → score live; primary-cause-only (no adjacency noise).
+- **Nimble enrichment:** clean LLM extraction (`server/enrich_clean.py`, ~8s) + pre-computed bios in a `donor_enrichments` table for instant display.
+- **Frontend:** renders real, cited, enriched donors. Names normalized, totals deduped, FEC links go to the **person's** record.
+- **Demo:** locked + recording-proof on **`?demo=1`** (a real, enriched environment/CA run baked into `web/sample_prospects.json`, replays instantly with zero API calls). See `docs/DEMO-SCRIPT.md`.
+- **Stretch built:** continuous auto-matching agent (`server/auto_match.py`) — campaigns auto-add new high-affinity donors as data grows (the autonomy money-shot).
 
 ## Run locally
 Backend: see `server/README.md`. Frontend: see `web/README.md`. Keys live in a gitignored `.env` (see `.env.example`).
