@@ -15,6 +15,33 @@ function usd(n: number): string {
   return "$" + n.toLocaleString("en-US");
 }
 
+// FEC names arrive as "LASTNAME, FIRSTNAME" — flip to natural order.
+function formatName(raw: string): string {
+  const parts = raw.split(",");
+  if (parts.length === 2) {
+    const last = parts[0].trim();
+    const first = parts[1].trim();
+    if (last && first) return `${first} ${last}`;
+  }
+  return raw;
+}
+
+// Employer/occupation are often blank or non-informative ("RETIRED", "SELF").
+const NONINFO = new Set([
+  "", "retired", "none", "n/a", "na", "not employed", "self", "self-employed",
+  "self employed", "information requested", "requested", "homemaker",
+]);
+function formatRole(occupation?: string, employer?: string): string {
+  const occ = (occupation || "").trim();
+  const emp = (employer || "").trim();
+  const occOk = occ && !NONINFO.has(occ.toLowerCase());
+  const empOk = emp && !NONINFO.has(emp.toLowerCase());
+  if (occOk && empOk && occ.toLowerCase() !== emp.toLowerCase()) return `${occ} at ${emp}`;
+  if (occOk) return occ;
+  if (empOk) return emp;
+  return occ || emp || ""; // keep a cleaned single value like "Retired" if that's all we have
+}
+
 function SourcePill({ url }: { url: string }) {
   return (
     <a
@@ -48,7 +75,7 @@ export default function ProspectCard({ prospect, rank }: { prospect: Prospect; r
   const [showHistory, setShowHistory] = useState(false);
   const p = prospect;
   const color = scoreColor(p.affinity_score);
-  const role = [p.occupation, p.employer].filter(Boolean).join(" at ");
+  const role = formatRole(p.occupation, p.employer);
   const place = [p.city, p.geo].filter(Boolean).join(", ");
   const years =
     p.first_gift_year && p.last_gift_year
@@ -70,7 +97,7 @@ export default function ProspectCard({ prospect, rank }: { prospect: Prospect; r
         <div className="min-w-0">
           <div className="flex items-baseline gap-2">
             <span className="text-xs font-medium tabular-nums text-faint">#{rank + 1}</span>
-            <h3 className="font-serif text-[26px] leading-tight text-ink">{p.name}</h3>
+            <h3 className="font-serif text-[26px] leading-tight text-ink">{formatName(p.name)}</h3>
           </div>
           <div className="mt-1 text-[13px] text-muted">
             {place}
