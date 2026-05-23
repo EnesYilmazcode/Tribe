@@ -1,129 +1,605 @@
 [
   {
-    "name": "Margaret Holloway",
-    "affinity_score": 91,
-    "cause_tags": ["environment", "social_welfare"],
-    "geo": "WA",
-    "city": "Seattle",
-    "employer": "Cascade Environmental Law Group",
-    "occupation": "Attorney",
-    "total_given": 45200,
-    "num_donations": 12,
-    "first_gift_year": 2020,
-    "last_gift_year": 2024,
-    "donation_history": [
-      { "date": "2024-03-15", "amount": 5000, "committee_id": "C00401224", "committee_name": "Sierra Club Political Committee", "cause_tags": ["environment"] },
-      { "date": "2023-09-02", "amount": 5000, "committee_id": "C00401224", "committee_name": "League Of Conservation Voters", "cause_tags": ["environment"] },
-      { "date": "2023-04-18", "amount": 2500, "committee_id": "C00694323", "committee_name": "Clean Water Action", "cause_tags": ["environment"] },
-      { "date": "2022-10-11", "amount": 3500, "committee_id": "C00401224", "committee_name": "Ocean Conservancy Action Fund", "cause_tags": ["environment"] }
+    "name": "Steyer, Thomas F.",
+    "affinity_score": 95,
+    "cause_tags": [
+      "environment"
     ],
-    "cited_reasons": [
-      { "text": "Gave $45,200 across 12 donations to environment committees (2020–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00401224" },
-      { "text": "FEC individual contribution search for Margaret Holloway in WA", "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Margaret+Holloway&contributor_state=WA" }
-    ],
-    "enrichment": {
-      "current_role": "Partner, Cascade Environmental Law Group",
-      "notes": "Board member, Puget Sound Waterkeeper Alliance. Recently quoted on regional watershed protection.",
-      "source_url": "https://www.cascadeenvlaw.example/team"
-    }
-  },
-  {
-    "name": "David Chen",
-    "affinity_score": 84,
-    "cause_tags": ["environment", "energy"],
-    "geo": "OR",
-    "city": "Portland",
-    "employer": "Columbia Solar",
-    "occupation": "Executive",
-    "total_given": 28500,
-    "num_donations": 9,
-    "first_gift_year": 2021,
-    "last_gift_year": 2024,
-    "donation_history": [
-      { "date": "2024-01-22", "amount": 5000, "committee_id": "C00510362", "committee_name": "Climate Power Action", "cause_tags": ["environment", "energy"] },
-      { "date": "2023-06-30", "amount": 3500, "committee_id": "C00510362", "committee_name": "Renewable Northwest PAC", "cause_tags": ["energy"] },
-      { "date": "2022-11-05", "amount": 2500, "committee_id": "C00401224", "committee_name": "Sierra Club Political Committee", "cause_tags": ["environment"] }
-    ],
-    "cited_reasons": [
-      { "text": "Gave $28,500 across 9 donations to environment, energy committees (2021–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00510362" },
-      { "text": "FEC individual contribution search for David Chen in OR", "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=David+Chen&contributor_state=OR" }
-    ],
-    "enrichment": {
-      "current_role": "VP Operations, Columbia Solar",
-      "notes": "Published a public op-ed on Pacific Northwest watershed protection in 2024.",
-      "source_url": "https://www.columbiasolar.example/about"
-    }
-  },
-  {
-    "name": "Patricia Nguyen",
-    "affinity_score": 78,
-    "cause_tags": ["environment", "healthcare"],
-    "geo": "WA",
-    "city": "Tacoma",
-    "employer": "Sound Health Foundation",
+    "geo": "CA",
+    "city": "San Francisco",
+    "employer": "Fahr, Llc",
     "occupation": "Founder",
-    "total_given": 16400,
-    "num_donations": 7,
-    "first_gift_year": 2020,
+    "total_given": 1000000,
+    "num_donations": 2,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-05-01",
+        "amount": 500000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-05-01",
+        "amount": 500000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $1,000,000 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
+      },
+      {
+        "text": "FEC individual contribution search for Steyer, Thomas F. in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Steyer,+Thomas+F.&contributor_state=CA"
+      }
+    ],
+    "enrichment": {
+      "current_role": "Founder, Fahr LLC",
+      "notes": "Thomas Fahr Steyer is an American billionaire businessman, philanthropist, environmental advocate, and Democratic political activist.",
+      "source_url": "https://en.wikipedia.org/wiki/Tom_Steyer"
+    },
+    "source": "fec"
+  },
+  {
+    "name": "Serrurier, Gregory",
+    "affinity_score": 93,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Woodside",
+    "employer": "N/A",
+    "occupation": "Retired",
+    "total_given": 340000,
+    "num_donations": 6,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-11-01",
+        "amount": 15000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-11-01",
+        "amount": 15000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-11-01",
+        "amount": 5000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-11-01",
+        "amount": 5000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-09-23",
+        "amount": 150000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-09-23",
+        "amount": 150000,
+        "committee_id": "C00547349",
+        "committee_name": "Nextgen Climate Action Committee",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $340,000 across 6 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
+      },
+      {
+        "text": "FEC individual contribution search for Serrurier, Gregory in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Serrurier,+Gregory&contributor_state=CA"
+      }
+    ],
+    "enrichment": {
+      "current_role": "Co-Founder, Redwood Grove Capital",
+      "notes": "He is an investment manager who serves on the board of Earthjustice.",
+      "source_url": "https://earthjustice.org/press/2016/distinguished-investment-manager-greg-serrurier-joins-earthjustice-board"
+    },
+    "source": "fec"
+  },
+  {
+    "name": "Steyer, Tom",
+    "affinity_score": 86,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "San Francisco",
+    "employer": "Fahr, Llc",
+    "occupation": "Activist/Philanthropist",
+    "total_given": 260000,
+    "num_donations": 2,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-05-16",
+        "amount": 250000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-03-05",
+        "amount": 10000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $260,000 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Steyer, Tom in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Steyer,+Tom&contributor_state=CA"
+      }
+    ],
+    "enrichment": {
+      "current_role": "Activist/Philanthropist, Fahr, LLC",
+      "notes": null,
+      "source_url": "https://www.toms.com/?srsltid=AfmBOooBDgxW0C0UuOUsseb2x3Ttjw5P7RmUz70v5Np48KGnpi03C47e"
+    },
+    "source": "fec"
+  },
+  {
+    "name": "Desjardins, David",
+    "affinity_score": 84,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Burlingame",
+    "employer": "Self-Employed",
+    "occupation": "Consultant",
+    "total_given": 200000,
+    "num_donations": 2,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-10-29",
+        "amount": 100000,
+        "committee_id": "C00483693",
+        "committee_name": "Sierra Club Independent Action",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-10-29",
+        "amount": 100000,
+        "committee_id": "C00483693",
+        "committee_name": "Sierra Club Independent Action",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $200,000 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00483693"
+      },
+      {
+        "text": "FEC individual contribution search for Desjardins, David in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Desjardins,+David&contributor_state=CA"
+      }
+    ],
+    "enrichment": null,
+    "source": "fec"
+  },
+  {
+    "name": "Borden, Scott Marvin",
+    "affinity_score": 83,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "San Diego",
+    "employer": "Sterling Tours, Ltd",
+    "occupation": "Vice-President, Cfo",
+    "total_given": 75000,
+    "num_donations": 4,
+    "first_gift_year": 2023,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-07-15",
+        "amount": 25000,
+        "committee_id": "C00735183",
+        "committee_name": "Climate Cabinet Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2023-08-08",
+        "amount": 30000,
+        "committee_id": "C00735183",
+        "committee_name": "Climate Cabinet Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2023-05-03",
+        "amount": 10000,
+        "committee_id": "C00735183",
+        "committee_name": "Climate Cabinet Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2023-04-21",
+        "amount": 10000,
+        "committee_id": "C00735183",
+        "committee_name": "Climate Cabinet Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $75,000 across 4 donations to environment committees (2023\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
+      },
+      {
+        "text": "FEC individual contribution search for Borden, Scott Marvin in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Borden,+Scott+Marvin&contributor_state=CA"
+      }
+    ],
+    "enrichment": null,
+    "source": "fec"
+  },
+  {
+    "name": "Newman, Steve",
+    "affinity_score": 82,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Portola Valley",
+    "employer": "Scalyr",
+    "occupation": "Software Engineer",
+    "total_given": 150000,
+    "num_donations": 2,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-01-09",
+        "amount": 10000,
+        "committee_id": "C00735183",
+        "committee_name": "Climate Cabinet Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-01-09",
+        "amount": 140000,
+        "committee_id": "C00735183",
+        "committee_name": "Climate Cabinet Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $150,000 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
+      },
+      {
+        "text": "FEC individual contribution search for Newman, Steve in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Newman,+Steve&contributor_state=CA"
+      }
+    ],
+    "enrichment": null,
+    "source": "fec"
+  },
+  {
+    "name": "Lewis, Adam J.",
+    "affinity_score": 80,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Palo Alto",
+    "employer": "Self-Employed",
+    "occupation": "Business Owner",
+    "total_given": 100000,
+    "num_donations": 2,
+    "first_gift_year": 2023,
     "last_gift_year": 2023,
     "donation_history": [
-      { "date": "2023-08-14", "amount": 2500, "committee_id": "C00694323", "committee_name": "Clean Water Action", "cause_tags": ["environment"] },
-      { "date": "2022-05-19", "amount": 2500, "committee_id": "C00345678", "committee_name": "Public Health Advocates Fund", "cause_tags": ["healthcare"] }
+      {
+        "date": "2023-09-11",
+        "amount": 50000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2023-09-07",
+        "amount": 50000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
     ],
     "cited_reasons": [
-      { "text": "Gave $16,400 across 7 donations to environment, healthcare committees (2020–2023)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00694323" }
+      {
+        "text": "Gave $100,000 across 2 donations to environment committees (2023\u20132023)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Lewis, Adam J. in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Lewis,+Adam+J.&contributor_state=CA"
+      }
     ],
-    "enrichment": {
-      "current_role": "Founder, Sound Health Foundation",
-      "notes": null,
-      "source_url": "https://www.soundhealthfdn.example"
-    }
+    "enrichment": null,
+    "source": "fec"
   },
   {
-    "name": "Robert Klein",
-    "affinity_score": 72,
-    "cause_tags": ["environment"],
-    "geo": "WA",
-    "city": "Bellingham",
-    "employer": "Klein & Associates",
-    "occupation": "Consultant",
-    "total_given": 9300,
-    "num_donations": 4,
-    "first_gift_year": 2022,
-    "last_gift_year": 2024,
+    "name": "Mckay, Adam",
+    "affinity_score": 78,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Los Angeles",
+    "employer": "Level Four Business Management, Llc",
+    "occupation": "Business Owner",
+    "total_given": 100000,
+    "num_donations": 1,
+    "first_gift_year": 2023,
+    "last_gift_year": 2023,
     "donation_history": [
-      { "date": "2024-02-09", "amount": 2500, "committee_id": "C00401224", "committee_name": "League Of Conservation Voters", "cause_tags": ["environment"] },
-      { "date": "2023-07-21", "amount": 2500, "committee_id": "C00401224", "committee_name": "Wilderness Society Action Fund", "cause_tags": ["environment"] }
+      {
+        "date": "2023-07-24",
+        "amount": 100000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
     ],
     "cited_reasons": [
-      { "text": "Gave $9,300 across 4 donations to environment committees (2022–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00401224" }
+      {
+        "text": "Gave $100,000 across 1 donations to environment committees (2023\u20132023)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Mckay, Adam in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Mckay,+Adam&contributor_state=CA"
+      }
     ],
-    "enrichment": null
+    "enrichment": null,
+    "source": "fec"
   },
   {
-    "name": "Susan Alvarez",
-    "affinity_score": 69,
-    "cause_tags": ["environment", "education"],
-    "geo": "OR",
-    "city": "Eugene",
-    "employer": "University of Oregon",
-    "occupation": "Professor",
-    "total_given": 7800,
-    "num_donations": 5,
-    "first_gift_year": 2021,
+    "name": "Koss, Michael",
+    "affinity_score": 78,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Los Angeles",
+    "employer": "Self-Employed",
+    "occupation": "Investor",
+    "total_given": 60000,
+    "num_donations": 2,
+    "first_gift_year": 2023,
     "last_gift_year": 2024,
     "donation_history": [
-      { "date": "2024-04-01", "amount": 1500, "committee_id": "C00694323", "committee_name": "Clean Water Action", "cause_tags": ["environment"] },
-      { "date": "2022-09-15", "amount": 1500, "committee_id": "C00789012", "committee_name": "Education Forward PAC", "cause_tags": ["education"] }
+      {
+        "date": "2024-11-26",
+        "amount": 10000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2023-11-06",
+        "amount": 50000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
     ],
     "cited_reasons": [
-      { "text": "Gave $7,800 across 5 donations to environment, education committees (2021–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00694323" },
-      { "text": "No federal contributions found before 2021 (newer donor)", "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Susan+Alvarez&contributor_state=OR" }
+      {
+        "text": "Gave $60,000 across 2 donations to environment committees (2023\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Koss, Michael in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Koss,+Michael&contributor_state=CA"
+      }
     ],
-    "enrichment": {
-      "current_role": "Professor of Environmental Science, University of Oregon",
-      "notes": "Public grant recipient for regional watershed research.",
-      "source_url": "https://www.uoregon.example/faculty/alvarez"
-    }
+    "enrichment": null,
+    "source": "fec"
+  },
+  {
+    "name": "Choi, Lucia",
+    "affinity_score": 76,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "San Francisco",
+    "employer": "Self-Employed",
+    "occupation": "Arts Consultant",
+    "total_given": 75000,
+    "num_donations": 1,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-07-10",
+        "amount": 75000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $75,000 across 1 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Choi, Lucia in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Choi,+Lucia&contributor_state=CA"
+      }
+    ],
+    "enrichment": null,
+    "source": "fec"
+  },
+  {
+    "name": "Larsen, Chris",
+    "affinity_score": 76,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Ross",
+    "employer": "Ripple, Inc.",
+    "occupation": "Executive Chair",
+    "total_given": 60803,
+    "num_donations": 2,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-03-16",
+        "amount": 50803,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      },
+      {
+        "date": "2024-03-14",
+        "amount": 10000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $60,803 across 2 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Larsen, Chris in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Larsen,+Chris&contributor_state=CA"
+      }
+    ],
+    "enrichment": null,
+    "source": "fec"
+  },
+  {
+    "name": "Disney, Abigail",
+    "affinity_score": 73,
+    "cause_tags": [
+      "environment"
+    ],
+    "geo": "CA",
+    "city": "Burbank",
+    "employer": "Self-Employed",
+    "occupation": "Producer",
+    "total_given": 50000,
+    "num_donations": 1,
+    "first_gift_year": 2024,
+    "last_gift_year": 2024,
+    "donation_history": [
+      {
+        "date": "2024-04-08",
+        "amount": 50000,
+        "committee_id": "C00806893",
+        "committee_name": "Jane Fonda Climate Pac",
+        "cause_tags": [
+          "environment"
+        ]
+      }
+    ],
+    "cited_reasons": [
+      {
+        "text": "Gave $50,000 across 1 donations to environment committees (2024\u20132024)",
+        "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+      },
+      {
+        "text": "FEC individual contribution search for Disney, Abigail in CA",
+        "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Disney,+Abigail&contributor_state=CA"
+      }
+    ],
+    "enrichment": null,
+    "source": "fec"
   }
 ]
