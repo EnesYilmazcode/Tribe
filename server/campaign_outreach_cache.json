@@ -1,0 +1,579 @@
+[
+  {
+    "campaign": {
+      "name": "\ud83c\udf0a Protect oceans & marine wildlife",
+      "cause": "environment",
+      "geo": "CA"
+    },
+    "donors": [
+      {
+        "name": "Steyer, Thomas F.",
+        "affinity_score": 88,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "CA",
+        "city": "San Francisco",
+        "employer": "Fahr, Llc",
+        "occupation": "Founder",
+        "total_given": 500000,
+        "num_donations": 1,
+        "first_gift_year": 2024,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-05-01",
+            "amount": 500000,
+            "committee_id": "C00547349",
+            "committee_name": "Nextgen Climate Action Committee",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Steyer, Thomas F. gave $500,000 across 1 donations to environment committees (2024\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Steyer,+Thomas+F.&contributor_state=CA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
+          }
+        ],
+        "enrichment": {
+          "current_role": "Founder, Fahr, LLC",
+          "notes": "He is an American billionaire philanthropist, environmental advocate, and major political donor to environmental causes and Democrats.",
+          "source_url": "https://en.wikipedia.org/wiki/Tom_Steyer"
+        },
+        "draft_email": {
+          "subject": "Advancing our shared environmental vision",
+          "body": "Dear Mr. Steyer,\n\nI hope this note finds you well. As a fellow advocate for our planet, I have been deeply inspired by your leadership and your significant, recent support of environmental committees this past year.\n\nHere at our organization, we are working diligently on critical conservation initiatives that align closely with your demonstrated commitment to protecting our environment.\n\nI would love to share a brief update on our latest initiatives. Would you be open to a brief, 15-minute introductory call sometime next week to explore how we might collaborate?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
+        }
+      },
+      {
+        "name": "Steyer, Tom",
+        "affinity_score": 86,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "CA",
+        "city": "San Francisco",
+        "employer": "Fahr, Llc",
+        "occupation": "Activist/Philanthropist",
+        "total_given": 260000,
+        "num_donations": 2,
+        "first_gift_year": 2024,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-05-16",
+            "amount": 250000,
+            "committee_id": "C00806893",
+            "committee_name": "Jane Fonda Climate Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-03-05",
+            "amount": 10000,
+            "committee_id": "C00806893",
+            "committee_name": "Jane Fonda Climate Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Steyer, Tom gave $260,000 across 2 donations to environment committees (2024\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Steyer,+Tom&contributor_state=CA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+          }
+        ],
+        "enrichment": {
+          "current_role": "Founder, Farallon Capital Management",
+          "notes": "Thomas Steyer is a billionaire philanthropist, environmental advocate, and Democratic political activist who is actively engaged in climate politics through his NextGen Climate organization.",
+          "source_url": "https://en.wikipedia.org/wiki/Tom_Steyer"
+        },
+        "draft_email": {
+          "subject": "Protecting our environment: A brief introduction",
+          "body": "Dear Mr. Steyer,\n\nI hope this note finds you well. As a fellow Californian, I have long admired your dedication to environmental advocacy.\n\nYour significant support of environmental committees over the past year highlights your deep commitment to protecting our planet. At our organization, we share your urgency in tackling these critical ecological challenges.\n\nI would love to introduce our latest initiatives and learn more about your philanthropic vision for the future. Would you be open to a brief, 15-minute call next week to connect?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
+        }
+      },
+      {
+        "name": "Serrurier, Gregory",
+        "affinity_score": 84,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "CA",
+        "city": "Woodside",
+        "employer": "N/A",
+        "occupation": "Retired",
+        "total_given": 170000,
+        "num_donations": 3,
+        "first_gift_year": 2024,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-11-01",
+            "amount": 15000,
+            "committee_id": "C00547349",
+            "committee_name": "Nextgen Climate Action Committee",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-11-01",
+            "amount": 5000,
+            "committee_id": "C00547349",
+            "committee_name": "Nextgen Climate Action Committee",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-09-23",
+            "amount": 150000,
+            "committee_id": "C00547349",
+            "committee_name": "Nextgen Climate Action Committee",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Serrurier, Gregory gave $170,000 across 3 donations to environment committees (2024\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Serrurier,+Gregory&contributor_state=CA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00547349"
+          }
+        ],
+        "enrichment": null
+      },
+      {
+        "name": "Newman, Steve",
+        "affinity_score": 82,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "CA",
+        "city": "Portola Valley",
+        "employer": "Scalyr",
+        "occupation": "Software Engineer",
+        "total_given": 150000,
+        "num_donations": 2,
+        "first_gift_year": 2024,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-01-09",
+            "amount": 10000,
+            "committee_id": "C00735183",
+            "committee_name": "Climate Cabinet Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-01-09",
+            "amount": 140000,
+            "committee_id": "C00735183",
+            "committee_name": "Climate Cabinet Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Newman, Steve gave $150,000 across 2 donations to environment committees (2024\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Newman,+Steve&contributor_state=CA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00735183"
+          }
+        ],
+        "enrichment": {
+          "current_role": "SOFTWARE ENGINEER, SCALYR",
+          "notes": null,
+          "source_url": "https://www.linkedin.com/in/stevescalyr"
+        }
+      },
+      {
+        "name": "Mckay, Adam",
+        "affinity_score": 78,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "CA",
+        "city": "Los Angeles",
+        "employer": "Level Four Business Management, Llc",
+        "occupation": "Business Owner",
+        "total_given": 100000,
+        "num_donations": 1,
+        "first_gift_year": 2023,
+        "last_gift_year": 2023,
+        "donation_history": [
+          {
+            "date": "2023-07-24",
+            "amount": 100000,
+            "committee_id": "C00806893",
+            "committee_name": "Jane Fonda Climate Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Mckay, Adam gave $100,000 across 1 donations to environment committees (2023\u20132023)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Mckay,+Adam&contributor_state=CA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+          }
+        ],
+        "enrichment": null
+      }
+    ]
+  },
+  {
+    "campaign": {
+      "name": "\ud83d\udca7 Clean water access in the Pacific Northwest",
+      "cause": "environment",
+      "geo": "WA"
+    },
+    "donors": [
+      {
+        "name": "Ballmer, Connie",
+        "affinity_score": 84,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "WA",
+        "city": "Hunts Point",
+        "employer": "Not Employed",
+        "occupation": "Not Employed",
+        "total_given": 250000,
+        "num_donations": 1,
+        "first_gift_year": 2024,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-11-26",
+            "amount": 250000,
+            "committee_id": "C00806893",
+            "committee_name": "Jane Fonda Climate Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Ballmer, Connie gave $250,000 across 1 donations to environment committees (2024\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Ballmer,+Connie&contributor_state=WA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00806893"
+          }
+        ],
+        "enrichment": {
+          "current_role": "Co-Founder, Ballmer Group",
+          "notes": "She is the Co-Founder of Ballmer Group, which supports economic mobility for children and families, and she chairs the main investors' meeting at Blue Meridian.",
+          "source_url": "https://ballmergroup.org/our-team/"
+        },
+        "draft_email": {
+          "subject": "Partnering for Washington's environmental future",
+          "body": "Dear Connie,\n\nI hope this note finds you well. I am reaching out because I\u2019ve been deeply inspired by your recent, significant support for environmental committees in 2024. Your outstanding commitment to protecting our natural world truly stands out.\n\nHere at our environmental advocacy organization, we are working hard to protect Washington's vital ecosystems. Given your shared passion for the environment, I would love to connect. I\u2019d be grateful for the opportunity to share a bit about our upcoming initiatives and hear your perspective.\n\nWould you be open to a brief, 15-minute introductory call next week?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
+        }
+      },
+      {
+        "name": "Family Trust, Nerin",
+        "affinity_score": 71,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "WA",
+        "city": "Winthrop",
+        "employer": "None",
+        "occupation": "None",
+        "total_given": 36500,
+        "num_donations": 1,
+        "first_gift_year": 2023,
+        "last_gift_year": 2023,
+        "donation_history": [
+          {
+            "date": "2023-01-04",
+            "amount": 36500,
+            "committee_id": "C00370221",
+            "committee_name": "Green Party Of The United States",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Family Trust, Nerin gave $36,500 across 1 donations to environment committees (2023\u20132023)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Family+Trust,+Nerin&contributor_state=WA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00370221"
+          }
+        ],
+        "enrichment": {
+          "current_role": "",
+          "notes": null,
+          "source_url": "https://www.nlmfoundation.org/"
+        },
+        "draft_email": {
+          "subject": "Partnering for Washington's environment",
+          "body": "Dear Nerin Family Trust,\n\nI hope this email finds you well. I am reaching out from our environmental organization to express our appreciation for your dedication to our planet. We recently noted your trust's generous commitment to environmental advocacy, specifically your impactful $36,500 contribution to environmental committees in 2023.\n\nYour family's clear dedication to protecting our natural world deeply aligns with our mission here in Washington. I would love to share some of our upcoming initiatives and learn more about your philanthropic vision.\n\nWould you be open to a brief, 15-minute call next week?\n\nWarm regards,\nJordan Rivera\nDevelopment Director"
+        }
+      },
+      {
+        "name": "Wayburn, Cynthia",
+        "affinity_score": 78,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "WA",
+        "city": "Bellevue",
+        "employer": "Self-Employed",
+        "occupation": "Conservationist",
+        "total_given": 17000,
+        "num_donations": 9,
+        "first_gift_year": 2024,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-10-15",
+            "amount": 5000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 2000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 2000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 2000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 2000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 1000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 1000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 1000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-10-15",
+            "amount": 1000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Wayburn, Cynthia gave $17,000 across 9 donations to environment committees (2024\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Wayburn,+Cynthia&contributor_state=WA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00252940"
+          }
+        ],
+        "enrichment": null
+      },
+      {
+        "name": "Knight, Jz",
+        "affinity_score": 69,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "WA",
+        "city": "Yelm",
+        "employer": "Retired",
+        "occupation": "Retired",
+        "total_given": 16500,
+        "num_donations": 3,
+        "first_gift_year": 2023,
+        "last_gift_year": 2023,
+        "donation_history": [
+          {
+            "date": "2023-06-24",
+            "amount": 6600,
+            "committee_id": "C00708289",
+            "committee_name": "Greene For Congress",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2023-05-24",
+            "amount": 3300,
+            "committee_id": "C00708289",
+            "committee_name": "Greene For Congress",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2023-05-24",
+            "amount": 6600,
+            "committee_id": "C00708289",
+            "committee_name": "Greene For Congress",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Knight, Jz gave $16,500 across 3 donations to environment committees (2023\u20132023)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Knight,+Jz&contributor_state=WA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00708289"
+          }
+        ],
+        "enrichment": null
+      },
+      {
+        "name": "Moga, Greg",
+        "affinity_score": 72,
+        "cause_tags": [
+          "environment"
+        ],
+        "geo": "WA",
+        "city": "Seattle",
+        "employer": "Moga Investments",
+        "occupation": "Manager",
+        "total_given": 15000,
+        "num_donations": 4,
+        "first_gift_year": 2023,
+        "last_gift_year": 2024,
+        "donation_history": [
+          {
+            "date": "2024-08-31",
+            "amount": 5000,
+            "committee_id": "C00252940",
+            "committee_name": "League Of Conservation Voters Action Fund",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2024-01-27",
+            "amount": 5000,
+            "committee_id": "C00605410",
+            "committee_name": "Climate Champions Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2023-11-18",
+            "amount": 2500,
+            "committee_id": "C00605410",
+            "committee_name": "Climate Champions Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          },
+          {
+            "date": "2023-05-12",
+            "amount": 2500,
+            "committee_id": "C00605410",
+            "committee_name": "Climate Champions Pac",
+            "cause_tags": [
+              "environment"
+            ]
+          }
+        ],
+        "cited_reasons": [
+          {
+            "text": "Moga, Greg gave $15,000 across 4 donations to environment committees (2023\u20132024)",
+            "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Moga,+Greg&contributor_state=WA"
+          },
+          {
+            "text": "Primary committee \u2014 see all receipts",
+            "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00252940"
+          }
+        ],
+        "enrichment": null
+      }
+    ]
+  }
+]
