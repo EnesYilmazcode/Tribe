@@ -1,9 +1,10 @@
 <!doctype html>
 <!--
-  Tribe pacing timer. Open in a browser, shrink the window, pin it in a screen corner.
-  Big clock counts down to your NEXT section. Below it is the full schedule so you can
-  see where you are relative to every block; hover a row to see what you should have
-  done by the end of it. Assumes your computer clock is on Eastern Time.
+  Tribe pacing timer. Open in a browser, pin it on a second screen or a corner.
+  LEFT  = big countdown to your next section + what to do now.
+  RIGHT = the full schedule; current block is highlighted with time left,
+          hover any row to see what you should have done by the end of it.
+  Assumes your computer clock is on Eastern Time.
 -->
 <html lang="en">
 <head>
@@ -11,47 +12,57 @@
 <title>Tribe ⏱</title>
 <style>
   :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
   html, body {
-    margin: 0; min-height: 100%;
+    margin: 0; height: 100%;
     background: #0b0d10; color: #e6e9ee;
     font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     -webkit-user-select: none; user-select: none;
   }
-  body { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 12px 18px; }
-  #clock { font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: 1px; }
-  #label { font-size: 12px; opacity: .6; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; }
-  #sub   { font-size: 12px; opacity: .8; margin-top: 6px; text-align: center; }
+  body { display: grid; grid-template-columns: 46% 54%; height: 100vh; overflow: hidden; }
   .ok { color: #4ade80; } .warn { color: #fbbf24; } .crit { color: #f87171; }
 
-  #schedule { width: 100%; max-width: 340px; margin-top: 14px; display: flex; flex-direction: column; gap: 2px; }
-  .row {
-    display: grid; grid-template-columns: 46px 1fr auto; align-items: baseline; gap: 8px;
-    padding: 5px 8px; border-left: 3px solid transparent; border-radius: 4px;
-    font-size: 12px; cursor: default; transition: background .15s;
+  /* ── LEFT: the big clock ───────────────────────────────── */
+  #left {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 3vw 2vw; border-right: 1px solid #1c2129; text-align: center;
   }
-  .row:hover { background: #161a20; }
-  .row .t { opacity: .55; font-variant-numeric: tabular-nums; }
-  .row.past { opacity: .38; }
-  .row.past .t::after { content: " ✓"; }
-  .row.cur {
-    background: #11161d; border-left-color: #8ab4ff; opacity: 1;
-  }
-  .row.cur .l { color: #8ab4ff; font-weight: 600; }
-  .row .left { font-size: 11px; color: #fbbf24; font-variant-numeric: tabular-nums; }
-  #goal {
-    width: 100%; max-width: 340px; margin-top: 10px; min-height: 32px;
-    font-size: 11.5px; line-height: 1.45; opacity: .85; text-align: left;
-    border-top: 1px solid #1c2129; padding-top: 8px;
+  #clock { font-size: clamp(64px, 12vw, 230px); font-weight: 700; line-height: .9; letter-spacing: 2px; }
+  #label { font-size: clamp(13px, 1.5vw, 22px); opacity: .6; text-transform: uppercase; letter-spacing: 2px; }
+  #sub   { font-size: clamp(12px, 1.2vw, 18px); opacity: .8; }
+  #goal  {
+    margin-top: 10px; max-width: 32ch; font-size: clamp(12px, 1.15vw, 17px); line-height: 1.5;
+    opacity: .9; border-top: 1px solid #1c2129; padding-top: 12px;
   }
   #goal b { color: #8ab4ff; font-weight: 600; }
+
+  /* ── RIGHT: the schedule ───────────────────────────────── */
+  #right { display: flex; flex-direction: column; justify-content: center; padding: 2.5vw 2.5vw; overflow-y: auto; }
+  #schedule { display: flex; flex-direction: column; gap: 3px; width: 100%; }
+  .row {
+    display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 14px;
+    padding: clamp(7px, 1vw, 13px) 14px; border-left: 4px solid transparent; border-radius: 6px;
+    font-size: clamp(13px, 1.3vw, 19px); cursor: default; transition: background .15s;
+  }
+  .row:hover { background: #161a20; }
+  .row .t { opacity: .5; font-variant-numeric: tabular-nums; }
+  .row.past { opacity: .35; }
+  .row.past .t::after { content: " ✓"; }
+  .row.cur { background: #11161d; border-left-color: #8ab4ff; opacity: 1; }
+  .row.cur .l { color: #8ab4ff; font-weight: 600; }
+  .row .left { font-size: clamp(13px, 1.3vw, 19px); font-weight: 700; color: #fbbf24; font-variant-numeric: tabular-nums; white-space: nowrap; }
 </style>
 </head>
 <body>
-  <div id="clock">--:--:--</div>
-  <div id="label">until next section</div>
-  <div id="sub"></div>
-  <div id="schedule"></div>
-  <div id="goal"></div>
+  <div id="left">
+    <div id="clock">--:--:--</div>
+    <div id="label">until next section</div>
+    <div id="sub"></div>
+    <div id="goal"></div>
+  </div>
+  <div id="right">
+    <div id="schedule"></div>
+  </div>
 
 <script>
   // All times are TODAY, local clock (assumed ET).
@@ -135,7 +146,6 @@
     // current block + next block
     curIdx = -1;
     for (let i = 0; i < blocks.length; i++) if (now >= blocks[i].at) curIdx = i;
-    const cur  = curIdx >= 0 ? blocks[curIdx] : null;
     const next = blocks[curIdx + 1] || (blocks.find(b => b.at > now) || null);
 
     // Big clock = countdown to the NEXT section (falls back to the deadline).
