@@ -1,30 +1,35 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import type { Step } from "../types";
 
-function StepRow({ step, index }: { step: Step; index: number }) {
+function StepRow({ step, last }: { step: Step; last: boolean }) {
   const running = step.status === "running";
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, x: -6 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.25 }}
-      className="flex gap-3 px-4 py-2.5"
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="relative flex gap-3.5"
     >
-      <div className="mt-0.5 shrink-0">
+      {/* node + connector */}
+      <div className="relative flex flex-col items-center">
         {running ? (
-          <span className="pulse block h-3.5 w-3.5 rounded-full border border-signal bg-signal-dim" />
+          <span className="z-10 flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/8 text-accent">
+            <Loader2 size={13} className="spin" strokeWidth={2.5} />
+          </span>
         ) : (
-          <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-signal text-void">
-            <Check size={10} strokeWidth={3} />
+          <span className="z-10 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white">
+            <Check size={13} strokeWidth={3} />
           </span>
         )}
+        {!last && <span className="w-px flex-1 bg-line" />}
       </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-baseline gap-2">
-          <span className="text-[10px] tabular-nums text-muted/50">{String(index + 1).padStart(2, "0")}</span>
-          <span className={running ? "text-ink" : "text-muted"}>{step.label}</span>
+
+      {/* label + detail */}
+      <div className="min-w-0 flex-1 pb-5">
+        <div className={`text-[15px] font-medium ${running ? "text-ink" : "text-ink/80"}`}>
+          {step.label}
         </div>
         <AnimatePresence mode="popLayout">
           {step.detail && (
@@ -32,7 +37,7 @@ function StepRow({ step, index }: { step: Step; index: number }) {
               key={step.detail}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className={`mt-0.5 truncate pl-6 text-xs ${running ? "text-signal/90" : "text-muted/70"}`}
+              className={`mt-0.5 truncate text-[13px] ${running ? "text-accent" : "text-muted"}`}
             >
               {step.detail}
             </motion.div>
@@ -46,38 +51,34 @@ function StepRow({ step, index }: { step: Step; index: number }) {
 interface Props {
   steps: Step[];
   running: boolean;
-  started: boolean;
 }
 
-export default function ActivityStream({ steps, running, started }: Props) {
+export default function ActivityStream({ steps, running }: Props) {
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-line bg-panel/50">
-      <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
-        <span className="text-[11px] uppercase tracking-[0.2em] text-muted">Agent activity</span>
-        <span
-          className={`h-2 w-2 rounded-full ${
-            running ? "bg-signal pulse" : started ? "bg-signal" : "bg-muted/40"
-          }`}
-        />
+    <div className="rounded-2xl border border-line bg-card p-5 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-faint">
+          Agent activity
+        </span>
+        <span className="flex items-center gap-1.5 text-[12px] font-medium">
+          {running ? (
+            <>
+              <span className="soft-pulse h-2 w-2 rounded-full bg-accent" />
+              <span className="text-accent">working</span>
+            </>
+          ) : (
+            <>
+              <Check size={13} className="text-accent" strokeWidth={3} />
+              <span className="text-muted">complete</span>
+            </>
+          )}
+        </span>
       </div>
 
-      <div className="flex-1 divide-y divide-line/60 overflow-y-auto">
-        {!started ? (
-          <div className="flex h-full items-center justify-center px-6 py-16 text-center text-sm text-muted/60">
-            Awaiting a request. The agent's reasoning will stream here.
-          </div>
-        ) : (
-          <>
-            {steps.map((s, i) => (
-              <StepRow key={s.key} step={s} index={i} />
-            ))}
-            {running && (
-              <div className="px-4 py-2.5 pl-[2.6rem] text-xs text-muted/70">
-                <span className="cursor" />
-              </div>
-            )}
-          </>
-        )}
+      <div className="flex flex-col">
+        {steps.map((s, i) => (
+          <StepRow key={s.key} step={s} last={i === steps.length - 1} />
+        ))}
       </div>
     </div>
   );

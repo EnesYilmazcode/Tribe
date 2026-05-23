@@ -1,10 +1,19 @@
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import AskBox from "./components/AskBox";
 import FilterChips from "./components/FilterChips";
 import ActivityStream from "./components/ActivityStream";
 import ProspectCard from "./components/ProspectCard";
 import { runMockStream } from "./lib/runStream";
 import type { ParsedParams, Prospect, Step } from "./types";
+
+function Wordmark({ className = "" }: { className?: string }) {
+  return (
+    <span className={`font-serif leading-none text-ink ${className}`}>
+      Tribe<span className="text-accent">.</span>
+    </span>
+  );
+}
 
 export default function App() {
   const [ask, setAsk] = useState("");
@@ -44,58 +53,100 @@ export default function App() {
   }
 
   return (
-    <div className="mx-auto flex min-h-full max-w-6xl flex-col px-5 py-6 sm:px-8">
-      {/* Header */}
-      <header className="mb-6 flex items-end justify-between border-b border-line pb-4">
-        <div>
-          <h1 className="font-serif text-3xl leading-none text-ink">
-            Tribe<span className="text-signal">.</span>
-          </h1>
-          <p className="mt-1 text-xs tracking-wide text-muted">
-            autonomous donor-prospecting agent · cited from public FEC records
-          </p>
-        </div>
-        <div className="hidden text-right text-[11px] uppercase tracking-widest text-muted/70 sm:block">
-          <div>ClickHouse · Nimble</div>
-          <div className="text-muted/40">real-time open web</div>
-        </div>
-      </header>
-
-      {/* Ask */}
-      <section className="mb-6">
-        <AskBox value={ask} onChange={setAsk} onRun={handleRun} running={running} />
-        <FilterChips params={params} />
-      </section>
-
-      {/* Two-pane console */}
-      <section className="grid flex-1 grid-cols-1 gap-5 lg:h-[68vh] lg:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)]">
-        <div className="h-[42vh] lg:h-full">
-          <ActivityStream steps={steps} running={running} started={started} />
-        </div>
-
-        <div className="flex h-full flex-col overflow-hidden">
-          <div className="mb-3 flex items-baseline justify-between">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-muted">
-              Ranked prospects
-            </span>
-            {prospects.length > 0 && (
-              <span className="text-xs tabular-nums text-muted/60">{prospects.length} found</span>
-            )}
-          </div>
-
-          {prospects.length === 0 ? (
-            <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-line/70 px-6 py-16 text-center text-sm text-muted/60">
-              {started ? "Researching candidates…" : "Ranked, cited prospects will appear here."}
+    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-5">
+      <AnimatePresence mode="wait">
+        {!started ? (
+          /* ── Landing: just the ask ─────────────────────────────── */
+          <motion.div
+            key="hero"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-1 flex-col items-center justify-center gap-7 py-16 text-center"
+          >
+            <Wordmark className="text-2xl" />
+            <div className="space-y-3">
+              <h1 className="font-serif text-5xl leading-[1.05] text-ink sm:text-6xl">
+                Find the donors who
+                <br />
+                already care<span className="text-accent">.</span>
+              </h1>
+              <p className="mx-auto max-w-lg text-[15px] text-muted">
+                Describe your cause. Tribe reads millions of real public giving records and
+                surfaces your best prospects — each one cited.
+              </p>
             </div>
-          ) : (
-            <div className="flex-1 space-y-3 overflow-y-auto pr-1">
-              {prospects.map((p, i) => (
-                <ProspectCard key={p.name} prospect={p} rank={i} />
-              ))}
+            <div className="w-full max-w-xl">
+              <AskBox value={ask} onChange={setAsk} onRun={handleRun} running={running} />
             </div>
-          )}
-        </div>
-      </section>
+          </motion.div>
+        ) : (
+          /* ── Workspace: ask → activity → prospects ─────────────── */
+          <motion.div
+            key="work"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="flex flex-1 flex-col gap-6 py-7"
+          >
+            <header className="flex items-center justify-between">
+              <Wordmark className="text-xl" />
+              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-faint">
+                ClickHouse · Nimble
+              </span>
+            </header>
+
+            <div>
+              <AskBox
+                value={ask}
+                onChange={setAsk}
+                onRun={handleRun}
+                running={running}
+                showExamples={false}
+              />
+              <FilterChips params={params} />
+            </div>
+
+            <AnimatePresence>
+              {steps.length > 0 && (
+                <motion.div
+                  key="activity"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <ActivityStream steps={steps} running={running} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {prospects.length > 0 && (
+                <motion.section
+                  key="prospects"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex flex-col gap-3"
+                >
+                  <div className="flex items-baseline justify-between">
+                    <h2 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-faint">
+                      Ranked prospects
+                    </h2>
+                    <span className="text-[13px] tabular-nums text-muted">
+                      {prospects.length} found
+                    </span>
+                  </div>
+                  {prospects.map((p, i) => (
+                    <ProspectCard key={p.name} prospect={p} rank={i} />
+                  ))}
+                </motion.section>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

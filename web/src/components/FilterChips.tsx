@@ -8,13 +8,13 @@ export default function FilterChips({ params }: { params: ParsedParams | null })
     <motion.div
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mt-3 flex flex-wrap items-center gap-2"
+      className="mt-3 flex flex-wrap items-center justify-center gap-2"
     >
-      <span className="text-[11px] uppercase tracking-widest text-muted/70">parsed</span>
+      <span className="text-[11px] font-medium uppercase tracking-widest text-faint">parsed</span>
       {chips.map((c) => (
         <span
           key={c}
-          className="rounded-full border border-signal/30 bg-signal-dim px-2.5 py-0.5 text-xs text-signal"
+          className="rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-[13px] font-medium text-accent"
         >
           {c}
         </span>
