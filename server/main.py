@@ -34,9 +34,10 @@ from fastapi import FastAPI  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from fastapi.responses import StreamingResponse  # noqa: E402
 
-import clickhouse_client as ch  # noqa: E402  (friend's query())
+import clickhouse_client as ch  # noqa: E402  (client, ping, scoring helpers)
 from cause_synonyms import expand_causes  # noqa: E402
 from nl_parse import parse_ask  # noqa: E402
+from query_clean import query as clean_query  # noqa: E402  (dedup-safe — correct totals)
 
 SAMPLE_FALLBACK = os.environ.get("TRIBE_SAMPLE_FALLBACK", "1") == "1"
 ENRICH = os.environ.get("TRIBE_ENRICH", "0") == "1"
@@ -92,7 +93,7 @@ def _event_stream(ask: str):
                         "label": "Querying ClickHouse · FEC contributions", "status": "running"})
     t0 = time.time()
     try:
-        prospects = ch.query(causes=expanded, geo=geo, min_amount=min_amount, limit=20)
+        prospects = clean_query(causes=expanded, geo=geo, min_amount=min_amount, limit=20)
     except Exception as e:  # noqa: BLE001
         print(f"[run] query() error: {e}")
         prospects = []
