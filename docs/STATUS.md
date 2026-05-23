@@ -41,8 +41,9 @@
 - Demo recording: ⬜ not started.
 **Not a large portion missing** — what's left is quality polish (enrichment, dedup, card cap) + the recording. We're close.
 
-## Future / stretch — continuous auto-matching agent (the autonomy money-shot)
-Vision: campaigns live on the platform (e.g. "clean water", "turtle rescue"). A background agent re-pulls fresh FEC + web data every 5–30 min; when a new high-affinity contact matches an existing campaign, it's **auto-added to that campaign's pipeline — zero manual work.** This is the strongest possible Autonomy story (acts on real-time data, no human in the loop — exactly the judging criterion). Buildable as a backend feature: a campaign store + a scheduler + match-on-new-contact. Stretch for today, but a strong differentiator if there's time after the demo is locked. [candidate owner: backend/coord instance]
+## Continuous auto-matching agent (the autonomy money-shot) — 🔨 IN PROGRESS [backend/coord instance]
+Vision: campaigns live on the platform (e.g. "clean water", "turtle rescue"). A background agent re-checks every cycle; when a new high-affinity contact matches a campaign, it's **auto-added to that campaign's pipeline — zero manual work.** Strongest Autonomy story (acts on real-time data, no human in the loop).
+Building in MY lane (no collision): `server/auto_match.py` + `server/campaigns.json`. Each campaign = NL description → parse_ask → query_clean → top matches auto-added; a `--watch` loop re-runs and reports NEW matches as data grows. Standalone module/CLI (no edits to main.py or the frontend's files).
 
 ## Decisions locked (don't re-litigate)
 - Sponsors = **ClickHouse + Nimble**. Senso + x402 dropped.
