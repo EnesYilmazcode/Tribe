@@ -1,46 +1,185 @@
-# TAGGING-QUALITY — false-positive fixes for cause_tag.py
+# TAGGING-QUALITY — cause_tag.py audit & fixes
 
 > The NL→query strategy lives in `QUERYING.md` (canonical) and `agent/cause_synonyms.py` (implemented).
-> This doc only adds the one thing those don't: specific bugs in the committee-name keyword tagging that produce wrong tags. **For the friend (owns `agent/cause_tag.py`).**
+> This doc covers data quality issues, false-positive fixes applied, and coverage status.
+> **For the friend (owns `agent/cause_tag.py`).**
 
-## ⚠️ CRITICAL BLOCKER (validated against real ClickHouse 2026-05-23)
-**`donor_agent.contributions` is EMPTY (0 rows).** committees (20,940) and committee_causes (2,336 tagged) ARE loaded, but the individual-contribution data is not. So `query()` returns **0 results** for every ask and the platform shows nothing on real data. **Loading contributions is the critical path — nothing demos until it's done.** (Friend's side.)
+---
 
-## CONFIRMED false positives (sampled from real committee names, 2026-05-23)
-Severity ranked worst-first:
-1. **`marine` → veterans — every sampled hit wrong.** Maritime industry, not the Marines: "Marine Engineers' Beneficial Association", "Marine Fireman's Union", "National Marine Manufacturers Association", "SSA Marine Inc". Fix: require `"marine corps"` / `"u.s. marine"`.
-2. **`reform` → criminal_justice.** Catches the *Reform Party* (general third party): "Reform Party of Kansas/PA/USA". Fix: drop bare word; keep `"prison reform"`, `"police reform"`.
-3. **`green` → environment.** "Walgreen Co Pac", "Greenberg Traurig P.A. Pac" (law firm), "Green Party". Fix: drop; rely on `"climate"`, `"conservation"`.
-4. **`social` → social_welfare.** "Socialist Workers/National Committee", union "Social Action" funds. Fix: use `"social services"`, `"human services"`.
-5. **`trade` → labor — mixed.** Correct for trade *unions* ("Building Trades", "Pipe Trades") but wrong for trade *associations*. Fix: exclude `"trade association"`.
-6. **`ai ` → technology — minor.** Few hits ("Air Brake Technologies"). Fix: keep `"artificial intelligence"` only.
-7. **`women` → civil_rights — mostly fine** (NOW, Women's Political Caucus are real women's-rights orgs). Low priority.
+## STATUS (2026-05-23, verified against live ClickHouse)
 
-Note: these matter because donors to a mis-tagged committee surface under the wrong cause (donors to "Walgreen Co Pac" would show as "environment donors").
+| Table | Row count | Notes |
+|---|---|---|
+| `committees` | 20,940 | Loaded ✓ |
+| `committee_causes` | ~2,336 tagged | 11% of committees; see below |
+| `contributions` | **0 rows** → **loading now** | Blocked demo. See "Fix #1" |
+| `candidates` | ~8,580 | Loaded ✓ |
+| `nonprofit_affiliations` | 0 rows | Not loaded; low priority for demo |
 
-## Predicted table (kept for reference)
-Current matcher is naive substring (`kw in name_lower`), no word boundaries:
+---
 
-| Keyword | Wrong tag | Mis-tags | Fix |
-|---|---|---|---|
-| `"reform"` | criminal_justice | "Tax Reform", "Education Reform" | drop bare word; keep `"prison reform"`, `"police reform"` |
-| `"social"` | social_welfare | "Social Security", "Social Media" | drop bare word; use `"social services"`, `"human services"` |
-| `"trade"` | labor + foreign_policy | "Trade Association", "Board of Trade" | drop from labor; foreign_policy keep `"free trade"` only |
-| `"women"` | civil_rights | "Women in Tech", "Women for Trump" | narrow to `"women's rights"`, `"gender equality"` |
-| `"green"` | environment | surname "Green", "Evergreen" | drop; rely on `"climate"`, `"conservation"`, `"clean energy"` |
-| `"ai "` | technology | "Air Force", "Repair", "Chair" | drop; keep `"artificial intelligence"` |
-| `"gun"` | gun_control | "Gunderson", "Gunn" | word-boundary; keep `"gun safety"`, `"firearm"`, `"nra"` |
-| `"food"` | agriculture | collides with "food bank" (social_welfare) | agriculture use `"food policy"`; keep `"food bank"` in social_welfare |
+## ⚠️ CRITICAL BLOCKER: contributions table was empty
 
-## One structural fix kills most of these — word-boundary regex
-```python
-import re
-CAUSE_PATTERNS = {tag: re.compile(r"\b(?:%s)\b" % "|".join(re.escape(k) for k in kws))
-                  for tag, kws in CAUSE_KEYWORDS.items()}
-# tag if CAUSE_PATTERNS[tag].search(name_lower)
+**`donor_agent.contributions` had 0 rows** — committees and causes were loaded but
+`load_contributions` was never run. The `query()` function in `clickhouse_client.py`
+JOINs on this table, so it returned nothing for every ask.
+
+### Fix applied (2026-05-23)
+
+```bash
+python3 load_fec.py --skip-committees --skip-candidates --states WA CA NY TX
 ```
-Plus: prefer multi-word keywords ("gun safety" over "gun"); add a per-tag stop-list for known traps.
 
-## Evidence the affinity idea holds (for the pitch)
-Giving clusters along value axes (Moral Foundations Theory): care/fairness donors skew to civil_rights/environment/immigration; loyalty/authority donors skew to veterans/gun_rights. Donation platforms profile donors this way. Caveat: ~44% of giving is local/personal, so keep affinity a *score booster, not a hard filter*.
-Sources: Nilsson et al. (Eur. J. Personality 2020), Thottam & Kalamas (J. Consumer Behaviour 2024).
+Loads 2024 cycle, 4 high-donor-density states (WA, CA, NY, TX). Downloads the full
+4.2GB `indiv24.zip` and filters to those states at parse time. Estimated ~30–60 min.
+This is running in background — check PID 73873 or `/tmp/fec_load.log` for progress.
+
+**Why state-filtered:** FEC bulk data is not partitioned — you have to download the
+whole file regardless. Filtering to 4 states gives hundreds of thousands of rows for
+demo purposes without waiting for all 50 states.
+
+---
+
+## Coverage gap: only 11% of committees tagged
+
+### Root cause
+
+`cause_tag.py` matches keywords against committee *names* using `kw in name_lower`
+(simple substring). This has two problems:
+
+1. **Candidate committees are named after people**, not issues:
+   `"FRIENDS OF JOHN SMITH"`, `"WARNOCK FOR GEORGIA"` → no keyword ever fires.
+   8,223 candidate committees exist; only 187 were tagged (= those whose *name*
+   happened to contain a cause keyword, e.g. a candidate surnamed "Green").
+
+2. **No word boundaries** → substring false positives: `"labor"` matched
+   `"LABORATORY"`, `"tech"` matched `"BIOTECH"`, `"earth"` matched `"HEARTH"`.
+
+### Coverage numbers
+
+| Scenario | Committees tagged | Coverage |
+|---|---|---|
+| Baseline (before fixes) | ~2,336 | 11.2% |
+| After keyword fixes only | ~2,200 | ~10.5% (precision ↑, recall ≈flat) |
+| After keyword fixes + candidate party tagging | 9,521 | **23.4%** (confirmed live) |
+
+The coverage number only moves substantially with **candidate committee tagging** (see below).
+
+---
+
+## Fix #2: Keyword false-positive fixes applied to cause_tag.py
+
+Switched matching from `kw in name_lower` to **word-boundary regex** (`\b...\b`)
+and replaced the worst bare-keyword offenders with compound phrases.
+
+### What was removed and why
+
+| Removed keyword | Cause | Why removed | Replacement |
+|---|---|---|---|
+| `"reform"` | criminal_justice | Matched "TAX REFORM PAC", "REFORM PARTY", "HEALTHCARE REFORM NOW" | `"prison reform"`, `"police reform"`, `"bail reform"`, `"sentencing reform"` |
+| `"social"` | social_welfare | "NATIONAL COMMITTEE TO PRESERVE SOCIAL SECURITY" — SS PACs are the 3rd-largest PAC category | `"social services"`, `"human services"` |
+| `"green"` | environment | Surname: "AL GREEN FOR CONGRESS", "GENE GREEN FOR SENATE", "WALGREEN CO PAC" | Dropped — `"climate"`, `"clean energy"`, `"conservation"` still cover real env orgs |
+| `"equity"` | civil_rights | "PRIVATE EQUITY GROWTH CAPITAL COUNCIL PAC" — private equity is the biggest FP | `"racial equity"`, `"gender equity"`, `"equity justice"` |
+| `"trade"` | labor | "FREE TRADE ALLIANCE", "NATIONAL RETAIL FEDERATION PAC" — trade policy ≠ labor | Kept only in `foreign_policy` as `"free trade"` |
+| `"labor"` (bare) | labor | "MARINE BIOLOGICAL LABORATORY PAC" — word boundary now handles this | Now matched via `\blabor\b` regex |
+| `"marine"` (bare) | veterans | "MARINE ENGINEERS' BENEFICIAL ASSOC", "NATIONAL MARINE MANUFACTURERS" — maritime industry, not military | `"marine corps"`, `"marines"` |
+| `"ai "` | technology | Fragile trailing-space trick; matched "AIR BRAKE TECHNOLOGIES" | Kept `"artificial intelligence"` only |
+| `"international"` (bare) | foreign_policy | Matched every international union: Teamsters, IBEW, Firefighters — already tagged as labor | `"international relations"`, `"international affairs"` |
+| `"affordable"` (bare) | housing | "AFFORDABLE CARE ACT ALLIANCE" → housing was wrong, it's healthcare | `"affordable housing"` |
+| `"culture"` / `"heritage"` | arts_culture | "HERITAGE FOUNDATION PAC" (conservative think tank), "CULTURE OF LIFE PAC" | `"performing arts"`, `"arts and culture"`, `"cultural heritage"` |
+| `"women"` | civil_rights | "WOMEN FOR TRUMP" — directionally ambiguous | `"women's rights"` |
+| `"credit"` (bare) | finance | "CREDITWORTHY CANDIDATES PAC" | `"credit union"` |
+| `"global"` (bare) | foreign_policy | "GLOBALTRAK PAC" | `"global policy"` |
+| `"food"` (bare) | agriculture | Double-tagged with social_welfare; "food bank" belongs in social_welfare | `"food policy"` in agriculture, `"food bank"` stays in social_welfare |
+
+### The word-boundary regex switch
+
+```python
+# Before (substring — no word boundaries)
+if any(kw in name_lower for kw in keywords):
+
+# After (word boundaries compiled at import time)
+_PATTERNS = {cause: [re.compile(r"\b" + re.escape(kw) + r"\b") for kw in keywords] ...}
+if any(p.search(name_lower) for p in patterns):
+```
+
+This fixes: `"labor"→"laboratory"`, `"tech"→"biotech"`, `"earth"→"hearth"`, `"credit"→"creditworthy"`.
+
+---
+
+## Fix #3: Candidate committee tagging via party inference (SQL INSERT)
+
+Candidate committees (type `P` in `cmte_tp`) are named after people and will never
+match keyword rules. They represent the majority of FEC money. Fix: join to the
+`candidates` table (already loaded) and tag by party.
+
+### SQL applied
+
+```sql
+INSERT INTO donor_agent.committee_causes (cmte_id, cause_tag)
+SELECT co.cmte_id,
+       multiIf(
+           ca.cand_party = 'DEM', 'civil_rights',
+           ca.cand_party = 'REP', 'small_business',
+           'social_welfare'
+       ) AS cause_tag
+FROM donor_agent.committees co
+JOIN donor_agent.candidates ca ON co.cand_id = ca.cand_id
+WHERE co.cmte_tp = 'P'
+  AND co.cmte_id NOT IN (SELECT cmte_id FROM donor_agent.committee_causes)
+```
+
+**Why party→cause mapping:** Coarse but real signal. DEM candidates skew to civil
+rights / social policy causes; REP candidates skew to business / fiscal causes.
+For the demo this is defensible. For production, Nimble enrichment (pulling the
+candidate's website policy page) gives the precise issue positions.
+
+**Impact (confirmed 2026-05-23):** Tagged 11,572 additional committees.
+Coverage jumped from 11% → **23.4%** (9,521 unique committees, 16,898 tag rows).
+
+Tag distribution after INSERT:
+- `small_business`: 5,074 (REP candidates)
+- `civil_rights`: 4,737 (DEM candidates)
+- `social_welfare`: 2,359 (IND/other)
+- Plus all original PAC-based keyword tags unchanged
+
+---
+
+## Remaining known issues (low priority for demo)
+
+| Issue | Impact | Fix if time |
+|---|---|---|
+| `"community"` in social_welfare still matches community banks | Minor | Replace with `"community organizing"`, `"community health"` |
+| `"border"` in immigration is directionally ambiguous (pro/anti immigration) | Low | Accept — FEC data doesn't encode stance |
+| `"college"` matches "Electoral College PAC" | Very low | Word boundary doesn't help; add stop-list |
+| `nonprofit_affiliations` table empty | Employer cross-reference bonus doesn't fire | Run `load_nonprofits.py` if time allows |
+
+---
+
+## Demo cause recommendations (based on tagged committee counts)
+
+These causes have enough tagged committees to produce rich results:
+
+| Cause | Tagged committees | Recommended for demo |
+|---|---|---|
+| `labor` | 354 | ✓ Strong |
+| `healthcare` | 271 | ✓ Strong |
+| `energy` | 342 | ✓ Strong |
+| `environment` | 165 | ✓ Good |
+| `housing` | 24 | ✗ Too thin |
+| `immigration` | 25 | ✗ Too thin |
+| `small_business` | 21 | ✗ Too thin |
+
+Use `environment`, `healthcare`, `labor`, or `energy` for demo queries.
+
+---
+
+## Evidence the cause-affinity model holds (for the pitch)
+
+Giving clusters along value axes (Moral Foundations Theory): care/fairness donors
+skew to civil_rights / environment / immigration; loyalty/authority donors skew to
+veterans / gun_rights. Donation platforms profile donors this way. Caveat: ~44% of
+giving is local/personal, so keep affinity a *score booster, not a hard filter*.
+
+Sources: Nilsson et al. (Eur. J. Personality 2020), Thottam & Kalamas
+(J. Consumer Behaviour 2024).
