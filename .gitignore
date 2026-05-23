@@ -22,6 +22,9 @@ build/
 *.zip
 data/
 
+# Auto-match runtime state (regenerate with `auto_match.py seed`)
+server/campaigns.json
+
 # OS / editor
 .DS_Store
 .vscode/

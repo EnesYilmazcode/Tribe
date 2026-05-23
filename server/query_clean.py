@@ -103,18 +103,19 @@ def query(cause=None, causes=None, geo=None, min_amount=200, limit=20):
         name = row["raw_name"].title()
         state = row["geo"]
 
+        # person-first: lead with the donor's own FEC contribution record (verifiable
+        # per person), then the primary committee they gave to.
         cited_reasons = [
             {
                 "text": (
-                    f"Gave ${row['total_given']:,} across {row['num_transactions']} "
-                    f"donations to {', '.join(row['cause_tags'])} committees "
-                    f"({first_year}–{last_year})"
+                    f"{name} gave ${row['total_given']:,} across {row['num_transactions']} "
+                    f"donations to {', '.join(row['cause_tags'])} committees ({first_year}–{last_year})"
                 ),
-                "source_url": ch.FEC_RECEIPT_URL.format(cmte_id=primary_cmte),
+                "source_url": ch.FEC_DONOR_URL.format(name=name.replace(" ", "+"), state=state),
             },
             {
-                "text": f"FEC individual contribution search for {name} in {state}",
-                "source_url": ch.FEC_DONOR_URL.format(name=name.replace(" ", "+"), state=state),
+                "text": "Primary committee — see all receipts",
+                "source_url": ch.FEC_RECEIPT_URL.format(cmte_id=primary_cmte),
             },
         ]
 

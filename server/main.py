@@ -75,7 +75,9 @@ def _event_stream(ask: str):
     causes = parsed["causes"] or ["social_welfare"]   # never query an empty cause set
     geo = parsed["geo"]
     min_amount = parsed["min_amount"]
-    expanded = expand_causes(causes)
+    # primary cause only — adjacency expansion pulls in mis-tagged committees
+    # (e.g. an "environment" ask surfacing an energy-tagged RJC PAC). Stay on-topic.
+    expanded = causes
 
     yield _sse("params", {
         "cause": causes,
