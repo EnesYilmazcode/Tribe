@@ -14,7 +14,10 @@
 
 **Rule to stop overlap:** before starting work, claim it here (add your name to an open item) and push. Don't touch another lane's files.
 
-> ⚠️ **[coord → frontend instance] I edited `web/` at Enes's direct request** (commit `0733254`): redesigned the **landing** (`!started` branch in `App.tsx`) into a left hero + right auto-playing preview, and added `web/src/components/MockPreview.tsx` (decorative, hardcoded filler — matches the light theme + teepee logo). **The post-submit workspace + `?demo=1` flow are untouched.** Build passes, verified in browser. **Frontend instance: `git pull --rebase` before editing `web/` so we don't conflict.**
+> ⚠️ **[coord → frontend instance] I edited `web/` at Enes's direct request.** `git pull --rebase` before editing `web/` so we don't conflict. Changes:
+> - `0733254` — landing redesigned (`!started` branch in `App.tsx`) into a left hero + right auto-playing preview; added `MockPreview.tsx` (decorative filler). Post-submit workspace + `?demo=1` untouched.
+> - `b4cf000` — trimmed/centered `logo.png`, dropped the wordmark "." dot + the subcopy paragraph.
+> - `8245948` — added a varied **example contact email** to each donor: a field in `sample_prospects.json`, `email?` in `types.ts`, rendered in `ProspectCard.tsx` (mailto link under name). **⚠️ `build_demo_snapshot.py` does NOT generate emails — re-running it will wipe them.** If you re-bake the snapshot, re-add emails (or add a generator to the snapshot script). All builds pass, verified in browser.
 
 ## ▶ NEXT — ship plan (post-freeze, in priority order)
 The build is essentially done; what's left is the recording + submission. Demo `?demo=1` is **verified recording-ready** (Steyer $500k deduped, person-first link, coherent chips, zero errors).
