@@ -1,0 +1,71 @@
+[
+  {
+    "name": "Margaret Holloway",
+    "affinity_score": 91,
+    "cause_tags": ["environment", "water"],
+    "geo": "Seattle, WA",
+    "cited_reasons": [
+      { "text": "Gave $14,200 across 4 environmental committees, 2021-2024", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=holloway&state=WA" },
+      { "text": "Repeat donor to clean-water and conservation PACs (5 contributions)", "source_url": "https://www.fec.gov/data/receipts/?two_year_transaction_period=2024" }
+    ],
+    "enrichment": {
+      "current_role": "Partner, Cascade Environmental Law Group",
+      "notes": "Board member, Puget Sound Waterkeeper Alliance",
+      "source_url": "https://www.cascadeenvlaw.example/team"
+    }
+  },
+  {
+    "name": "David Chen",
+    "affinity_score": 84,
+    "cause_tags": ["environment", "climate"],
+    "geo": "Portland, OR",
+    "cited_reasons": [
+      { "text": "Contributed $9,500 to climate-focused candidates and PACs since 2022", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=chen&state=OR" },
+      { "text": "Listed occupation: Renewable Energy Executive", "source_url": "https://www.fec.gov/data/receipts/?contributor_occupation=renewable+energy" }
+    ],
+    "enrichment": {
+      "current_role": "VP Operations, Columbia Solar",
+      "notes": "Recent public op-ed on Pacific Northwest watershed protection",
+      "source_url": "https://www.columbiasolar.example/about"
+    }
+  },
+  {
+    "name": "Patricia Nguyen",
+    "affinity_score": 78,
+    "cause_tags": ["environment", "water", "health"],
+    "geo": "Tacoma, WA",
+    "cited_reasons": [
+      { "text": "Gave $6,000 to environmental and public-health committees, 2020-2023", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=nguyen&state=WA" }
+    ],
+    "enrichment": {
+      "current_role": "Founder, Sound Health Foundation",
+      "notes": null,
+      "source_url": "https://www.soundhealthfdn.example"
+    }
+  },
+  {
+    "name": "Robert Klein",
+    "affinity_score": 72,
+    "cause_tags": ["environment"],
+    "geo": "Bellingham, WA",
+    "cited_reasons": [
+      { "text": "Three contributions totaling $4,300 to conservation PACs, 2022-2024", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=klein&state=WA" }
+    ],
+    "enrichment": null
+  },
+  {
+    "name": "Susan Alvarez",
+    "affinity_score": 69,
+    "cause_tags": ["water", "education"],
+    "geo": "Eugene, OR",
+    "cited_reasons": [
+      { "text": "Gave $3,800 split between clean-water and education committees since 2021", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=alvarez&state=OR" },
+      { "text": "No federal contributions found before 2021 (new donor)", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=alvarez" }
+    ],
+    "enrichment": {
+      "current_role": "Professor of Environmental Science, University of Oregon",
+      "notes": "Public grant recipient for watershed research",
+      "source_url": "https://www.uoregon.example/faculty/alvarez"
+    }
+  }
+]
