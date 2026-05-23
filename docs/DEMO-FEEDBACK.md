@@ -54,5 +54,32 @@ Each prospect had two citations: **[0] the committee** (`/data/receipts/?committ
 | Snapshot dedup + person-first link | ✅ done | Enes frontend |
 | Live `/run`: primary-cause-only + person-first link | one-liners | coord (server) |
 | `animal_welfare` (+ other) cause tag + committee tagging | taxonomy | Trevor (agent) |
+| AI outreach-email draft | ✅ done | Enes frontend |
+| **Ranking is capacity-first, not affinity-first (see #4)** | query rewrite | coord (`query_clean`) |
 | Contact enrichment (`enrich_clean` → `contact`) | stretch build | Enes frontend |
 | Automated outreach | post-hackathon | — |
+
+---
+
+## 4. Ranking — the same big donor recurs across unrelated prompts (IMPORTANT)
+
+### Symptom
+Different asks ("dog shelter in LA", etc.) keep returning the same person (the Republican Jewish Coalition donor). It's not matching the mission.
+
+### Root cause (three compounding)
+1. **`query()` ranks by `ORDER BY total_given DESC` — pure capacity.** No cause-affinity weighting → the single biggest donor wins almost every query. This is wealth-screening, the exact thing the pitch says we beat.
+2. **Adjacency expansion** pulls `energy` into many asks; `energy` contains a **mis-tagged RJC PAC**, so that big energy donor leaks into unrelated queries.
+3. **The RJC→energy mis-tag** itself (Trevor / TAGGING-QUALITY.md).
+
+### The ranking we want — affinity-first composite (replace the `ORDER BY`)
+Priority order, not raw dollars:
+1. **Cause specificity (primary):** `amount_to_requested_cause / total_giving` + # distinct committees in that cause. Concentrated donors beat broad ones who match only via one expanded tag.
+2. **Capacity (secondary):** amount given **to the requested cause**, not lifetime total.
+3. **Recency & consistency:** recent + repeat gifts.
+4. **Geography:** boost on requested state/city.
+
+`score = w1·cause_specificity + w2·log(amount_to_cause) + w3·recency + w4·geo_match` → `ORDER BY score DESC`.
+Prereqs: **don't adjacency-expand focused asks** (rank on the primary cause) and **fix the RJC mis-tag**.
+
+### When
+**Not before recording** — the locked `?demo=1` (environment/CA) is unaffected (Steyer is a concentrated env donor, ranks correctly). This is the **#1 post-recording fix** and a strong "what's next" judging talking point (affinity vs. capacity = our core thesis). [owner: coord — it's `query_clean.py`'s `ORDER BY` + scoring]
