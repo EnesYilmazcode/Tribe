@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Check } from "lucide-react";
+import { Search, Check, Mail } from "lucide-react";
 
 /* A purely decorative, auto-looping preview of a run — hardcoded filler data,
    no backend. Lives on the landing hero to show what Tribe does in action. */
@@ -15,9 +15,9 @@ const STEPS = [
 ];
 
 const DONORS = [
-  { initials: "MH", name: "Marlowe Hart", meta: "Founder, Cedar & Co. · Pasadena, CA", tags: ["environment", "water"], score: 94, give: "$42,000" },
-  { initials: "IC", name: "Iris Calderón", meta: "Partner, Brightline Capital · Los Angeles, CA", tags: ["environment"], score: 88, give: "$28,500" },
-  { initials: "DO", name: "Devin Okafor", meta: "Retired · Santa Monica, CA", tags: ["environment", "social welfare"], score: 81, give: "$15,200" },
+  { initials: "MH", name: "Marlowe Hart", meta: "Founder, Cedar & Co. · Pasadena, CA", email: "marlowe.hart@cedarco.com", tags: ["environment", "water"], score: 94, give: "$42,000" },
+  { initials: "IC", name: "Iris Calderón", meta: "Partner, Brightline Capital · Los Angeles, CA", email: "icalderon@brightlinecap.com", tags: ["environment"], score: 88, give: "$28,500" },
+  { initials: "DO", name: "Devin Okafor", meta: "Retired · Santa Monica, CA", email: "devin.okafor47@gmail.com", tags: ["environment", "social welfare"], score: 81, give: "$15,200" },
 ];
 
 type LogState = "idle" | "running" | "done";
@@ -126,6 +126,10 @@ export default function MockPreview() {
                   <div className="min-w-0 flex-1">
                     <div className="font-serif text-[15px] leading-tight text-ink">{d.name}</div>
                     <div className="truncate text-[11.5px] text-muted">{d.meta}</div>
+                    <div className="mt-0.5 flex items-center gap-1 text-[11px] text-accent">
+                      <Mail size={11} strokeWidth={2} className="shrink-0" />
+                      <span className="truncate">{d.email}</span>
+                    </div>
                     <div className="mt-1 flex gap-1.5">
                       {d.tags.map((t) => (
                         <span key={t} className="rounded-md border border-accent/25 bg-accent/5 px-1.5 py-0.5 text-[9px] uppercase tracking-wide text-accent">
