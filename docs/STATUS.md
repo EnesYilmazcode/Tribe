@@ -16,7 +16,7 @@
 
 ## Done ✅
 - Backend `/run` SSE endpoint — emits the exact contract the frontend consumes; real data flows through it.
-- NL parse — Gemini 2.5-flash (2.0-flash quota exhausted) + deterministic fallback.
+- NL parse — Gemini + deterministic fallback. **⚠️ MODEL FIX: `gemini-2.5-flash` AND `gemini-2.0-flash` are now 429 quota-exhausted; `gemini-flash-latest` works (200).** Set `GEMINI_MODEL=gemini-flash-latest` in `.env` (done on this machine). nl_parse should default to it too, else parse silently falls back to deterministic and the autonomy story weakens.
 - **Real FEC bulk data loaded — 2.8M real contributions, 597k donors, all 20 causes, 5 states (CA/NY/TX/WA/OR), 99.99% unique.** Data collection is largely DONE.
 - Frontend renders real data — 20 cards, Steyer top, name-flip + employer casing fixed, 13 tests pass.
 
@@ -26,7 +26,9 @@
 2. **🟡 Demo cause = `environment` only.** `civil_rights` / `small_business` / `social_welfare` are ~90% party-proxy tags (DEM/REP/IND candidate mapping), not real cause-affinity. Don't demo those.
 3. **🟡 Tagging false positives still live in DB** (Walgreen, Reform Party, Marine Engineers Union mis-tagged). cause_tag.py code is fixed but the table wasn't re-run. [owner: Trevor] — see `TAGGING-QUALITY.md`.
 4. **🟢 Card count** — 20 is a long scroll for a 3-min demo; cap visible to ~top 10 (count still "20 found"). [owner: other instance]
-5. **🟢 Live enrichment too slow + garbage output** [owner: Enes frontend instance — IN PROGRESS]. Nimble enrich ≈ 24–48s/prospect AND the regex extractors produce wrong fields ("Fahr, Llc at Founder", employer "State,"). Building two new files (no collision): `server/enrich_clean.py` (1 Nimble search + Gemini extraction → clean UI-shape enrichment) and `server/build_demo_snapshot.py` (bake a real, enriched run into `web/sample_prospects.json` so `?demo=1` is instant, real, and recording-proof).
+5. **✅ DONE — fast clean enrichment + instant demo snapshot** [Enes frontend instance]. `server/enrich_clean.py`: 1 Nimble search + Gemini (`gemini-flash-latest`) → clean UI-shape enrichment in ~8s (was 24–48s of garbage). e.g. Steyer → "Founder, Fahr LLC" + Wikipedia-cited bio; Serrurier → real role "Co-Founder, Redwood Grove Capital" + Earthjustice board note. `server/build_demo_snapshot.py` bakes a real, enriched **environment/CA** run into `web/sample_prospects.json` (top 3 enriched, primary-cause only to avoid adjacency mis-tags), so `?demo=1` replays it instantly and recording-proof. Verified end-to-end in the browser.
+   **NOTE for whoever fixes #1 (query dedup):** the snapshot's totals are still inflated (Steyer $1M vs real ~$760k). After the `DISTINCT sub_id` query fix lands, just re-run `python server/build_demo_snapshot.py` to refresh real numbers — one command.
+   **Found while doing this:** adjacency expansion (`expand_causes`) pulls mis-tagged committees into a focused demo (an "environment" ask surfaced a Republican Jewish Coalition donor via the bad RJC→energy tag). The snapshot now queries the **primary cause only** to stay on-topic.
 
 ## Integration status — ~80%, core works end-to-end on REAL data
 - Data (Trevor): ✅ ~90% — 2.8M real rows, all causes, 5 states. Residual: sub_id dedup in query().
