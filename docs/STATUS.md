@@ -41,13 +41,12 @@
 - Demo recording: ⬜ not started.
 **Not a large portion missing** — what's left is quality polish (enrichment, dedup, card cap) + the recording. We're close.
 
-## Continuous auto-matching agent (the autonomy money-shot) — 🔨 IN PROGRESS [backend/coord instance]
-Vision: campaigns live on the platform (e.g. "clean water", "turtle rescue"). A background agent re-checks every cycle; when a new high-affinity contact matches a campaign, it's **auto-added to that campaign's pipeline — zero manual work.** Strongest Autonomy story (acts on real-time data, no human in the loop).
-Building in MY lane (no collision): `server/auto_match.py` + `server/campaigns.json`. Each campaign = NL description → parse_ask → query_clean → top matches auto-added; a `--watch` loop re-runs and reports NEW matches as data grows. Standalone module/CLI (no edits to main.py or the frontend's files).
+## Continuous auto-matching agent (the autonomy money-shot) — ✅ WORKING PROTOTYPE [backend/coord instance]
+`server/auto_match.py` (CLI, standalone, no collision). A campaign = NL description → parse_ask → query_clean → top matches **auto-added to its pipeline, zero manual selection**. `--watch` loop re-checks every N sec and only surfaces NEW contacts as data grows. Verified: seeded 3 campaigns ("protect oceans…", "cancer research…", "support unions…") → one cycle auto-added 30 real donors (Steyer, Bloomberg, …) at correct deduped totals. `seed` / `run` / `watch` / `list` / `add` commands. (`campaigns.json` is gitignored runtime state — `seed` to regenerate.) This is the strongest Autonomy demo beat if we want a second segment.
 
 ## Demo feedback (2026-05-23) — full plan in `docs/DEMO-FEEDBACK.md`
 Found while demoing. Snapshot fixes already done by Enes frontend (deduped totals via query_clean, person-first FEC link). Cross-lane items:
-- **[coord] Live `/run`: query primary cause only** (drop/discount `expand_causes`) — adjacency pulls mis-tagged committees (RJC PAC tagged `energy`) into focused asks. And **reorder `cited_reasons` person-first** in `query_clean.py` (one-liner) to match the snapshot.
+- **✅ DONE [coord]** Live `/run` now queries **primary cause only** (`expanded = causes`) — no more adjacency pollution (verified: "environment/CA" returns only `environment`-tagged donors). And `query_clean.py` `cited_reasons` reordered **person-first** (donor's FEC individual-contribution record leads, committee second).
 - **[Trevor] Add an `animal_welfare` cause tag + tag its committees** (Humane Society Legislative Fund, ASPCA, Defenders of Wildlife). Niche asks like "dog shelter" have no home today → map to `environment` (climate donors). Taxonomy coarseness is the semantic bottleneck, not the parse.
 - **[Enes, stretch] Contact enrichment** — extend `enrich_clean` to surface a public contact channel (LinkedIn/org), with the §104.15 legal gate.
 
