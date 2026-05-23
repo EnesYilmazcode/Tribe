@@ -30,7 +30,7 @@
 2. **🟡 Demo cause = `environment` only.** `civil_rights` / `small_business` / `social_welfare` are ~90% party-proxy tags (DEM/REP/IND candidate mapping), not real cause-affinity. Don't demo those.
 3. **🟡 Tagging false positives still live in DB** (Walgreen, Reform Party, Marine Engineers Union mis-tagged). cause_tag.py code is fixed but the table wasn't re-run. [owner: Trevor] — see `TAGGING-QUALITY.md`.
 4. **🟢 Card count** — 20 is a long scroll for a 3-min demo; cap visible to ~top 10 (count still "20 found"). [owner: other instance]
-5. **🟢 Live enrichment too slow** — Nimble enrich ≈ 48s/prospect. For the demo use cached enrichment or trim to top 2–3 / 1 search / no deep extract.
+5. **🟢 Live enrichment too slow + garbage output** [owner: Enes frontend instance — IN PROGRESS]. Nimble enrich ≈ 24–48s/prospect AND the regex extractors produce wrong fields ("Fahr, Llc at Founder", employer "State,"). Building two new files (no collision): `server/enrich_clean.py` (1 Nimble search + Gemini extraction → clean UI-shape enrichment) and `server/build_demo_snapshot.py` (bake a real, enriched run into `web/sample_prospects.json` so `?demo=1` is instant, real, and recording-proof).
 
 ## Decisions locked (don't re-litigate)
 - Sponsors = **ClickHouse + Nimble**. Senso + x402 dropped.
