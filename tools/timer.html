@@ -61,6 +61,25 @@
     return pad(Math.floor(s/3600)) + ":" + pad(Math.floor(s%3600/60)) + ":" + pad(s%60);
   }
 
+  // Dynamic favicon: draws the time remaining (hours / minutes / seconds) as the tab icon.
+  const COLORS = { ok: "#4ade80", warn: "#fbbf24", crit: "#f87171" };
+  const fcanvas = Object.assign(document.createElement("canvas"), { width: 64, height: 64 });
+  const fctx = fcanvas.getContext("2d");
+  let favicon = document.querySelector("link[rel~='icon']");
+  if (!favicon) { favicon = document.createElement("link"); favicon.rel = "icon"; document.head.appendChild(favicon); }
+  function drawFavicon(ms, cls) {
+    if (ms < 0) ms = 0;
+    const mins = Math.floor(ms / 60000);
+    const text = mins >= 60 ? Math.floor(mins/60) + "h" : mins >= 1 ? String(mins) : String(Math.floor(ms/1000));
+    fctx.clearRect(0, 0, 64, 64);
+    fctx.fillStyle = "#0b0d10"; fctx.fillRect(0, 0, 64, 64);
+    fctx.fillStyle = COLORS[cls] || "#e6e9ee";
+    fctx.font = "bold " + (text.length >= 3 ? 34 : 48) + "px ui-monospace, Consolas, monospace";
+    fctx.textAlign = "center"; fctx.textBaseline = "middle";
+    fctx.fillText(text, 32, 37);
+    favicon.href = fcanvas.toDataURL("image/png");
+  }
+
   function tick() {
     const now = new Date();
     const clk = document.getElementById("clock");
@@ -68,7 +87,8 @@
     clk.textContent = fmt(left);
 
     const mins = left / 60000;
-    clk.className = mins > 60 ? "ok" : mins > 15 ? "warn" : "crit";
+    const cls = mins > 60 ? "ok" : mins > 15 ? "warn" : "crit";
+    clk.className = cls;
 
     // current + next block
     let cur = null, next = null;
@@ -83,7 +103,8 @@
     const blk = document.getElementById("block");
     blk.textContent = cur ? ("▸ " + cur.label + (next ? "   (next " + pad(next.at.getHours()) + ":" + pad(next.at.getMinutes()) + ")" : "")) : "";
 
-    document.title = "⏱ " + fmt(left) + " left";
+    document.title = fmt(left).replace(/^00:/, "");
+    drawFavicon(left, cls);
   }
   tick(); setInterval(tick, 1000);
 </script>
