@@ -2,40 +2,76 @@
   {
     "name": "Margaret Holloway",
     "affinity_score": 91,
-    "cause_tags": ["environment", "water"],
-    "geo": "Seattle, WA",
+    "cause_tags": ["environment", "social_welfare"],
+    "geo": "WA",
+    "city": "Seattle",
+    "employer": "Cascade Environmental Law Group",
+    "occupation": "Attorney",
+    "total_given": 45200,
+    "num_donations": 12,
+    "first_gift_year": 2020,
+    "last_gift_year": 2024,
+    "donation_history": [
+      { "date": "2024-03-15", "amount": 5000, "committee_id": "C00401224", "committee_name": "Sierra Club Political Committee", "cause_tags": ["environment"] },
+      { "date": "2023-09-02", "amount": 5000, "committee_id": "C00401224", "committee_name": "League Of Conservation Voters", "cause_tags": ["environment"] },
+      { "date": "2023-04-18", "amount": 2500, "committee_id": "C00694323", "committee_name": "Clean Water Action", "cause_tags": ["environment"] },
+      { "date": "2022-10-11", "amount": 3500, "committee_id": "C00401224", "committee_name": "Ocean Conservancy Action Fund", "cause_tags": ["environment"] }
+    ],
     "cited_reasons": [
-      { "text": "Gave $14,200 across 4 environmental committees, 2021-2024", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=holloway&state=WA" },
-      { "text": "Repeat donor to clean-water and conservation PACs (5 contributions)", "source_url": "https://www.fec.gov/data/receipts/?two_year_transaction_period=2024" }
+      { "text": "Gave $45,200 across 12 donations to environment committees (2020–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00401224" },
+      { "text": "FEC individual contribution search for Margaret Holloway in WA", "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Margaret+Holloway&contributor_state=WA" }
     ],
     "enrichment": {
       "current_role": "Partner, Cascade Environmental Law Group",
-      "notes": "Board member, Puget Sound Waterkeeper Alliance",
+      "notes": "Board member, Puget Sound Waterkeeper Alliance. Recently quoted on regional watershed protection.",
       "source_url": "https://www.cascadeenvlaw.example/team"
     }
   },
   {
     "name": "David Chen",
     "affinity_score": 84,
-    "cause_tags": ["environment", "climate"],
-    "geo": "Portland, OR",
+    "cause_tags": ["environment", "energy"],
+    "geo": "OR",
+    "city": "Portland",
+    "employer": "Columbia Solar",
+    "occupation": "Executive",
+    "total_given": 28500,
+    "num_donations": 9,
+    "first_gift_year": 2021,
+    "last_gift_year": 2024,
+    "donation_history": [
+      { "date": "2024-01-22", "amount": 5000, "committee_id": "C00510362", "committee_name": "Climate Power Action", "cause_tags": ["environment", "energy"] },
+      { "date": "2023-06-30", "amount": 3500, "committee_id": "C00510362", "committee_name": "Renewable Northwest PAC", "cause_tags": ["energy"] },
+      { "date": "2022-11-05", "amount": 2500, "committee_id": "C00401224", "committee_name": "Sierra Club Political Committee", "cause_tags": ["environment"] }
+    ],
     "cited_reasons": [
-      { "text": "Contributed $9,500 to climate-focused candidates and PACs since 2022", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=chen&state=OR" },
-      { "text": "Listed occupation: Renewable Energy Executive", "source_url": "https://www.fec.gov/data/receipts/?contributor_occupation=renewable+energy" }
+      { "text": "Gave $28,500 across 9 donations to environment, energy committees (2021–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00510362" },
+      { "text": "FEC individual contribution search for David Chen in OR", "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=David+Chen&contributor_state=OR" }
     ],
     "enrichment": {
       "current_role": "VP Operations, Columbia Solar",
-      "notes": "Recent public op-ed on Pacific Northwest watershed protection",
+      "notes": "Published a public op-ed on Pacific Northwest watershed protection in 2024.",
       "source_url": "https://www.columbiasolar.example/about"
     }
   },
   {
     "name": "Patricia Nguyen",
     "affinity_score": 78,
-    "cause_tags": ["environment", "water", "health"],
-    "geo": "Tacoma, WA",
+    "cause_tags": ["environment", "healthcare"],
+    "geo": "WA",
+    "city": "Tacoma",
+    "employer": "Sound Health Foundation",
+    "occupation": "Founder",
+    "total_given": 16400,
+    "num_donations": 7,
+    "first_gift_year": 2020,
+    "last_gift_year": 2023,
+    "donation_history": [
+      { "date": "2023-08-14", "amount": 2500, "committee_id": "C00694323", "committee_name": "Clean Water Action", "cause_tags": ["environment"] },
+      { "date": "2022-05-19", "amount": 2500, "committee_id": "C00345678", "committee_name": "Public Health Advocates Fund", "cause_tags": ["healthcare"] }
+    ],
     "cited_reasons": [
-      { "text": "Gave $6,000 to environmental and public-health committees, 2020-2023", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=nguyen&state=WA" }
+      { "text": "Gave $16,400 across 7 donations to environment, healthcare committees (2020–2023)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00694323" }
     ],
     "enrichment": {
       "current_role": "Founder, Sound Health Foundation",
@@ -47,24 +83,46 @@
     "name": "Robert Klein",
     "affinity_score": 72,
     "cause_tags": ["environment"],
-    "geo": "Bellingham, WA",
+    "geo": "WA",
+    "city": "Bellingham",
+    "employer": "Klein & Associates",
+    "occupation": "Consultant",
+    "total_given": 9300,
+    "num_donations": 4,
+    "first_gift_year": 2022,
+    "last_gift_year": 2024,
+    "donation_history": [
+      { "date": "2024-02-09", "amount": 2500, "committee_id": "C00401224", "committee_name": "League Of Conservation Voters", "cause_tags": ["environment"] },
+      { "date": "2023-07-21", "amount": 2500, "committee_id": "C00401224", "committee_name": "Wilderness Society Action Fund", "cause_tags": ["environment"] }
+    ],
     "cited_reasons": [
-      { "text": "Three contributions totaling $4,300 to conservation PACs, 2022-2024", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=klein&state=WA" }
+      { "text": "Gave $9,300 across 4 donations to environment committees (2022–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00401224" }
     ],
     "enrichment": null
   },
   {
     "name": "Susan Alvarez",
     "affinity_score": 69,
-    "cause_tags": ["water", "education"],
-    "geo": "Eugene, OR",
+    "cause_tags": ["environment", "education"],
+    "geo": "OR",
+    "city": "Eugene",
+    "employer": "University of Oregon",
+    "occupation": "Professor",
+    "total_given": 7800,
+    "num_donations": 5,
+    "first_gift_year": 2021,
+    "last_gift_year": 2024,
+    "donation_history": [
+      { "date": "2024-04-01", "amount": 1500, "committee_id": "C00694323", "committee_name": "Clean Water Action", "cause_tags": ["environment"] },
+      { "date": "2022-09-15", "amount": 1500, "committee_id": "C00789012", "committee_name": "Education Forward PAC", "cause_tags": ["education"] }
+    ],
     "cited_reasons": [
-      { "text": "Gave $3,800 split between clean-water and education committees since 2021", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=alvarez&state=OR" },
-      { "text": "No federal contributions found before 2021 (new donor)", "source_url": "https://www.fec.gov/data/receipts/?contributor_name=alvarez" }
+      { "text": "Gave $7,800 across 5 donations to environment, education committees (2021–2024)", "source_url": "https://www.fec.gov/data/receipts/?committee_id=C00694323" },
+      { "text": "No federal contributions found before 2021 (newer donor)", "source_url": "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=Susan+Alvarez&contributor_state=OR" }
     ],
     "enrichment": {
       "current_role": "Professor of Environmental Science, University of Oregon",
-      "notes": "Public grant recipient for watershed research",
+      "notes": "Public grant recipient for regional watershed research.",
       "source_url": "https://www.uoregon.example/faculty/alvarez"
     }
   }
