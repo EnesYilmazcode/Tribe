@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first (every agent, every session)
 
-Tribe is an autonomous **cause-affinity research agent** built for the Datadog Agentic Engineering Hack (2026-05-23, submit by 4:30 PM ET). A fundraiser types a natural-language ask; the agent queries real FEC giving data, enriches candidates from the live web, scores them, and **publishes a cited research record to cited.md**.
+Tribe is an autonomous **cause-affinity research agent** built for the Datadog Agentic Engineering Hack (2026-05-23, submit by 4:30 PM ET). A fundraiser types a natural-language ask; the agent queries real FEC giving data, enriches candidates from the live web, scores them, and shows ranked, **cited** prospect cards in the UI — each with a contact email and a drafted outreach email.
 
 ## ⚠️ TEAM WORKFLOW — COMMIT & PUSH FREQUENTLY
 
@@ -23,6 +23,14 @@ This repo is shared by two teammates, **and each of us is driving our own Claude
 - **Output is "cited public-record research," NOT a solicitation list** — using FEC contributor data to solicit is illegal (11 CFR §104.15). Frame as research on *public giving behavior* with citations to the public FEC source. See `docs/STRATEGY.md`.
 - **Autonomy story = live NL-parse + on-demand agent loop + live Nimble enrichment.** NOT a forever-scraper (that's a cron job, not autonomy).
 - **The submission is a RECORDED 3-min video** — control it fully, never risk a live API call on camera.
+
+## Current state — key files (latest; `docs/STATUS.md` is the live source of truth)
+
+- **Backend (`server/`):** `main.py` = FastAPI `/run` SSE endpoint (the streamed agent run). **`query_clean.py` = dedup-safe donor query — use this, not the raw `query()`; it fixes a 4× donor-total inflation.** `nl_parse.py` = Gemini NL→params. `auto_match.py` = continuous auto-match agent; **`python server/auto_match.py demo`** is the recordable autonomy clip.
+- **Contact-email pipeline:** each demo donor now carries a varied **example contact email** — `email` field in `web/sample_prospects.json`, `email?` in `web/src/types.ts`, rendered as a `mailto:` on `ProspectCard.tsx` (plus the existing AI "Draft outreach email"). **⚠️ `server/build_demo_snapshot.py` does NOT generate emails — re-baking the snapshot wipes them; re-add (or add a generator) if you re-bake.**
+- **Landing:** redesigned to a left hero + right auto-playing `web/src/components/MockPreview.tsx` (decorative filler, hardcoded). Logo trimmed/centered; wordmark "." dot removed.
+- **`mockup/index.html`** — standalone visual concept mock (open in a browser); separate from the live app.
+- **Judge prep:** `docs/JUDGE-QA.md` (anticipated questions + honest answers, incl. the §104.15 answer).
 
 ## Layout & roles (DECIDED)
 
