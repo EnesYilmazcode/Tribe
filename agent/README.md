@@ -1,13 +1,12 @@
-# agent/
+# agent/ — the scraper / data side (Friend)
 
-The Python agent pipeline — the actual working product. This is where code lives.
+Fills the database and makes it queryable. **This is the friend's side** (owns the ClickHouse + Nimble tracks). Goal: a fast, cause-tagged, enrichable donor store the platform (`../web/`) can read.
 
-Planned files (see `../docs/PLAN.md` Phase 0):
-- `agent.py` — entrypoint and orchestrator (NL ask → candidates → enrich → publish)
-- `clickhouse_client.py` — query the FEC bulk data
-- `nimble_client.py` — live web enrichment of candidates
-- `senso_client.py` — publish cited prospect profiles to cited.md
-- `.env.example` — required keys (ClickHouse, Nimble, Senso)
-- `requirements.txt`
+Planned files (see `../docs/PLAN.md` Phase 0–3):
+- `load_fec.py` — download FEC bulk individual-contributions, load into ClickHouse (one cycle, 2-3 states, amount >= $200 to keep it fast).
+- `cause_tag.py` — map committees → ~20 cause tags (keyword + LLM; hand-curate the top ~50 by volume). Join on `CMTE_ID`.
+- `clickhouse_client.py` — `query(cause, geo, min_amount) -> [candidate]`.
+- `nimble_client.py` — `enrich(candidate) -> enrichment` (live web enrichment).
+- `.env.example`, `requirements.txt`.
 
-Skill prompts that drive the agent stages live in `../docs/skills/`.
+The platform calls `query()` and `enrich()`; it does the NL parse, scoring, and Senso publish. The contract between the two sides is in `../docs/TEAM-SPLIT.md`. Commit and push frequently — see `../CLAUDE.md`.

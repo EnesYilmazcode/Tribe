@@ -23,10 +23,10 @@ This repo is shared by two teammates, **and each of us is driving our own Claude
 - **Autonomy story = the live NL-parse + on-demand agent loop.** NOT a forever-scraper (that's a cron job, not autonomy).
 - **The submission is a RECORDED 3-min video** — control it fully, never risk a live API call on camera.
 
-## Layout
+## Layout & roles (DECIDED)
 
-- `agent/` — the engine (Python pipeline: parse → ClickHouse → enrich → score → publish). Owns ClickHouse + Nimble.
-- `web/` — the surface (frontend + Senso publish). Owns Senso + Presentation.
+- `agent/` — **Friend's side: scraper / data.** Fills the database (FEC → ClickHouse, cause-tagging) and builds the Nimble web enrichment. Owns ClickHouse + Nimble.
+- `web/` — **Enes's side: the platform.** Reads the database and builds the product (NL parse → query → score → frontend → Senso publish). Owns Senso ($3k) + Presentation.
 - `docs/` — shared context. **Start here:** `PLAN.md` (build sequence), `STRATEGY.md` (why we're doing this / win analysis), `TEAM-SPLIT.md` (who does what + the JSON contract between engine and surface), `SCHEDULE.md`, `SPONSOR-TOOLS.md`, `DEVPOST.md`.
 
 The engine and surface talk through ONE agreed JSON shape (`prospect_record`) — see `docs/TEAM-SPLIT.md`. Build against the mock; integrate once.

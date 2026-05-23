@@ -6,14 +6,16 @@
 
 That seam splits in the wrong place — the **agent loop** and the **Senso publish** are the parts that win, and they'd fall in the crack. You'd also be unable to test either half until the end. Instead, split by **track ownership**, joined by the `prospect_record` JSON contract below.
 
-## The split
+## The split (DECIDED)
 
-| | Person A — **Engine** (`agent/`) | Person B — **Surface** (`web/` + Senso) |
+| | **Friend — Scraper / Data** (`agent/`) | **Enes — Platform** (`web/` + serving) |
 |---|---|---|
 | Owns tracks | ClickHouse, Nimble | **Senso ($3k)**, Presentation |
-| Does | FEC → ClickHouse load + cause-tagging; agent loop: NL parse → query → decide top-N → Nimble enrich → score | **FIRST: de-risk Senso** (publish one hardcoded cited.md page end-to-end). Then frontend: ask box + live activity stream + cited cards. Then wire real Senso publish. |
-| Exposes/consumes | Exposes `ask(text) → [prospect_record]` | Consumes `[prospect_record]` → renders + publishes to cited.md |
-| Builds against | Real FEC data | The **mock** `sample_prospects.json`, then the real `ask()` |
+| Does | Fill the database: FEC → ClickHouse load + cause-tagging. Build the web enrichment (Nimble) as a callable function. Goal: a queryable, cause-tagged, enrichable donor store. | Read the database and build the product: NL parse → query → score/rank → frontend (ask box + live activity stream + cited cards) → publish via Senso. **FIRST: de-risk Senso** (publish one hardcoded cited.md page end-to-end). |
+| Exposes | `query(cause, geo, min_amount) → [candidate]` (over ClickHouse) and `enrich(candidate) → enrichment` (Nimble) | The platform that calls those + scores + renders + publishes |
+| Builds against | Real FEC data | The **mock** `sample_prospects.json`, then the real `query()`/`enrich()` |
+
+Note: NL-parse, scoring, orchestration, and the Senso publish live on the **platform** side (Enes) — that's the "gets information from the database and does something with it" half. The friend's job is to make the database rich and fast to query, plus the live web enrichment.
 
 ## The contract: `prospect_record`
 
