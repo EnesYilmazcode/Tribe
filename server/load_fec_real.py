@@ -35,18 +35,23 @@ FEC_API = "https://api.open.fec.gov/v1/schedules/schedule_a/"
 API_KEY = os.environ.get("FEC_API_KEY", "DEMO_KEY")
 
 
+# Verified real environment committees (hand-checked IDs — avoids name-match false
+# positives like Sierra Nevada Corp / Ocean Spray / Greenbrier railcars).
+CURATED_ENV = {
+    "C00135368": "Sierra Club Political Committee",
+    "C00483693": "Sierra Club Independent Action",
+    "C00252940": "League of Conservation Voters Action Fund",
+    "C90013103": "California League of Conservation Voters",
+    "C00471540": "Environmental Defense Action Fund PAC",
+    "C00547349": "NextGen Climate Action Committee",
+    "C00548461": "Climate Hawks Vote PAC",
+    "C00551382": "VoteClimate.US PAC",
+}
+
+
 def env_committee_ids(limit: int) -> list[tuple[str, str]]:
-    """Real environment-tagged PAC committees from our DB (not candidate committees)."""
-    c = ch._get_client()
-    rows = c.query(f"""
-        SELECT DISTINCT m.cmte_id, any(m.cmte_nm)
-        FROM {ch.CLICKHOUSE_DB}.committee_causes cc
-        JOIN {ch.CLICKHOUSE_DB}.committees m ON cc.cmte_id = m.cmte_id
-        WHERE cc.cause_tag = 'environment' AND m.cmte_tp != 'P'
-        GROUP BY m.cmte_id
-        LIMIT {limit}
-    """).result_rows
-    return [(r[0], r[1]) for r in rows]
+    """Curated, verified real environment committees."""
+    return list(CURATED_ENV.items())[:limit]
 
 
 def fetch_contributions(cmte_id: str, states: list[str], min_amount: int,
@@ -64,11 +69,19 @@ def fetch_contributions(cmte_id: str, states: list[str], min_amount: int,
         if last_index is not None:
             params["last_index"] = last_index
             params["last_contribution_receipt_amount"] = last_amt
-        r = requests.get(FEC_API, params=params, timeout=30)
-        if r.status_code == 429:
-            print("  ! rate limited (429) — get a personal FEC_API_KEY for a larger load")
+        try:
+            r = requests.get(FEC_API, params=params, timeout=60)
+        except requests.exceptions.RequestException as e:
+            print(f"  ! request failed ({type(e).__name__}); skipping rest of this committee")
             break
-        r.raise_for_status()
+        if r.status_code == 429:
+            print("  ! rate limited (429) — backing off")
+            time.sleep(2)
+            break
+        try:
+            r.raise_for_status()
+        except Exception:
+            break
         body = r.json()
         results = body.get("results", [])
         out.extend(results)
@@ -82,8 +95,18 @@ def fetch_contributions(cmte_id: str, states: list[str], min_amount: int,
     return out
 
 
+_ORG_MARKERS = ("PAC", "COMMITTEE", " FUND", "ACTION", " CLUB", " INC", " LLC",
+                "POLITICAL", "ASSOCIATION", "FOUNDATION", "ALLIANCE", "PARTY")
+
+
 def to_row(rec: dict) -> tuple | None:
     try:
+        # individuals only — FEC mixes committee-to-committee transfers into schedule_a
+        if rec.get("entity_type") not in (None, "", "IND"):
+            return None
+        name = (rec.get("contributor_name") or "").strip()
+        if not name or any(m in name.upper() for m in _ORG_MARKERS):
+            return None  # drop org/committee "contributors"
         dt = rec.get("contribution_receipt_date")
         d = datetime.fromisoformat(dt).date() if dt else None
         if d is None:
@@ -127,26 +150,28 @@ def main():
     print(f"Loading real contributions to {len(committees)} environment committees, "
           f"states={args.states}, min=${args.min_amount}, cycle={args.cycle}")
 
-    rows, seen = [], set()
+    cols = ["cmte_id", "contributor_nm", "city", "state", "zip_code", "employer",
+            "occupation", "transaction_dt", "transaction_amt", "sub_id"]
+    seen, total, names = set(), 0, set()
     for cmte_id, name in committees:
-        recs = fetch_contributions(cmte_id, args.states, args.min_amount, args.cycle)
-        added = 0
+        try:
+            recs = fetch_contributions(cmte_id, args.states, args.min_amount, args.cycle)
+        except Exception as e:  # one bad committee shouldn't kill the load
+            print(f"  ! {cmte_id} failed ({type(e).__name__}); skipping")
+            continue
+        batch = []
         for rec in recs:
             row = to_row(rec)
             if row and row[9] not in seen:   # dedup by sub_id
-                seen.add(row[9]); rows.append(row); added += 1
-        if added:
-            print(f"  {cmte_id} {name[:40]:40} +{added}")
+                seen.add(row[9]); batch.append(row); names.add(row[1])
+        if batch:
+            c.insert(f"{db}.contributions", batch, column_names=cols)  # incremental: progress persists
+            total += len(batch)
+            print(f"  {cmte_id} {name[:40]:40} +{len(batch)} (total {total})")
 
-    if not rows:
-        print("No real rows fetched (rate limit or no matches). Need a personal FEC_API_KEY.")
-        return
-
-    cols = ["cmte_id", "contributor_nm", "city", "state", "zip_code", "employer",
-            "occupation", "transaction_dt", "transaction_amt", "sub_id"]
-    c.insert(f"{db}.contributions", rows, column_names=cols)
-    print(f"\nInserted {len(rows):,} REAL contributions. "
-          f"Distinct donors: {len({r[1] for r in rows}):,}")
+    print(f"\nInserted {total:,} REAL contributions. Distinct donors: {len(names):,}")
+    if total == 0:
+        print("No rows — check the FEC_API_KEY or widen the filters.")
 
 
 if __name__ == "__main__":
