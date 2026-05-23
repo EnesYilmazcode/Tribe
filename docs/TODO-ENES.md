@@ -54,5 +54,21 @@
 ## If behind: cut from the bottom
 Drop GitHub Pages publish → drop scoring polish → drop live integration (demo on mock data that looks real) → NEVER drop the recording. A polished mock demo beats a broken real one with no video.
 
+## 🎬 PRE-RECORDING CHECKLIST + QUOTA SAFETY (do this before 3:45)
+> Status at ~2:45 PM: real FEC data is LIVE (2.8M rows, 597k donors); query() returns real donors (Steyer, Ballmer, Wayburn). Core demo works. These are the de-risk items before recording.
+
+### ⚠️ Quota safety — DO NOT hit a quota live on camera
+- **Record on `?demo=1`.** The team baked a real, enriched environment/CA run into `web/sample_prospects.json`, so `?demo=1` replays it instantly and makes **zero live Gemini and zero live Nimble calls** during the recording. No quota can be hit on camera. This is the safe path — use it.
+- **Gemini quota reality (2026-05-23):** `gemini-2.5-flash` AND `gemini-2.0-flash` are 429 quota-exhausted; only **`gemini-flash-latest`** works. It's set as `GEMINI_MODEL=gemini-flash-latest` in `.env` on the demo machine. (See `docs/STATUS.md`.)
+- **If we want a LIVE parse on camera (riskier):** pre-raise the Gemini quota in Google AI Studio / Cloud console *before* recording — don't wait to hit the limit mid-take. If it 429s, nl_parse silently falls back to the deterministic keyword match (still works, but weakens the autonomy story). **Enes can bump the quota quickly if needed — do it ahead of time, not live.**
+- **Nimble:** enrichments are pre-computed into the snapshot, so the demo needs no live Nimble credits. Only run live Nimble (`TRIBE_ENRICH=1`) for at most 2–3 rehearsals, never burn it on every test.
+
+### Verify before recording
+- [ ] **Open `?demo=1` and confirm cards show REAL donors** (Steyer/Ballmer/etc.), NOT the old seed names (Adams/Allen/Anderson). If the snapshot is stale, re-run `python server/build_demo_snapshot.py` (one command — refreshes from real, deduped data).
+- [ ] **Click the top citation on a card** — confirm the fec.gov *individual-contribution* search actually lands on that person (links were reordered person-first in the snapshot).
+- [ ] **Pre-test the exact demo ask 5×** and confirm `?demo=1` params/chips match the sentence typed (use `environment` / CA — avoid civil_rights/small_business/social_welfare, which are ~90% party-proxy tags per STATUS.md).
+- [ ] Repo **public** + `.env` **gitignored** (no keys committed) before submit.
+- [ ] **Upload the video immediately after recording**, grab the URL (processing takes minutes); Devpost needs the link.
+
 ## Note
 Senso analysis is still in `STRATEGY.md` if we reconsider — dropping it loses the $3k track and the publish-to-web action, but removes the riskiest integration. Decision made ~11:30 to skip it.
