@@ -31,7 +31,7 @@ NIMBLE_SEARCH_URL = "https://api.webit.live/api/v1/realtime/serp"
 NIMBLE_EXTRACT_URL = "https://api.webit.live/api/v1/realtime/web"
 
 HEADERS = {
-    "Authorization": f"Basic {NIMBLE_API_KEY}",
+    "Authorization": f"Bearer {NIMBLE_API_KEY}",
     "Content-Type": "application/json",
 }
 
@@ -107,9 +107,9 @@ def enrich(prospect: dict) -> dict | None:
         try:
             hits = _search(q, num_results=3)
             for h in hits:
-                snippet = h.get("description", "")
+                snippet = h.get("snippet", "") or h.get("description", "")
                 url     = h.get("url", "")
-                if snippet and name.split()[0].lower() in snippet.lower():
+                if snippet:
                     results.append(snippet)
                     if url:
                         source_urls.append(url)
@@ -133,12 +133,22 @@ def enrich(prospect: dict) -> dict | None:
 
     combined = "\n".join(results) + "\n" + deep_text
 
+    bio       = combined[:300].strip()
+    philanthropy = _extract_philanthropy(combined)
+    news      = _extract_news(combined, name)
+    notes_parts = [p for p in [philanthropy, news] if p]
+    notes     = " ".join(notes_parts)[:500] if notes_parts else bio[:300]
+
     return {
+        # UI-expected shape (docs/QUERYING.md)
         "current_role": _extract_role(combined, employer, occ),
+        "notes":        notes,
+        "source_url":   source_urls[0] if source_urls else "",
+        # Extended fields for richer display
         "employer":     _extract_employer(combined, employer),
-        "bio_snippet":  combined[:400].strip(),
-        "philanthropy": _extract_philanthropy(combined),
-        "news":         _extract_news(combined, name),
+        "bio_snippet":  bio,
+        "philanthropy": philanthropy,
+        "news":         news,
         "source_urls":  source_urls[:3],
     }
 
