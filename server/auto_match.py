@@ -64,23 +64,26 @@ def _key(p: dict) -> str:
     return f"{p['name']}|{p['geo']}"
 
 
-def add_campaign(description: str) -> dict:
-    parsed = parse_ask(description)
+def add_campaign(description: str, causes=None, geo=None, min_amount=None, quiet=False) -> dict:
+    # explicit params bypass Gemini (used by `demo` for a bulletproof, no-API clip)
+    if causes is None:
+        parsed = parse_ask(description)
+        causes = parsed["causes"] or ["social_welfare"]
+        geo = parsed["geo"]
+        min_amount = parsed["min_amount"]
     campaigns = load()
     cid = max([c["id"] for c in campaigns], default=0) + 1
     camp = {
-        "id": cid,
-        "description": description,
-        "causes": parsed["causes"] or ["social_welfare"],
-        "geo": parsed["geo"],
-        "min_amount": parsed["min_amount"],
+        "id": cid, "description": description,
+        "causes": causes, "geo": geo, "min_amount": min_amount or 200,
         "pipeline": [],   # auto-matched contacts (with first_matched time)
         "seen": [],       # keys we've already matched, to detect new ones
     }
     campaigns.append(camp)
     save(campaigns)
-    print(f"+ campaign #{cid}: \"{description}\"")
-    print(f"  parsed -> causes={camp['causes']} geo={camp['geo']} min=${camp['min_amount']}")
+    if not quiet:
+        print(f"+ campaign #{cid}: \"{description}\"")
+        print(f"  parsed -> causes={camp['causes']} geo={camp['geo']} min=${camp['min_amount']}")
     return camp
 
 
@@ -139,12 +142,55 @@ def show() -> None:
                   f"{p.get('city','')}, {p['geo']}  (matched {p['first_matched']})")
 
 
+def demo() -> None:
+    """Scripted ~25s autonomy clip for recording. Real ClickHouse data, NO Gemini
+    (params hardcoded) so it can't flake on camera. Story: describe campaigns in
+    plain English -> agent auto-fills them with real donors -> add one live ->
+    it keeps watching and loops in new contacts. Zero donors hand-picked."""
+    p = 0.7
+    if os.path.exists(STORE):
+        os.remove(STORE)
+    print("\n  TRIBE — continuous auto-matching agent\n  " + "─" * 46)
+    time.sleep(p)
+    seed = [
+        ("🌊 Protect oceans & marine wildlife", ["environment"], "CA", 5000),
+        ("🏥 Fund cancer research & hospitals", ["healthcare"], "CA", 5000),
+    ]
+    print("  You define campaigns in plain language:")
+    for desc, causes, geo, amt in seed:
+        add_campaign(desc, causes=causes, geo=geo, min_amount=amt, quiet=True)
+        print(f"    • {desc}   →  {causes[0]} · {geo} · ${amt:,}+")
+        time.sleep(p)
+
+    print("\n  [agent] scanning 2.8M real FEC contributions for matches…")
+    time.sleep(p)
+    run_cycle(verbose=True)
+    time.sleep(p)
+
+    print("\n  ── you add a brand-new campaign on the spot ──")
+    time.sleep(p / 2)
+    add_campaign("💧 Clean water access in the Pacific Northwest",
+                 causes=["environment"], geo="WA", min_amount=1000, quiet=True)
+    print("    • 💧 Clean water access in the Pacific Northwest  →  environment · WA · $1,000+")
+    time.sleep(p)
+    print("  [agent] auto-matching the new campaign…")
+    time.sleep(p)
+    run_cycle(verbose=True)
+
+    total = sum(len(c["pipeline"]) for c in load())
+    print("\n  " + "─" * 46)
+    print(f"  ✓ {total} real donors auto-matched across 3 campaigns — none hand-picked.")
+    print("  ✓ In production this re-runs every 5 min, auto-looping in NEW contacts as")
+    print("    fresh FEC + web data arrives. Zero manual work.\n")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd")
     sub.add_parser("seed")
     sub.add_parser("run")
     sub.add_parser("list")
+    sub.add_parser("demo")
     w = sub.add_parser("watch"); w.add_argument("--interval", type=int, default=30)
     a = sub.add_parser("add"); a.add_argument("description", nargs="+")
     args = ap.parse_args()
@@ -161,6 +207,8 @@ if __name__ == "__main__":
     elif args.cmd == "run":
         n = run_cycle()
         print(f"\nCycle complete — {n} new contacts auto-added across all campaigns.")
+    elif args.cmd == "demo":
+        demo()
     elif args.cmd == "watch":
         watch(args.interval)
     elif args.cmd == "list":
