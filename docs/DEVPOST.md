@@ -29,7 +29,7 @@ Ship an **autonomous agent that does real work on the open web** — publish, mo
 - **Senso.ai** — $3,000 credits (1 winner). Use Senso content-gen APIs to publish grounded, **citeable** content to `cited.md` (or another public destination). **Ingestion alone won't qualify** — must close the loop from knowledge base → published, agent-discoverable content. Docs: docs.senso.ai
 
 ## What to submit
-1. 3-minute demo recording
+1. **Demo video LINK** — the 3-min video must be uploaded to YouTube/Vimeo (unlisted is fine) and the **public URL pasted into Devpost.** A local file does NOT count. Upload right after recording — leave buffer for the upload to finish processing.
 2. Public GitHub repo
 3. All Devpost-required project details
 

@@ -1,0 +1,91 @@
+<!doctype html>
+<!--
+  Tribe pacing timer. Open in a browser, shrink the window, pin it in a screen corner.
+  Counts down to the 4:30 PM submission deadline and shows the current build block.
+  Assumes your computer clock is on Eastern Time (the deadline is 4:30 PM ET).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Tribe ⏱</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body {
+    margin: 0; height: 100%;
+    background: #0b0d10; color: #e6e9ee;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    -webkit-user-select: none; user-select: none;
+  }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px; }
+  #clock { font-size: 13vw; font-weight: 700; line-height: 1; letter-spacing: 1px; }
+  #label { font-size: 3.2vw; opacity: .55; text-transform: uppercase; letter-spacing: 2px; }
+  #sub  { font-size: 3.2vw; opacity: .8; margin-top: 8px; text-align: center; }
+  #block { font-size: 3.4vw; margin-top: 10px; text-align: center; color: #8ab4ff; }
+  .ok   { color: #4ade80; } .warn { color: #fbbf24; } .crit { color: #f87171; }
+  @media (min-width: 520px) {
+    #clock { font-size: 64px; } #label,#sub { font-size: 14px; } #block { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+  <div id="clock">--:--:--</div>
+  <div id="label">until 4:30 submit deadline</div>
+  <div id="sub"></div>
+  <div id="block"></div>
+
+<script>
+  // All times are TODAY, local clock (assumed ET).
+  const mk = (h, m) => { const d = new Date(); d.setHours(h, m, 0, 0); return d; };
+  const FREEZE   = mk(15, 45);  // features frozen / start recording
+  const SUBMIT   = mk(16, 15);  // start submitting (real wall)
+  const DEADLINE = mk(16, 30);  // hard deadline
+
+  // Build blocks: [startHour, startMin, label]
+  const blocks = [
+    [11,30,"Sync + lock prospect_record contract"],
+    [11,45,"Frontend skeleton vs mock"],
+    [12,45,"NL parse + query stub"],
+    [13,30,"Scoring + make stream real"],
+    [14,15,"Integration with friend's query()/enrich()"],
+    [15,0, "Polish + optional GitHub Pages dump"],
+    [15,30,"FREEZE + pre-test 5x + cache fallback"],
+    [15,45,"RECORD the 3-min demo"],
+    [16,15,"SUBMIT on Devpost (repo + VIDEO LINK)"],
+    [16,30,"DEADLINE"],
+  ].map(([h,m,l]) => ({ at: mk(h,m), label: l }));
+
+  const pad = n => String(n).padStart(2, "0");
+  function fmt(ms) {
+    if (ms < 0) ms = 0;
+    const s = Math.floor(ms/1000);
+    return pad(Math.floor(s/3600)) + ":" + pad(Math.floor(s%3600/60)) + ":" + pad(s%60);
+  }
+
+  function tick() {
+    const now = new Date();
+    const clk = document.getElementById("clock");
+    const left = DEADLINE - now;
+    clk.textContent = fmt(left);
+
+    const mins = left / 60000;
+    clk.className = mins > 60 ? "ok" : mins > 15 ? "warn" : "crit";
+
+    // current + next block
+    let cur = null, next = null;
+    for (let i = 0; i < blocks.length; i++) {
+      if (now >= blocks[i].at) { cur = blocks[i]; next = blocks[i+1] || null; }
+    }
+    const sub = document.getElementById("sub");
+    if (now < FREEZE)      sub.textContent = "freeze in " + fmt(FREEZE - now) + "  ·  submit by " + fmt(SUBMIT - now);
+    else if (now < SUBMIT) sub.textContent = "🔴 FREEZE — record now. submit in " + fmt(SUBMIT - now);
+    else                   sub.textContent = "🔴 SUBMIT NOW";
+
+    const blk = document.getElementById("block");
+    blk.textContent = cur ? ("▸ " + cur.label + (next ? "   (next " + pad(next.at.getHours()) + ":" + pad(next.at.getMinutes()) + ")" : "")) : "";
+
+    document.title = "⏱ " + fmt(left) + " left";
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

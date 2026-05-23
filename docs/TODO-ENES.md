@@ -45,10 +45,11 @@
 ## 3:45–4:15 — RECORD the 3-min demo (I own Presentation)
 - [ ] Beats: problem (15s) → type ask (20s) → autonomous run, NARRATE the live Nimble web pull (90s) → ranked cited results (30s) → ClickHouse + Nimble recap (25s).
 - [ ] Use the cached fallback if live APIs flake. Re-record if rushed.
+- [ ] **Upload the video to YouTube/Vimeo (unlisted ok) IMMEDIATELY and grab the link.** Devpost needs the URL, not a file — upload/processing takes a few minutes. Do this before submitting.
 
 ## 4:15–4:30 — SUBMIT (treat 4:15 as the deadline)
 - [ ] Final `git pull --rebase` + push. Repo public.
-- [ ] Devpost: repo link + video + all required fields. Submit with time to spare.
+- [ ] Devpost: repo link + **video LINK** (the uploaded URL) + all required fields. Submit with time to spare.
 
 ## If behind: cut from the bottom
 Drop GitHub Pages publish → drop scoring polish → drop live integration (demo on mock data that looks real) → NEVER drop the recording. A polished mock demo beats a broken real one with no video.
