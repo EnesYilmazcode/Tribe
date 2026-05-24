@@ -22,9 +22,9 @@ Weight each dimension as follows:
 | Engagement signals | 15% | Volunteering, board roles, social activity |
 
 ## Score thresholds
-- 80–100: High priority — recommend for personal outreach from a senior team member
-- 65–79: Medium priority — include in targeted email sequence
-- Below 65: Low priority — include only in broad campaigns or newsletters
+- 80–100: High priority, recommend for personal outreach from a senior team member
+- 65–79: Medium priority, include in targeted email sequence
+- Below 65: Low priority, include only in broad campaigns or newsletters
 
 ## Rules
 - Never give a score above 85 unless there is direct evidence of past giving to this exact cause
