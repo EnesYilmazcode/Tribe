@@ -2,6 +2,8 @@
 
 **An autonomous cause-affinity research agent for nonprofit fundraising.**
 
+![Tribe landing page](docs/images/landing.png)
+
 A fundraiser describes their cause in one plain-English sentence. Tribe autonomously parses it, queries **2.8 million real FEC public-record contributions** in ClickHouse for donors whose *actual giving behavior* matches the cause, enriches the top candidates from the live web with Nimble, scores them by cause-affinity, and returns a ranked, **fully-cited** list of prospects — then drafts a personalized outreach email for each.
 
 The thesis: **who already gives to your cause is a better signal than who's simply wealthy.** Tribe reads revealed preference from real giving records instead of screening for net worth.
@@ -18,6 +20,8 @@ The thesis: **who already gives to your cause is a better signal than who's simp
 - **Drafted outreach** — one click drafts a personalized email grounded in the donor's actual giving history (human reviews before sending).
 - **A visible autonomous run** — the whole pipeline streams to the UI step-by-step over Server-Sent Events, so you watch the agent parse → query → rank → enrich → score live.
 - **Continuous campaign agent** — define campaigns in plain English; a background agent re-runs and auto-adds new high-affinity donors as fresh data arrives, with zero manual selection.
+
+![Tribe ranked prospects with live agent activity and cited reasons](docs/images/demo.png)
 
 ---
 
