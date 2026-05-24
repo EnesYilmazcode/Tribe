@@ -5,7 +5,7 @@
 > Guiding rule: **protect the 3-minute demo.** A working spine beats a half-wired 4-tool stack that breaks on stage.
 
 ## The product (one-liner)
-A fundraiser types a natural-language ask ("I need major donors for a clean-water campaign in the Pacific Northwest"). The agent autonomously: queries real FEC donation data → finds cause-affinity matches → enriches them from the live web → publishes a cited prospect profile for each → meters the deep-enrichment calls as paid actions.
+A fundraiser types a natural-language ask ("I need major donors for a clean-water campaign in the Pacific Northwest"). The agent autonomously queries real FEC donation data, finds cause-affinity matches, enriches them from the live web, publishes a cited prospect profile for each, and meters the deep-enrichment calls as paid actions.
 
 ## Sponsor-tool mapping (4 tools — judging needs 3)
 | Tool | Role in pipeline | Track eligibility |
@@ -16,7 +16,7 @@ A fundraiser types a natural-language ask ("I need major donors for a clean-wate
 
 These three are the official sponsors with prize tracks and they hit the "3+ tools" threshold on their own. **x402 is NOT a prize-track sponsor** (only a suggested payment rail) and we are NOT building it. Skip it unless we somehow finish everything early.
 
-## Architecture (keep it flat — it's a hackathon)
+## Architecture (keep it flat, it's a hackathon)
 ```
 NL ask
   │
@@ -41,48 +41,48 @@ Each phase ends in something demoable. If we run out of time, we stop at the las
 
 ### Phase 0 — Setup (~30 min) — DO FIRST, IN PARALLEL ACROSS TEAM
 - [ ] Pick stack: **Python** (fastest for ClickHouse + HTTP + an LLM orchestrator). Single `agent.py` entrypoint.
-- [ ] Get API keys / accounts: ClickHouse Cloud, Nimble, Senso. **One person owns each — start signups now, they're the long pole.**
+- [ ] Get API keys / accounts: ClickHouse Cloud, Nimble, Senso. **One person owns each. Start signups now, they're the long pole.**
 - [ ] Download FEC bulk data: individual contributions (`indiv` file) from FEC bulk-data, OR use a trimmed sample if full load is too slow. https://www.fec.gov/data/browse-data/?tab=bulk-data
 - [ ] Repo scaffolding: `agent.py`, `clickhouse_client.py`, `nimble_client.py`, `senso_client.py`, `.env.example`, `requirements.txt`.
 
 ### Phase 1 — ClickHouse spine (~75 min) ← MINIMUM VIABLE DEMO STARTS HERE
 - [ ] Load FEC contributions into a ClickHouse table (committee_id, contributor name/employer/occupation, amount, date, recipient, state).
-- [ ] Map recipient committees → cause tags (small lookup table; even a hand-built ~20-cause map is fine for demo).
+- [ ] Map recipient committees to cause tags (small lookup table, even a hand-built ~20-cause map is fine for demo).
 - [ ] Write the candidate query: given cause tags + geography + capacity band, return top contributors ranked by total giving to matching causes + recency.
-- [ ] Hard-code a sample NL ask → parsed params for now (LLM parsing comes in Phase 4).
+- [ ] Hard-code a sample NL ask plus parsed params for now (LLM parsing comes in Phase 4).
 - **Checkpoint:** `python agent.py` prints a ranked list of real donors from real FEC data. *This alone covers Autonomy + ClickHouse track.*
 
 ### Phase 2 — Senso publishing (~60 min) ← THIS IS THE HIGHEST-EV TRACK ($3k, 1 winner)
 - [ ] For top candidate(s), assemble a prospect profile (name, giving history pulled from FEC, match reasoning, suggested ask).
 - [ ] Call Senso content-gen API to produce a grounded, **cited** profile and publish to cited.md (or chosen public destination).
-- [ ] Verify the published page renders with citations back to FEC source rows. **Ingestion alone does NOT qualify — must publish.**
-- **Checkpoint:** End-to-end NL→FEC→published cited profile. *Covers Autonomy + ClickHouse + Senso = 3 tools = judging threshold met. If we ship nothing else, we can still win.*
+- [ ] Verify the published page renders with citations back to FEC source rows. **Ingestion alone does NOT qualify, you must publish.**
+- **Checkpoint:** End-to-end NL to FEC to published cited profile. *Covers Autonomy + ClickHouse + Senso = 3 tools = judging threshold met. If we ship nothing else, we can still win.*
 
 ### Phase 3 — Nimble enrichment (~45 min)
 - [ ] For each top candidate, fire a Nimble web search/agent to pull current public signals (employer, recent public giving, board roles).
-- [ ] Merge enrichment into the profile before Senso publishes (re-order: enrich → then publish).
-- **Checkpoint:** Profiles now blend historical FEC data + live web data. *Adds Nimble track + strengthens Autonomy.*
+- [ ] Merge enrichment into the profile before Senso publishes (re-order so we enrich, then publish).
+- **Checkpoint:** Profiles now blend historical FEC data with live web data. *Adds Nimble track + strengthens Autonomy.*
 
 ### Phase 4 — Autonomy polish (~45 min)
 - [ ] LLM parses the raw NL ask into cause tags / geography / capacity (replaces hard-coded params). This is the key "no manual intervention" autonomy story.
-- **Checkpoint:** Type a sentence → fully autonomous run → published profiles. *All 3 sponsor tools live.*
-- *Optional, only if way ahead of schedule:* add x402 to meter a call. Not required, not a track — skip by default.
+- **Checkpoint:** Type a sentence, get a fully autonomous run, end with published profiles. *All 3 sponsor tools live.*
+- *Optional, only if way ahead of schedule:* add x402 to meter a call. Not required, not a track, skip by default.
 
 ### Phase 5 — Demo prep (~45 min) — RESERVE THIS, DO NOT SKIP
 - [ ] Pick ONE clean, reliable example ask that gives an impressive result. Pre-test it 5+ times.
 - [ ] Have a fallback: cached/recorded run in case live APIs flake on stage.
-- [ ] Record the 3-min demo: problem (10s) → type the ask (20s) → watch it run autonomously (90s) → show the published cited.md profile (30s) → tool/architecture recap (30s).
-- [ ] Clean README so the repo tells the FEC story (the current skill files describe the OLD generic-CRM direction — fix or delete them).
-- [ ] Submit on Devpost (repo link + recording + details). **Do this with 15 min to spare — late submissions may be cut off.**
+- [ ] Record the 3-min demo: problem (10s), type the ask (20s), watch it run autonomously (90s), show the published cited.md profile (30s), tool/architecture recap (30s).
+- [ ] Clean README so the repo tells the FEC story (the current skill files describe the OLD generic-CRM direction, so fix or delete them).
+- [ ] Submit on Devpost (repo link + recording + details). **Do this with 15 min to spare, late submissions may be cut off.**
 
 ## Hard descope rules
 - If behind at any checkpoint, **stop adding tools and lock the demo** at the last working phase.
-- **Phase 2 (Senso) is the priority over Phase 3 (Nimble)** — it's the $3k single-winner track with the cleanest fit, and it completes the 3-tool threshold.
+- **Phase 2 (Senso) is the priority over Phase 3 (Nimble)**, it's the $3k single-winner track with the cleanest fit, and it completes the 3-tool threshold.
 - Never demo a feature live that hasn't been run 3+ times successfully. Use the cached fallback.
-- LLM parsing (Phase 4) is the only thing standing between "scripted" and "autonomous" in the judges' eyes — never cut it.
+- LLM parsing (Phase 4) is the only thing standing between "scripted" and "autonomous" in the judges' eyes, so never cut it.
 
 ## Known risks
-- **FEC bulk load time** — full individual-contributions file is huge. Use a state/year-trimmed subset for the demo.
-- **Senso "publish" requirement** — confirm early that we can actually publish to cited.md, not just ingest. This gates the $3k track.
-- **API signups** — sponsor accounts/keys are the long pole. Start all three in Phase 0.
-- **Stale skill files** — `prospect-finding/scoring/outreach/crm-tracking.md` describe the old direction and will confuse judges; align them or remove from the demo path.
+- **FEC bulk load time:** the full individual-contributions file is huge. Use a state/year-trimmed subset for the demo.
+- **Senso "publish" requirement:** confirm early that we can actually publish to cited.md, not just ingest. This gates the $3k track.
+- **API signups:** sponsor accounts/keys are the long pole. Start all three in Phase 0.
+- **Stale skill files:** `prospect-finding/scoring/outreach/crm-tracking.md` describe the old direction and will confuse judges. Align them or remove from the demo path.
