@@ -1,39 +1,129 @@
 # Tribe
 
-Autonomous **cause-affinity research agent**. A fundraiser types a natural-language ask; the agent parses it, queries real **FEC public-record giving data** in ClickHouse, enriches the top candidates from the live web with Nimble, scores them by cause-affinity, and returns ranked, **cited** prospect records in the UI.
+**An autonomous cause-affinity research agent for nonprofit fundraising.**
 
-Built for the Datadog Agentic Engineering Hack (2026-05-23). Sponsor tools: **ClickHouse** (FEC data warehouse) and **Nimble** (live web enrichment). *(Senso and x402 were dropped — results render in the UI rather than publishing to an external doc.)*
+A fundraiser describes their cause in one plain-English sentence. Tribe autonomously parses it, queries **2.8 million real FEC public-record contributions** in ClickHouse for donors whose *actual giving behavior* matches the cause, enriches the top candidates from the live web with Nimble, scores them by cause-affinity, and returns a ranked, **fully-cited** list of prospects — then drafts a personalized outreach email for each.
 
-> Framing: this is research on **public giving behavior** with citations back to the public FEC source — not a solicitation list. See `docs/STRATEGY.md`.
+The thesis: **who already gives to your cause is a better signal than who's simply wealthy.** Tribe reads revealed preference from real giving records instead of screening for net worth.
 
-## Pipeline
-NL ask → **NL parse** (Gemini → `{cause, geo, min_amount}`, with a deterministic synonym/adjacency fallback) → **ClickHouse** (query cause-tagged FEC contributions → candidates) → **Nimble** (live web enrichment of the top candidates) → scoring (cause-affinity + recency + capacity, 0–100) → ranked, cited prospect cards in the UI.
+> Built in one day for the **Datadog Agentic Engineering Hack** (2026-05-23).
 
-The whole run streams to the frontend as **Server-Sent Events**, so the agent's steps are visible live — the autonomy money-shot.
+---
 
-## Who's building what (roles decided)
-- **Friend — the data side (`agent/`).** FEC bulk load → ClickHouse, committee→cause tagging, and live web enrichment (Nimble), plus extra sources. Owns the **ClickHouse** + **Nimble** tracks.
-- **Me (Enes) — the platform (`server/` + `web/`).** NL parse → query → score/rank → frontend, served over SSE. Owns **Presentation** / the demo.
+## What it does
 
-The two sides meet at one contract — the ClickHouse table the friend fills and the `prospect_record` JSON the platform reads. Build against the mock, integrate once. See `docs/TEAM-SPLIT.md`.
+- **Natural-language search** — "Climate and clean-water givers on the West Coast" → the agent figures out the cause, geography, and giving threshold. No forms, no filters.
+- **Real, cited prospects** — every result is a real FEC donor; every claim links back to the public filing on `fec.gov`. No black-box scores.
+- **Live web enrichment** — Nimble pulls each top donor's current role and public bio in real time (e.g. Steyer → Wikipedia, Serrurier → Earthjustice board).
+- **Drafted outreach** — one click drafts a personalized email grounded in the donor's actual giving history (human reviews before sending).
+- **A visible autonomous run** — the whole pipeline streams to the UI step-by-step over Server-Sent Events, so you watch the agent parse → query → rank → enrich → score live.
+- **Continuous campaign agent** — define campaigns in plain English; a background agent re-runs and auto-adds new high-affinity donors as fresh data arrives, with zero manual selection.
+
+---
+
+## How it works
+
+```
+natural-language ask
+   │
+   ▼
+NL parse  ── Gemini → { cause, geo, min_amount }   (deterministic synonym/adjacency fallback)
+   │
+   ▼
+ClickHouse ── query 2.8M cause-tagged FEC contributions → ranked candidates  (dedup-safe)
+   │
+   ▼
+Nimble ───── live web enrichment of the top candidates (role, bio, public profile)
+   │
+   ▼
+Scoring ──── cause-affinity + recency + capacity → 0–100
+   │
+   ▼
+UI ───────── ranked, cited prospect list (master-detail) + AI-drafted outreach
+```
+
+The run is exposed as a `/run` Server-Sent Events stream, so the frontend renders each agent step as it happens.
+
+### The data
+- **FEC bulk individual contributions** — ~2.8M real records, 597k donors, all 20 cause categories, 5 states (CA/NY/TX/WA/OR), loaded into ClickHouse.
+- **Committee → cause tagging** — committees mapped to ~20 cause tags (keyword + candidate-party inference).
+- **ProPublica nonprofits + FEC candidate master** — supplementary org/candidate context.
+
+---
+
+## Tech stack
+
+| Layer | Tech |
+|---|---|
+| Data warehouse | **ClickHouse** (FEC contributions, committees, causes, candidates) |
+| Live web enrichment | **Nimble** Web Search API + Gemini extraction |
+| NL parse & email drafting | **Gemini** (`gemini-flash-latest`) |
+| Backend | **FastAPI** + Server-Sent Events (Python) |
+| Frontend | **Vite + React + TypeScript + Tailwind v4 + framer-motion** |
+
+Sponsor tools: **ClickHouse** (the FEC data warehouse) and **Nimble** (live web enrichment).
+
+---
 
 ## Repo layout
-- `agent/` — data pipeline: FEC → ClickHouse → cause-tag → Nimble enrich, plus extra sources (ProPublica nonprofits, multi-cycle FEC, candidate master). Friend's side.
-- `server/` — the `/run` SSE backend (Enes). NL parse → ClickHouse `query()` → optional Nimble enrich → streams the run. Falls back to `web/sample_prospects.json` until the contributions table is populated.
-- `web/` — the frontend (Enes). Ask box + **live agent activity stream** + ranked cited prospect cards.
-- `docs/` — planning & reference: `STRATEGY.md` (win analysis + legal reframe — read first), `PLAN.md` (build sequence), `TEAM-SPLIT.md` (roles + data contract), `SCHEDULE.md`, `SPONSOR-TOOLS.md`, `DEVPOST.md`, `QUERYING.md` (NL→query mapping), `TAGGING-QUALITY.md` (known tag issues), `skills/` (per-stage prompts).
-- `tools/timer.html` — the day's pacing timer.
 
-## Status (2026-05-23) — demo-ready ✅
-- **ClickHouse:** **2.8M real FEC contributions, 597k donors, all 20 causes, 5 states (CA/NY/TX/WA/OR).** Deduped query (`server/query_clean.py`) gives honest totals.
-- **NL parse:** Gemini (`gemini-flash-latest`, Tier-1 billing — live parse works, no fallback) with a deterministic backup.
-- **`/run` SSE backend:** streams parse → query → enrich → score live; primary-cause-only (no adjacency noise).
-- **Nimble enrichment:** clean LLM extraction (`server/enrich_clean.py`, ~8s) + pre-computed bios in a `donor_enrichments` table for instant display.
-- **Frontend:** renders real, cited, enriched donors. Names normalized, totals deduped, FEC links go to the **person's** record.
-- **Demo:** locked + recording-proof on **`?demo=1`** (a real, enriched environment/CA run baked into `web/sample_prospects.json`, replays instantly with zero API calls). See `docs/DEMO-SCRIPT.md`.
-- **Stretch built:** continuous auto-matching agent (`server/auto_match.py`) — campaigns auto-add new high-affinity donors as data grows (the autonomy money-shot).
+```
+agent/    Data pipeline: FEC bulk load → ClickHouse, committee→cause tagging,
+          Nimble enrichment, ProPublica + candidate sources.
+server/   FastAPI /run SSE backend. NL parse → query_clean (dedup-safe donor query)
+          → enrichment → scoring → stream. Plus the autonomy agents:
+          auto_match.py and campaign_outreach.py.
+web/      Vite/React frontend: ask box → live activity stream → master-detail
+          prospect list with cited reasons, enrichment, giving history, draft email.
+docs/     Strategy, data/query notes, demo script, judge Q&A, and more.
+```
 
-## Run locally
-Backend: see `server/README.md`. Frontend: see `web/README.md`. Keys live in a gitignored `.env` (see `.env.example`).
+---
 
-Start with `docs/STRATEGY.md`, then `docs/PLAN.md`. Commit and push frequently — see `CLAUDE.md`.
+## Running locally
+
+Requires Python 3.11+, Node 20+, and access to a ClickHouse instance loaded with FEC data.
+
+```bash
+# 1. Secrets — copy and fill in real values (never committed; .env is gitignored)
+cp .env.example .env      # set CLICKHOUSE_*, NIMBLE_API_KEY, GEMINI_API_KEY
+
+# 2. Backend
+cd server && pip install -r requirements.txt
+uvicorn main:app --port 8000
+
+# 3. Frontend (separate terminal)
+cd web && npm install
+npm run dev               # http://localhost:5173
+```
+
+**Instant demo (no live API calls):** open **`http://localhost:5173/?demo=1`**. This replays a real, pre-enriched run baked into `web/sample_prospects.json` — instant and reliable, with zero Gemini/Nimble calls.
+
+**The autonomy agent (terminal):**
+```bash
+python server/campaign_outreach.py demo   # campaigns → auto-match → find contact → draft email
+python server/auto_match.py demo          # continuous campaign auto-matching
+```
+
+---
+
+## Limitations & what's next
+
+Honest about where it stands after one day:
+
+- **Ranking is capacity-first.** Results currently rank by total giving; the next step is **affinity-first scoring** (cause-specificity → amount-to-that-cause → recency → geography) so the most *relevant* donor wins, not the richest. Design in `docs/DEMO-FEEDBACK.md`.
+- **Cause taxonomy is coarse (~20 tags).** Niche asks ("animal shelter") map to the nearest tag (`environment`); adding categories like `animal_welfare` and improving committee-tagging recall would sharpen matches.
+- **Contact info.** FEC has no emails/phones; the contact channels shown come from web enrichment, and the drafted emails are research outreach for human review — not automated solicitation.
+- **Data scope** is 5 states / one cycle for the demo; the pipeline scales to all states/cycles.
+
+---
+
+## Ethics & legal
+
+Tribe treats FEC data as **public-record research on giving behavior**, with every claim cited back to the public source — not as a solicitation contact list. Note that **11 CFR §104.15** restricts using FEC individual-contributor data to *solicit* donations; outreach is framed as human-reviewed research, and contact channels are sourced independently from the web. See `docs/STRATEGY.md`.
+
+---
+
+## Built by
+
+Enes Yilmaz and Trevor, at the Datadog Agentic Engineering Hack — built across multiple Claude Code agents coordinating through git (see `docs/STATUS.md` for how the team split the work).
