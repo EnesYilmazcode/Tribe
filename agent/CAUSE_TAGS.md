@@ -1,4 +1,4 @@
-# Cause Tags — Reference for the Agent
+# Cause Tags: Reference for the Agent
 
 Use these exact tag strings when calling `query(cause=...)` or `query(causes=[...])`.
 Each tag maps to committees whose names contain the listed keywords.
@@ -41,7 +41,7 @@ prospects = query(cause="environment", geo="WA", min_amount=1000)
 prospects = query(cause="healthcare", min_amount=500)
 ```
 
-Multiple causes — call query() for each and merge/re-rank:
+Multiple causes, call query() for each and merge/re-rank:
 ```python
 results = {}
 for cause in ["environment", "social_welfare"]:
